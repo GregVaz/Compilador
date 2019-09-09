@@ -1,0 +1,111 @@
+package compilador;
+
+import java_cup.runtime.Symbol;
+
+parser code
+{:
+    private Symbol s;
+    
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+}
+:};
+
+
+terminal inicioSecuencia, inicializacion, importar, funcion, retorno, si, sino, verdad,linea
+falso, mientras, obtener, decision, velocidad, tiempo, alerta, color, energia, avanzar,
+detener, esperar, iniciar, reversa, ubicar, regresarBase, detectarParada, detectarLinea,
+obstaculo, estadoCamara, duracionRecorrido, detectarAnomalia, estadoEnergia, detectarColor,
+parentesis_a, parentesis_c, llave_a, llave_c, igual, suma, resta, identificador, cadena, colores,
+veloc, time, caracter_especial, op_relacional, punto_medio;
+
+
+non terminal ALFABETO,CONDICIONAL,CONDICIONAL2,CONDICIONALES,COLORES,COSAS,CUERPO_FUN,CUERPO_SI,DATOS,DECLARACIONES,DIGITO,ID,
+                FUNCIONES,FUNCION,TIPOS2,ASIG,ASIGS,PARAM,CUERPO_PROG,INICIO,
+                PRMOV,PRUBI,PRESP,PRCOM,RETORNO,EVALUACION,LLAMADAFUNCION,LLAMAS,EVALUACIONES,
+                LIBRERIA,LIBRERIAS,NUMERO,CADENAL,DURACION,PROGRAMA,INICIALIZACION,TIPOS,LETRAMIN,LETRAMAY;
+
+start with PROGRAMA;
+
+PROGRAMA ::= LIBRERIAS INICIO | INICIO
+;
+LIBRERIAS ::= LIBRERIA | 
+              LIBRERIA LIBRERIAS
+;
+LIBRERIA ::= importar cadena punto_medio
+;
+TIPOS ::= verdad | falso | veloc | time | cadena | colores | caracter
+;
+DATOS ::= decision | velocidad | tiempo | alerta | color | energia
+;
+INICIO ::= inicioSecuencia identificador llave_a CUERPO_PROG llave_c
+;
+CUERPO_PROG :: = INICIALIZACION FUNCIONES CONDICIONALES 
+;
+INICIALIZACION ::= inicializacion llave_a DECLARACIONES llave_c
+;
+DECLARACIONES ::= DECLARACION | 
+                  DECLARACION DECLARACIONES
+;
+DECLARACION ::= DATOS identificador igual TIPOS punto_medio
+;
+FUNCIONES ::= FUNCION | 
+              FUNCION FUNCIONES
+;
+FUNCION ::= funcion identificador parentesis_a PARAM parentesis_c CUERPO_FUN
+;
+PARAM ::= DATOS identificador | 
+          DATOS identificador, PARAM
+;
+CUERPO_FUN ::= ASIGS RETORNO |
+               ASIGS CONDICIONAL RETORNO
+;
+ASIGS ::= ASIG | 
+          ASIG ASIGS
+;
+ASIG ::= identificador igual TIPOS punto_medio |  
+         identificador igual identificador punto_medio |
+         identificador igual PRESP punto_medio
+;
+PRESP ::= detectarColor | 
+          estadoEnergia | 
+          duracionRecorrido
+;
+RETORNO ::= retorno identificador punto_medio
+;
+CONDICIONAL ::= si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_SI llave_c| 
+                si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_SI llave_c CONDICIONAL2
+;
+CONDICIONAL2 ::= sino CUERPO_SI
+;
+EVALUACIONES ::= EVALUACION | EVALUACION COMPA EVALUACIONES
+;
+EVALUACION ::= identificador op_relacional identificador | PRCOM op_relacional TIPOS | PRCOM OP_RELACIONAL identificador
+;
+CUERPO_SI ::= ASIGS | 
+              ASIGS LLAMADA 
+;
+LLAMADA ::= LLAMADAFUNCION |
+            LLAMADAFUNCION LLAMADA
+;
+LLAMADAFUNCION ::= PRMOV |
+                   PRUBI
+;
+PRMOV ::= avanzar |
+          detener |
+          esperar |
+          iniciar |
+          reversa
+;
+PRUBI ::= ubicar |
+          regresarBase |
+          detectorParada
+;
+PRCOM ::= detectarColor |
+          estadoEnergia |
+          estadoCamara
+;
