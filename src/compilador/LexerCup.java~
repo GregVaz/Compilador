@@ -42,7 +42,8 @@ class LexerCup implements java_cup.runtime.Scanner {
     "\1\36\1\22\1\33\1\40\1\1\1\15\2\1\1\25\1\27\1\16"+
     "\1\20\1\30\1\1\1\31\1\34\1\32\1\23\1\35\3\1\1\26"+
     "\1\56\1\0\1\57\7\0\1\14\33\0\1\7\25\0\1\60\7\0"+
-    "\1\7\u1f68\0\1\14\1\14\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
+    "\1\7\41\0\1\0\7\0\1\0\3\0\1\0\5\0\1\0\6\0"+
+    "\1\0\u1f2d\0\1\14\1\14\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
 
   /** 
    * Translates characters to character classes
@@ -485,7 +486,7 @@ class LexerCup implements java_cup.runtime.Scanner {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 202) {
+    while (i < 222) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);

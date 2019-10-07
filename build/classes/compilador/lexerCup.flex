@@ -12,12 +12,13 @@ import java_cup.runtime.Symbol;
 alf_min=[a-z]
 exp_dig=[0-9]
 alf_tot=[A-Za-z0-9]
-/*exp_alf_num=[A-Za-z_áéíóú]|{exp_dig}*/
+exp_alf=[A-Za-z_áéíóú]
+exp_alf_num={exp_alf}|{exp_dig}
 ide={alf_min}({alf_tot}){0,15}
 ide_invalido = {exp_dig}({alf_tot}){0,15}
 tiemp=([0-5][0-9])(:[0-5][0-9])
 tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-9]))|(([0-5][0-9]):([0-5]))
-espacio=[ ,\t,\r]+
+espacio=[ \t, \r, \n]+
 caracter_especial=[_*,:;%/#¿?¡!]
 alert=(\")((:[^\"]|\"\")*)\"
 colore=[#]([0-9]{6})

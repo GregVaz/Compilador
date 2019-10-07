@@ -16,18 +16,18 @@ parser code
 :};
 
 
-terminal inicioSecuencia, inicializacion, importar, funcion, retorno, si, sino, verdad,linea
+terminal inicioSecuencia, inicializacion, importar, funcion, retorno, si, sino, verdad,
 falso, mientras, obtener, decision, velocidad, tiempo, alerta, color, energia, avanzar,
 detener, esperar, iniciar, reversa, ubicar, regresarBase, detectarParada, detectarLinea,
 obstaculo, estadoCamara, duracionRecorrido, detectarAnomalia, estadoEnergia, detectarColor,
 parentesis_a, parentesis_c, llave_a, llave_c, igual, suma, resta, identificador, cadena, colores,
-veloc, time, caracter_especial, op_relacional, punto_medio;
+veloc, time, caracter_especial, op_relacional, punto_medio, detectorParada;
 
 
-non terminal ALFABETO,CONDICIONAL,CONDICIONAL2,CONDICIONALES,COLORES,COSAS,CUERPO_FUN,CUERPO_SI,
-                DATOS,DECLARACIONES,DIGITO,FUNCIONES,FUNCION,TIPOS2,ASIG,ASIGS,PARAM,CUERPO_PROG,INICIO,
-                PRMOV,PRUBI,PRESP,PRCOM,RETORNO,EVALUACION,LLAMADAFUNCION,LLAMAS,EVALUACIONES,
-                LIBRERIA,LIBRERIAS,NUMERO,CADENAL,DURACION,PROGRAMA,INICIALIZACION,TIPOS;
+non terminal ALFABETO,CONDICIONAL,CONDICIONAL2,CONDICIONALES,COLORES,CUERPO_FUN,CUERPO_SI,
+                DATOS,DECLARACION, DECLARACIONES,FUNCIONES,FUNCION,ASIG,ASIGS,PARAM,CUERPO_PROG,INICIO,
+                PRMOV,PRUBI,PRESP,PRCOM,RETORNO,EVALUACION, LLAMADA, LLAMADAFUNCION,EVALUACIONES,
+                LIBRERIA,LIBRERIAS,DURACION,PROGRAMA,INICIALIZACION,TIPOS, OP_RELACIONAL;
 
 start with PROGRAMA;
 
@@ -38,7 +38,7 @@ LIBRERIAS ::= LIBRERIA |
 ;
 LIBRERIA ::= importar cadena punto_medio
 ;
-TIPOS ::= verdad | falso | veloc | time | cadena | colores | caracter
+TIPOS ::= verdad | falso | veloc | time | cadena | colores | caracter_especial
 ;
 DATOS ::= decision | velocidad | tiempo | alerta | color | energia
 ;
@@ -59,7 +59,7 @@ FUNCIONES ::= FUNCION |
 FUNCION ::= funcion identificador parentesis_a PARAM parentesis_c CUERPO_FUN
 ;
 PARAM ::= DATOS identificador | 
-          DATOS identificador, PARAM
+          DATOS identificador PARAM
 ;
 CUERPO_FUN ::= ASIGS RETORNO |
                ASIGS CONDICIONAL RETORNO
@@ -82,7 +82,7 @@ CONDICIONAL ::= si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_SI llav
 ;
 CONDICIONAL2 ::= sino CUERPO_SI
 ;
-EVALUACIONES ::= EVALUACION | EVALUACION COMPA EVALUACIONES
+EVALUACIONES ::= EVALUACION | EVALUACION EVALUACIONES
 ;
 EVALUACION ::= identificador op_relacional identificador | PRCOM op_relacional TIPOS | PRCOM OP_RELACIONAL identificador
 ;
