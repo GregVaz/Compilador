@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author chiva
+ * @author chivaarduino
  */
 public class pantalla extends javax.swing.JFrame {
 
@@ -705,7 +705,7 @@ public class pantalla extends javax.swing.JFrame {
 
                     if(guardar != null){
                         direccionArchivo = guardar + ".steins";
-                        FileWriter  save=new FileWriter(guardar+".steins");
+                        FileWriter save = new FileWriter(guardar+".steins");
                         save.write(textPane.getText());
                         save.close();
                         return true;

@@ -59,6 +59,4 @@ public enum Tokens {
     resta,
     op_relacional,
     error,
-    punto_medio
-
-}
+    punto_medio}

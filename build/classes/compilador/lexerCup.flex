@@ -10,21 +10,18 @@ import java_cup.runtime.Symbol;
 %char
 
 alf_min=[a-z]
-alf_may=[A-Z]
 exp_dig=[0-9]
 alf_tot=[A-Za-z0-9]
-exp_alf=[A-Za-z_áéíóú]
-exp_alf_num={exp_alf}|{exp_dig}
+/*exp_alf_num=[A-Za-z_áéíóú]|{exp_dig}*/
 ide={alf_min}({alf_tot}){0,15}
 ide_invalido = {exp_dig}({alf_tot}){0,15}
 tiemp=([0-5][0-9])(:[0-5][0-9])
 tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-9]))|(([0-5][0-9]):([0-5]))
-espacio=[ ,\t, \r, \n]+
+espacio=[ ,\t,\r]+
 caracter_especial=[_*,:;%/#¿?¡!]
 alert=(\")((:[^\"]|\"\")*)\"
 colore=[#]([0-9]{6})
 veloc=[0-9]{1,2}
-veloc_invalida = ({exp_dig}){3,1000}
 
 %{
     public Symbol symbol(int type, Object value){
@@ -42,7 +39,7 @@ veloc_invalida = ({exp_dig}){3,1000}
 /* Comentarios */
 ( "--"(.)* ) {/*Ignore*/}
 
-//Palabras reservadas de estructura y control
+/*Palabras reservadas de estructura y control*/
 (inicioSecuencia)     {return new Symbol(sym.inicioSecuencia, yyline,yychar, yytext());}
 (inicializacion)      {return new Symbol(sym.inicializacion, yyline,yychar, yytext());}
 (importar)            {return new Symbol(sym.importar, yychar, yyline,yytext());}
@@ -55,7 +52,7 @@ veloc_invalida = ({exp_dig}){3,1000}
 (mientras)            {return new Symbol(sym.mientras, yychar, yyline,yytext());}
 (obtener)            {return new Symbol(sym.obtener, yychar, yyline,yytext());}
 
-//Palabras reservadas de declaracion
+/*Palabras reservadas de declaracion*/
 (decision)   {return new Symbol(sym.decision, yychar, yyline,yytext());}  
 (velocidad)   {return new Symbol(sym.velocidad, yychar,yyline, yytext());}
 (tiempo)   {return new Symbol(sym.tiempo, yychar, yyline,yytext());}
@@ -63,21 +60,21 @@ veloc_invalida = ({exp_dig}){3,1000}
 (color)   {return new Symbol(sym.color, yychar, yyline,yytext());}
 (energia)   {return new Symbol(sym.energia, yychar, yyline,yytext());}
 
-//Palabras reservadas de movimiento
+/*Palabras reservadas de movimiento*/
 (avanzar)     {return new Symbol(sym.avanzar, yychar, yyline,yytext());}
 (detener)     {return new Symbol(sym.detener, yychar, yyline,yytext());}
 (esperar)     {return new Symbol(sym.esperar, yychar, yyline,yytext());}
 (iniciar)     {return new Symbol(sym.iniciar, yychar, yyline,yytext());}
 (reversa)     {return new Symbol(sym.reversa, yychar, yyline,yytext());}
 
-//Palabras reservadas de ubicacion
+/*Palabras reservadas de ubicacion*/
 (ubicar)      {return new Symbol(sym.ubicar, yychar, yyline,yytext());}
 (regresarBase)    {return new Symbol(sym.regresarBase, yychar, yyline,yytext());}
 (detectarParada)  {return new Symbol(sym.detectarParada, yychar, yyline,yytext());}
 (detectarLinea)  {return new Symbol(sym.detectarLinea, yychar, yyline,yytext());}
 
 
-//Palabras reservadas de seguridad
+/*Palabras reservadas de seguridad*/
 (obstaculo)     {return new Symbol(sym.obstaculo, yychar, yyline,yytext());}
 (estadoCamara)   {return new Symbol(sym.estadoCamara, yychar, yyline,yytext());}
 (duracionRecorrido)   {return new Symbol(sym.duracionRecorrido, yychar, yyline,yytext());}
@@ -85,7 +82,7 @@ veloc_invalida = ({exp_dig}){3,1000}
 (estadoEnergia)   {return new Symbol(sym.estadoEnergia, yychar, yyline,yytext());}
 (detectarColor)       {return new Symbol(sym.detectarColor, yychar, yyline,yytext());}
 
-//Estructuras del lenguaje
+/*Estructuras del lenguaje*/
 {ide}               {return new Symbol(sym.identificador, yyline,yychar, yytext());}
 {tiemp}            {return new Symbol(sym.time, yychar, yyline,yytext());}
 {alert}            {return new Symbol(sym.cadena, yychar, yyline,yytext());}
@@ -107,6 +104,4 @@ veloc_invalida = ({exp_dig}){3,1000}
 /*Errores*/
 {ide_invalido}      {return new Symbol(sym.error, yyline,yychar, yytext());}
 {tiempo_invalido}   {return new Symbol(sym.error, yyline,yychar, yytext());}
-{veloc_invalida}     {return new Symbol(sym.error, yyline,yychar, yytext());}
-
 . {return new Symbol(sym.error, yychar, yyline, yytext());}

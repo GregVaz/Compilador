@@ -1,6 +1,6 @@
 package compilador;
 
-import compilador.Tokens.*;
+import static compilador.Tokens.*;
 
 %%
 
@@ -13,15 +13,14 @@ alf_tot=[A-Za-z0-9]
 exp_alf=[A-Za-z_áéíóú]
 exp_alf_num={exp_alf}|{exp_dig}
 ide={alf_min}({alf_tot}){0,15}
-ide_invalido = {exp_dig}({alf_tot}){0,15}
+ide_invalido={exp_dig}({alf_tot}){0,15}
 tiemp=(([0-5][0-9]):([0-5][0-9]))
 tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-9]))|(([0-5][0-9]):([0-5]))
-espacio=[ ,\t, \r, \n]+
+espacio=[ ,\t,\r]+
 caracter_especial=[_*,:;%/#¿?¡!]
 alert=[\"]({exp_alf})*[\"]
 colore=[#]([0-9]{6})
 veloc=[0-9]{1,2}
-veloc_invalida = ({exp_dig}){3,1000}
 %{
     public String lexeme;
 %}
@@ -37,7 +36,7 @@ veloc_invalida = ({exp_dig}){3,1000}
 /* Salto de linea */
 ( "\n" ) {return linea;}
 
-//Palabras reservadas de estructura y control
+/*Palabras reservadas de estructura y control */
 (inicioSecuencia) {lexeme=yytext(); return inicioSecuencia;}
 (inicializacion)     {lexeme=yytext(); return inicializacion;}
 (importar)       {lexeme=yytext(); return importar;}
@@ -50,7 +49,7 @@ veloc_invalida = ({exp_dig}){3,1000}
 (mientras)       {lexeme=yytext(); return mientras;}
 (obtener)       {lexeme=yytext(); return obtener;}
 
-//Palabras reservadas de declaracion
+/*Palabras reservadas de declaracion */
 (decision)   {lexeme=yytext(); return decision;}   
 (velocidad)   {lexeme=yytext(); return velocidad;}
 (tiempo)   {lexeme=yytext(); return tiempo;}
@@ -58,21 +57,21 @@ veloc_invalida = ({exp_dig}){3,1000}
 (color)   {lexeme=yytext(); return color;}
 (energia)   {lexeme=yytext(); return energia;}
 
-//Palabras reservadas de movimiento
+/*Palabras reservadas de movimiento */
 (avanzar)     {lexeme=yytext(); return avanzar;}
 (detener)     {lexeme=yytext(); return detener;}
 (esperar)     {lexeme=yytext(); return esperar;}
 (iniciar)     {lexeme=yytext(); return iniciar;}
 (reversa)     {lexeme=yytext(); return reversa;}
 
-//Palabras reservadas de ubicacion
+/*Palabras reservadas de ubicacion */
 (ubicar)          {lexeme=yytext(); return ubicar;}
 (regresarBase)    {lexeme=yytext(); return regresarBase;}
 (detectarParada)  {lexeme=yytext(); return detectarParada;}
 (detectarLinea)   {lexeme=yytext(); return detectarLinea;}
 
 
-//Palabras reservadas de seguridad
+/*Palabras reservadas de seguridad */
 (obstaculo)          {lexeme=yytext(); return obstaculo;}
 (estadoCamara )       {lexeme=yytext(); return estadoCamara;}
 (duracionRecorrido)   {lexeme=yytext(); return duracionRecorrido;}
@@ -80,7 +79,7 @@ veloc_invalida = ({exp_dig}){3,1000}
 (estadoEnergia)      {lexeme=yytext(); return estadoEnergia;}
 (detectarColor)       {lexeme=yytext(); return detectarColor;}
 
-//Estructuras del lenguaje
+/*Estructuras del lenguaje */
 {ide}               {lexeme=yytext(); return identificador;}
 {tiemp}            {lexeme=yytext(); return time;}
 {alert}            {lexeme=yytext(); return cadena;}
@@ -103,6 +102,4 @@ veloc_invalida = ({exp_dig}){3,1000}
 /*Errores*/
 {ide_invalido}      {lexeme=yytext(); return error;}
 {tiempo_invalido}   {lexeme=yytext(); return error;}
-{veloc_invalida}     {lexeme=yytext(); return error;}
-
 . {return error;}
