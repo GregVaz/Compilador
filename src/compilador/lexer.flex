@@ -13,14 +13,16 @@ alf_tot=[A-Za-z0-9]
 exp_alf=[A-Za-z_áéíóú]
 exp_alf_num={exp_alf}|{exp_dig}
 ide={alf_min}({alf_tot}){0,15}
-ide_invalido={exp_dig}({alf_tot}){0,15}
+ide_invalido={exp_dig}({alf_tot}){0,15} | ({caracter_especial}){0,15}
 tiemp=(([0-5][0-9]):([0-5][0-9]))
 tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-9]))|(([0-5][0-9]):([0-5]))
 espacio=[ ,\t,\r]+
 caracter_especial=[_*,:;%/#¿?¡!]
-alert=[\"]({exp_alf})*[\"]
+alert=[\"]({alf_tot})*[\"]
 colore=[#]([0-9]{6})
 veloc=[0-9]{1,2}
+energy=[0-9]{1,2}
+numero_erroneo=({exp_dig}){3,32}
 %{
     public String lexeme;
 %}
@@ -47,7 +49,6 @@ veloc=[0-9]{1,2}
 (verdad)       {lexeme=yytext(); return verdad;}
 (falso)       {lexeme=yytext(); return falso;}
 (mientras)       {lexeme=yytext(); return mientras;}
-(obtener)       {lexeme=yytext(); return obtener;}
 
 /*Palabras reservadas de declaracion */
 (decision)   {lexeme=yytext(); return decision;}   
@@ -65,7 +66,6 @@ veloc=[0-9]{1,2}
 (reversa)     {lexeme=yytext(); return reversa;}
 
 /*Palabras reservadas de ubicacion */
-(ubicar)          {lexeme=yytext(); return ubicar;}
 (regresarBase)    {lexeme=yytext(); return regresarBase;}
 (detectarParada)  {lexeme=yytext(); return detectarParada;}
 (detectarLinea)   {lexeme=yytext(); return detectarLinea;}
@@ -84,6 +84,7 @@ veloc=[0-9]{1,2}
 {tiemp}            {lexeme=yytext(); return time;}
 {alert}            {lexeme=yytext(); return cadena;}
 {veloc}             {lexeme=yytext(); return veloc;}
+{energy}             {lexeme=yytext(); return energy;}
 {colore}            {lexeme=yytext(); return colores;}
 {caracter_especial} {lexeme=yytext(); return caracter_especial;}
 
@@ -96,10 +97,12 @@ veloc=[0-9]{1,2}
 (")")     {lexeme=yytext(); return parentesis_c;}
 ("{")     {lexeme=yytext(); return llave_a;}
 ("}")     {lexeme=yytext(); return llave_c;}
-("·")     {lexeme=yytext(); return punto_medio;}  
+("·")     {lexeme=yytext(); return punto_medio;}
+(",")     {lexeme=yytext(); return separador;}
 
 
 /*Errores*/
-{ide_invalido}      {lexeme=yytext(); return error;}
-{tiempo_invalido}   {lexeme=yytext(); return error;}
+{ide_invalido}      {lexeme=yytext(); return ide_error;}
+{tiempo_invalido}   {lexeme=yytext(); return tiempo_error;}
+{numero_erroneo}    {lexeme=yytext(); return numero_error;}
 . {return error;}

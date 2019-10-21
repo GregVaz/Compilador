@@ -17,6 +17,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.util.Iterator;
+import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -25,7 +27,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jw.menage.ui.components.TextLineNumber;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java_cup.runtime.Symbol;
 import javax.swing.table.DefaultTableModel;
+import jflex.Out;
 
 /**
  *
@@ -43,6 +47,8 @@ public class pantalla extends javax.swing.JFrame {
     int vis;
     DefaultTableModel modelo;
     String[] variables;
+    LinkedList<String> errores;
+    LinkedList<Object[]> tablaS;
     
     /**
      * Creates new form pantalla
@@ -72,6 +78,11 @@ public class pantalla extends javax.swing.JFrame {
         modelo=new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{"Lexema", "Componente lexico"});
         tablaSimbolos.setModel(modelo);
+        
+        errores = new LinkedList<>();
+        tablaS = new LinkedList<>();
+        
+        textPane.setText("inicioSecuencia jav1 {\n  inicializacion {\n velocidad best = 2· } \n funcion fun1(velocidad data) { \n best = data + 1· } \n}");
     }
     
     
@@ -96,8 +107,10 @@ public class pantalla extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        btnLexico = new javax.swing.JLabel();
         visualizar = new javax.swing.JLabel();
+        btnSintactico = new javax.swing.JLabel();
+        btnSemantico = new javax.swing.JLabel();
         panelCodigo = new javax.swing.JPanel();
         codigo_Central = new javax.swing.JScrollPane();
         textoCodigo = new javax.swing.JPanel();
@@ -242,15 +255,15 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
 
-        jLabel13.setBackground(new java.awt.Color(247, 255, 235));
-        jLabel13.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(244, 241, 233));
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compilar.png"))); // NOI18N
-        jLabel13.setToolTipText("Acerca de...");
-        jLabel13.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnLexico.setBackground(new java.awt.Color(247, 255, 235));
+        btnLexico.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        btnLexico.setForeground(new java.awt.Color(244, 241, 233));
+        btnLexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compilar.png"))); // NOI18N
+        btnLexico.setToolTipText("Acerca de...");
+        btnLexico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnLexico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel13MouseClicked(evt);
+                btnLexicoMouseClicked(evt);
             }
         });
 
@@ -260,6 +273,30 @@ public class pantalla extends javax.swing.JFrame {
         visualizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 visualizarMouseClicked(evt);
+            }
+        });
+
+        btnSintactico.setBackground(new java.awt.Color(247, 255, 235));
+        btnSintactico.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        btnSintactico.setForeground(new java.awt.Color(244, 241, 233));
+        btnSintactico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compilar.png"))); // NOI18N
+        btnSintactico.setToolTipText("Acerca de...");
+        btnSintactico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnSintactico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSintacticoMouseClicked(evt);
+            }
+        });
+
+        btnSemantico.setBackground(new java.awt.Color(247, 255, 235));
+        btnSemantico.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        btnSemantico.setForeground(new java.awt.Color(244, 241, 233));
+        btnSemantico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compilar.png"))); // NOI18N
+        btnSemantico.setToolTipText("Acerca de...");
+        btnSemantico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnSemantico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSemanticoMouseClicked(evt);
             }
         });
 
@@ -276,15 +313,19 @@ public class pantalla extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
-                .addGap(203, 203, 203)
+                .addGap(168, 168, 168)
                 .addComponent(jLabel11)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel13)
+                .addComponent(btnLexico)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSintactico)
+                .addGap(13, 13, 13)
+                .addComponent(btnSemantico)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel12)
                 .addGap(18, 18, 18)
                 .addComponent(visualizar)
-                .addContainerGap(454, Short.MAX_VALUE))
+                .addContainerGap(412, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,8 +335,10 @@ public class pantalla extends javax.swing.JFrame {
             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnLexico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(visualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnSintactico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnSemantico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(panelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, -1));
@@ -363,7 +406,7 @@ public class pantalla extends javax.swing.JFrame {
                 minErroresMouseClicked(evt);
             }
         });
-        panelErrores.add(minErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+        panelErrores.add(minErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 16, 940, 80));
 
         getContentPane().add(panelErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 990, 110));
 
@@ -472,7 +515,7 @@ public class pantalla extends javax.swing.JFrame {
         in.setVisible(true);
     }//GEN-LAST:event_jLabel11MouseClicked
 
-    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+    private void btnLexicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLexicoMouseClicked
         //minErrores.setEnabled(true);
         panelCodigo.setSize(740,320);
         codigo_Central.setSize(733,309);
@@ -482,14 +525,16 @@ public class pantalla extends javax.swing.JFrame {
         modelo.setRowCount(0);
             
         try {
+            errores.clear();
             analizarLexico();
-            analizadorSintactico();
+            errores.add("Analizador lexico correctamente");
+            areaErrores.setText(mostrarErrores());
         } catch (IOException ex) {
             System.out.println("Error 2");
             Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
         }
        
-    }//GEN-LAST:event_jLabel13MouseClicked
+    }//GEN-LAST:event_btnLexicoMouseClicked
 
     private void minErroresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minErroresMouseClicked
         panelCodigo.setSize(983,440);
@@ -513,29 +558,169 @@ public class pantalla extends javax.swing.JFrame {
             vis = 0;
         }
     }//GEN-LAST:event_visualizarMouseClicked
+
+    private void btnSintacticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSintacticoMouseClicked
+        errores.clear();
+        analizadorSintactico();
+        areaErrores.setText(mostrarErrores());
+    }//GEN-LAST:event_btnSintacticoMouseClicked
+
+    private void btnSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSemanticoMouseClicked
+        errores.clear();
+        LinkedList<String> variables = new LinkedList<>();
+        Boolean guardarInit = false;
+        String tipo = "";
+        String var = "";
+        int counter = 1;
+        
+        /*for(Object[] elem: this.tablaS){
+           System.out.println(elem[0] + "   " + elem[1]);
+        }*/
+        
+        //Inicio del analisis semantico
+        for(Object[] elem: this.tablaS){
+            //Detectar que estamos en la parte de inicializacion de variables
+            if(elem[1].equals("linea")){
+                counter++;
+            }
+            if(elem[1].equals("inicializacion")){
+                guardarInit = true;
+            } 
+            if(guardarInit){
+                switch (elem[1].toString()) {
+                    case "llave_a":
+                        break;
+                    case "decision":
+                        tipo = elem[1].toString();
+                        break;
+                    case "velocidad":
+                        tipo = elem[1].toString();
+                        break;
+                    case "tiempo":
+                        tipo = elem[1].toString();
+                        break;
+                    case "alerta":
+                        tipo = elem[1].toString();
+                        break;
+                    case "color":
+                        tipo = elem[1].toString();
+                        break;
+                    case "energia":
+                        tipo = elem[1].toString();
+                        break;
+                    case "identificador":
+                        var = elem[0].toString();
+                        if(variables.contains(var)){
+                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
+                            var = "";
+                        }
+                        break;
+                    case "veloc": 
+                        if(tipo!="velocidad")
+                            errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a velocidad.");
+                        else{
+                            if(!var.isEmpty())
+                                variables.add(var);
+                        }
+                        break;
+                    case "verdad": 
+                        if(tipo!="decision")
+                            errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a decision.");
+                        else{
+                            if(!var.isEmpty())
+                                variables.add(var);
+                        }
+                        break;
+                    case "falso": 
+                        if(tipo!="decision")
+                            errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a decision.");
+                        else{
+                            if(!var.isEmpty())
+                                variables.add(var);
+                        }
+                        break;
+                    case "time": 
+                        if(tipo!="tiempo")
+                            errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a tiempo.");
+                        else{
+                            if(!var.isEmpty())
+                                variables.add(var);
+                        }
+                        break;
+                    case "cadena": 
+                        if(tipo!="alerta")
+                            errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a alerta.");
+                        else{
+                            if(!var.isEmpty())
+                                variables.add(var);
+                        }
+                        break;
+                    case "colores": 
+                        if(tipo!="color")
+                            errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a color.");
+                        else{
+                            if(!var.isEmpty())
+                                variables.add(var);
+                        }
+                        break;
+                    case "energy": 
+                        if(tipo!="energia")
+                            errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a energia.");
+                        else{
+                            if(!var.isEmpty())
+                                variables.add(var);
+                        }
+                        break;
+                
+                }
+                if(elem[1].equals("llave_c")){
+                    guardarInit = false;
+                }
+            }
+            
+            
+        }
+        
+        for(String v: variables){
+                System.out.println(v);
+            }
+        
+        errores.add("Analizador semantico correctamente");
+        areaErrores.setText(mostrarErrores());
+    }//GEN-LAST:event_btnSemanticoMouseClicked
     
     /*public void showTokens(){
         for(String i : lexi.getTokens())
             System.out.println(i);
     }*/
     
+    public String mostrarErrores() {
+        String next = "";
+        for (Iterator<String> iterator = errores.iterator(); iterator.hasNext();) {
+            next = next + iterator.next() + "\n";
+        }
+        return next;
+    }
+    
     public void analizadorSintactico(){
         String ST = textPane.getText();
-        //Sintax s = new Sintax(new AnalizadorLex.LexerCup(new StringReader(ST)));
+        Sintax s = new Sintax(new LexerCup(new StringReader(ST)));
         
         try {
-        //        s.parse();
-                minErrores.setText("Analisis sintactico realizado correctamente");
-            } catch (Exception ex) {
-        //        Symbol sym = s.getS();
-        //        System.out.println("Error 1 \n" + "Error de sintaxis. Linea: " + sym.right + ". Columna: " + sym.right + "; Texto: \""+sym.value+"\"");
-                Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        //        minErrores.setText("Error de sintaxis. Linea: " + sym.right + ". Columna: " + sym.right + "; Texto: \""+sym.value+"\"");
-            }
+            s.parse();
+            errores.add("Analisis sintactico correctamente");
+        } catch (Exception ex) {
+            Symbol sym = s.getS(); 
+            //System.out.println("Error de sintaxis. Linea: " + (sym.right + 1) + ". Columna: " + (sym.left + 1) + "; Texto: \""+sym.value+"\"");
+            //if(sym.value.equals("}"))
+            //    sym.value = "Revisa que la experesion termine en punto medio o siga las instrucciones de asignacion corespondientes";
+            errores.add("Error de sintaxis. Linea: " + (sym.right + 1) + ". Columna: " + (sym.left + 1) + "; Texto: \""+sym.value+"\"");
+        }
     }
     
     private void analizarLexico() throws IOException{
         int cont = 1;
+        this.tablaS.clear(); //Limpia la tabla de valores para el analizador Semantico
         
         String expr = (String) textPane.getText();
         Lexer lexer = new Lexer(new StringReader(expr));
@@ -545,6 +730,7 @@ public class pantalla extends javax.swing.JFrame {
             if (token == null) {
                 return;
             }
+            this.tablaS.add(new Object[]{lexer.lexeme.toString(),token.toString()});
             switch (token) {
                 case linea:
                     cont++;
@@ -579,9 +765,6 @@ public class pantalla extends javax.swing.JFrame {
                 case mientras:
                     modelo.addRow(new Object[]{"mientras","pr_control"});
                     break;
-                case obtener:
-                    modelo.addRow(new Object[]{"obtener","pr_control"});
-                    break;
                     
                 case decision:
                     modelo.addRow(new Object[]{"decision","pr_declaracion"});
@@ -603,10 +786,10 @@ public class pantalla extends javax.swing.JFrame {
                     break;
                     
                 case avanzar:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    modelo.addRow(new Object[]{"avanzar","pr_movimiento"});
                     break;
                 case detener:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    modelo.addRow(new Object[]{"detener","pr_movimiento"});
                     break;
                 case esperar:
                     modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
@@ -618,9 +801,6 @@ public class pantalla extends javax.swing.JFrame {
                     modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
                     break;
                     
-                case ubicar:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
-                    break;
                 case regresarBase:
                     modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
                     break;
@@ -691,6 +871,23 @@ public class pantalla extends javax.swing.JFrame {
                     break;
                 case llave_c:
                     modelo.addRow(new Object[]{lexer.lexeme,"llave_c"});
+                    break;
+                //Errores
+                case error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"error"});
+                    errores.add("Error de Lexico." + "; Texto: \""+lexer.lexeme+"\"");
+                    break;
+                case ide_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"ide_error"});
+                    errores.add("Error de Lexico." + "; Texto: \""+lexer.lexeme+"\"");
+                    break;
+                case tiempo_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"tiempo_error"});
+                    errores.add("Error de Lexico." + "; Texto: \""+lexer.lexeme+"\"");
+                    break;
+                case numero_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"numero_error"});
+                    errores.add("Error de Lexico." + "; Texto: \""+lexer.lexeme+"\"");
                     break;
             }
         }
@@ -767,10 +964,12 @@ public class pantalla extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaErrores;
+    private javax.swing.JLabel btnLexico;
+    private javax.swing.JLabel btnSemantico;
+    private javax.swing.JLabel btnSintactico;
     private javax.swing.JScrollPane codigo_Central;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

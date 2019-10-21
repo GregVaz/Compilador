@@ -12,22 +12,23 @@ parser code
 
     public Symbol getS(){
         return this.s;
-}
+    }
 :};
 
 
 terminal inicioSecuencia, inicializacion, importar, funcion, retorno, si, sino, verdad,
-falso, mientras, obtener, decision, velocidad, tiempo, alerta, color, energia, avanzar,
-detener, esperar, iniciar, reversa, ubicar, regresarBase, detectarParada, detectarLinea,
+falso, mientras, decision, velocidad, tiempo, alerta, color, energia, avanzar,energy,
+detener, esperar, iniciar, reversa, regresarBase, detectarParada, detectarLinea,
 obstaculo, estadoCamara, duracionRecorrido, detectarAnomalia, estadoEnergia, detectarColor,
 parentesis_a, parentesis_c, llave_a, llave_c, igual, suma, resta, identificador, cadena, colores,
-veloc, time, caracter_especial, op_relacional, punto_medio, detectorParada;
+veloc, time, caracter_especial, op_relacional, punto_medio, detectorParada, separador;
 
 
-non terminal ALFABETO,CONDICIONAL,CONDICIONAL2,CONDICIONALES,COLORES,CUERPO_FUN,CUERPO_SI,
-                DATOS,DECLARACION, DECLARACIONES,FUNCIONES,FUNCION,ASIG,ASIGS,PARAM,CUERPO_PROG,INICIO,
-                PRMOV,PRUBI,PRESP,PRCOM,RETORNO,EVALUACION, LLAMADA, LLAMADAFUNCION,EVALUACIONES,
-                LIBRERIA,LIBRERIAS,DURACION,PROGRAMA,INICIALIZACION,TIPOS, OP_RELACIONAL;
+non terminal CONDICIONAL,CONDICIONAL2,COND,ESPACIO,CUERPO,
+                DATOS,DECLARACION, DECLARACIONES,FUNCION,ASIG,PARAM,CUERPO_PROG,INICIO,
+                PRMOV,PRUBI,PRCOM,RETORNO,EVALUACION,EVALUACIONES,
+                LIBRERIA,LIBRERIAS,PROGRAMA,INICIALIZACION,TIPOS,
+                EXPRESION,CICLO,CUERPO_CICLO,TER;
 
 start with PROGRAMA;
 
@@ -38,74 +39,68 @@ LIBRERIAS ::= LIBRERIA |
 ;
 LIBRERIA ::= importar cadena punto_medio
 ;
-TIPOS ::= verdad | falso | veloc | time | cadena | colores | caracter_especial
+TIPOS ::= verdad | falso | veloc | time | cadena | colores | energy
 ;
 DATOS ::= decision | velocidad | tiempo | alerta | color | energia
 ;
 INICIO ::= inicioSecuencia identificador llave_a CUERPO_PROG llave_c
 ;
-CUERPO_PROG ::= INICIALIZACION FUNCIONES CONDICIONALES 
+CUERPO_PROG ::= INICIALIZACION | INICIALIZACION CUERPO
 ;
-INICIALIZACION ::= inicializacion llave_a DECLARACIONES llave_c
+CUERPO ::= ESPACIO | ESPACIO CUERPO
+;
+ESPACIO ::= FUNCION | CONDICIONAL | CICLO
+;
+INICIALIZACION ::= inicializacion llave_a llave_c | inicializacion llave_a DECLARACIONES llave_c 
 ;
 DECLARACIONES ::= DECLARACION | 
                   DECLARACION DECLARACIONES
 ;
 DECLARACION ::= DATOS identificador igual TIPOS punto_medio
 ;
-FUNCIONES ::= FUNCION | 
-              FUNCION FUNCIONES
-;
-FUNCION ::= funcion identificador parentesis_a PARAM parentesis_c CUERPO_FUN
+FUNCION ::= funcion identificador parentesis_a PARAM parentesis_c llave_a CUERPO_CICLO llave_c
 ;
 PARAM ::= DATOS identificador | 
-          DATOS identificador PARAM
+          DATOS identificador separador PARAM   
 ;
-CUERPO_FUN ::= ASIGS RETORNO |
-               ASIGS CONDICIONAL RETORNO
-;
-ASIGS ::= ASIG | 
-          ASIG ASIGS
-;
-ASIG ::= identificador igual TIPOS punto_medio |  
-         identificador igual identificador punto_medio |
-         identificador igual PRESP punto_medio
-;
-PRESP ::= detectarColor | 
-          estadoEnergia | 
-          duracionRecorrido
+ASIG ::= identificador igual EXPRESION punto_medio
 ;
 RETORNO ::= retorno identificador punto_medio
 ;
-CONDICIONAL ::= si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_SI llave_c| 
-                si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_SI llave_c CONDICIONAL2
+CONDICIONAL ::= si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_CICLO llave_c | 
+                si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_CICLO llave_c CONDICIONAL2
 ;
-CONDICIONAL2 ::= sino CUERPO_SI
+CONDICIONAL2 ::= sino llave_a CUERPO_CICLO llave_c
 ;
-EVALUACIONES ::= EVALUACION | EVALUACION EVALUACIONES
+EVALUACIONES ::= EVALUACION | EVALUACION separador EVALUACIONES
 ;
-EVALUACION ::= identificador op_relacional identificador | PRCOM op_relacional TIPOS | PRCOM OP_RELACIONAL identificador
+EVALUACION ::= identificador op_relacional identificador | PRCOM op_relacional TIPOS | TIPOS op_relacional PRCOM | PRCOM op_relacional identificador | TIPOS op_relacional TIPOS
 ;
-CUERPO_SI ::= ASIGS | 
-              ASIGS LLAMADA 
+PRMOV ::= avanzar parentesis_a parentesis_c punto_medio |
+          detener parentesis_a parentesis_c punto_medio |
+          esperar parentesis_a parentesis_c punto_medio |
+          iniciar parentesis_a parentesis_c punto_medio |
+          reversa parentesis_a parentesis_c punto_medio
 ;
-LLAMADA ::= LLAMADAFUNCION |
-            LLAMADAFUNCION LLAMADA
+PRUBI ::= regresarBase parentesis_a parentesis_c punto_medio |
+          detectorParada parentesis_a parentesis_c punto_medio
 ;
-LLAMADAFUNCION ::= PRMOV |
-                   PRUBI
+PRCOM ::= detectarColor parentesis_a parentesis_c |
+          detectarParada parentesis_a parentesis_c |
+          detectarAnomalia parentesis_a parentesis_c |
+          estadoEnergia parentesis_a parentesis_c |
+          estadoCamara parentesis_a parentesis_c |           
+          duracionRecorrido parentesis_a parentesis_c | 
+          detectarLinea parentesis_a parentesis_c | 
+          obstaculo parentesis_a parentesis_c 
 ;
-PRMOV ::= avanzar |
-          detener |
-          esperar |
-          iniciar |
-          reversa
+EXPRESION ::= TER | EXPRESION suma TER | EXPRESION resta TER
 ;
-PRUBI ::= ubicar |
-          regresarBase |
-          detectorParada
+TER ::= identificador | TIPOS | parentesis_a EXPRESION parentesis_c
 ;
-PRCOM ::= detectarColor |
-          estadoEnergia |
-          estadoCamara
+CICLO ::= mientras parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c
+;
+CUERPO_CICLO ::= COND | COND CUERPO_CICLO
+;
+COND ::= ASIG | PRMOV | PRUBI | CONDICIONAL | RETORNO
 ;

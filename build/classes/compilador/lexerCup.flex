@@ -19,10 +19,11 @@ ide_invalido = {exp_dig}({alf_tot}){0,15}
 tiemp=([0-5][0-9])(:[0-5][0-9])
 tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-9]))|(([0-5][0-9]):([0-5]))
 espacio=[ \t, \r, \n]+
-caracter_especial=[_*,:;%/#¿?¡!]
-alert=(\")((:[^\"]|\"\")*)\"
+caracter_especial=[_*:;%/#¿?¡!]
+alert=[\"]({alf_tot})*[\"]
 colore=[#]([0-9]{6})
 veloc=[0-9]{1,2}
+energy=[0-9]{1,2}
 
 %{
     public Symbol symbol(int type, Object value){
@@ -51,7 +52,6 @@ veloc=[0-9]{1,2}
 (verdad)            {return new Symbol(sym.verdad, yychar, yyline,yytext());}
 (falso)            {return new Symbol(sym.falso, yychar, yyline,yytext());}
 (mientras)            {return new Symbol(sym.mientras, yychar, yyline,yytext());}
-(obtener)            {return new Symbol(sym.obtener, yychar, yyline,yytext());}
 
 /*Palabras reservadas de declaracion*/
 (decision)   {return new Symbol(sym.decision, yychar, yyline,yytext());}  
@@ -69,7 +69,6 @@ veloc=[0-9]{1,2}
 (reversa)     {return new Symbol(sym.reversa, yychar, yyline,yytext());}
 
 /*Palabras reservadas de ubicacion*/
-(ubicar)      {return new Symbol(sym.ubicar, yychar, yyline,yytext());}
 (regresarBase)    {return new Symbol(sym.regresarBase, yychar, yyline,yytext());}
 (detectarParada)  {return new Symbol(sym.detectarParada, yychar, yyline,yytext());}
 (detectarLinea)  {return new Symbol(sym.detectarLinea, yychar, yyline,yytext());}
@@ -88,6 +87,7 @@ veloc=[0-9]{1,2}
 {tiemp}            {return new Symbol(sym.time, yychar, yyline,yytext());}
 {alert}            {return new Symbol(sym.cadena, yychar, yyline,yytext());}
 {veloc}             {return new Symbol(sym.veloc, yychar, yyline,yytext());}
+{energy}             {return new Symbol(sym.energy, yychar, yyline,yytext());}
 {colore}            {return new Symbol(sym.colores, yychar, yyline,yytext());}
 {caracter_especial} {return new Symbol(sym.caracter_especial, yychar, yyline,yytext());}
 
@@ -101,6 +101,7 @@ veloc=[0-9]{1,2}
 ("{")     {return new Symbol(sym.llave_a, yychar, yyline,yytext());}
 ("}")     {return new Symbol(sym.llave_c, yychar, yyline,yytext());}
 ("·")     {return new Symbol(sym.punto_medio, yychar, yyline,yytext());}
+(",")     {return new Symbol(sym.separador, yychar, yyline,yytext());}
 
 /*Errores*/
 {ide_invalido}      {return new Symbol(sym.error, yyline,yychar, yytext());}
