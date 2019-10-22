@@ -568,7 +568,13 @@ public class pantalla extends javax.swing.JFrame {
     private void btnSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSemanticoMouseClicked
         errores.clear();
         LinkedList<String> variables = new LinkedList<>();
-        Boolean guardarInit = false;
+        LinkedList<Object[]> variablesTabla = new LinkedList<>();
+        LinkedList<String> funciones = new LinkedList<>();
+        LinkedList<String> parametros = new LinkedList<>();
+        Boolean evalInit = false;
+        Boolean evalFun = false;
+        Boolean evalDes = false;
+        Boolean evalCic = false;
         String tipo = "";
         String var = "";
         int counter = 1;
@@ -584,9 +590,20 @@ public class pantalla extends javax.swing.JFrame {
                 counter++;
             }
             if(elem[1].equals("inicializacion")){
-                guardarInit = true;
+                evalInit = true; //Cambiamos la bandera para que pueda leer las variables declaradas en el programa
+            }
+            if(elem[1].equals("funcion")){
+                evalFun = true; //Cambiamos la bandera para que pueda leer el cuerpo de una funcion
+            }
+            if(elem[1].equals("si")){
+                evalDes = true; //Cambiamos la bandera para que pueda leer la estrcutra de decision
             } 
-            if(guardarInit){
+            if(elem[1].equals("mientras")){
+                evalCic = true; //Cambiamos la bandera para que pueda leer la estructura de ciclo de mientras
+            } 
+            
+            //Analisis de variables bandera evalInit para inicializacion
+            if(evalInit){
                 switch (elem[1].toString()) {
                     case "llave_a":
                         break;
@@ -608,7 +625,7 @@ public class pantalla extends javax.swing.JFrame {
                     case "energia":
                         tipo = elem[1].toString();
                         break;
-                    case "identificador":
+                    case "identificador": //Evaluamos que la variable no haya sido ya declarada, de ser asi, colocara la variable que lo guarda en vacio para que no lo guarde una vez exista una comparacion con lo que se esta declarando.
                         var = elem[0].toString();
                         if(variables.contains(var)){
                             errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
@@ -617,78 +634,184 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                     case "veloc": 
                         if(tipo!="velocidad")
-                            errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a velocidad.");
+                            errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos \"" + tipo + "\" no corresponde a velocidad.");
                         else{
-                            if(!var.isEmpty())
+                            if(!var.isEmpty()){
                                 variables.add(var);
+                                variablesTabla.add(new Object[]{tipo, var});
+                            }
                         }
                         break;
                     case "verdad": 
                         if(tipo!="decision")
                             errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a decision.");
                         else{
-                            if(!var.isEmpty())
+                            if(!var.isEmpty()){
                                 variables.add(var);
+                                variablesTabla.add(new Object[]{tipo, var});
+                            }
                         }
                         break;
                     case "falso": 
                         if(tipo!="decision")
                             errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a decision.");
                         else{
-                            if(!var.isEmpty())
+                            if(!var.isEmpty()){
                                 variables.add(var);
+                                variablesTabla.add(new Object[]{tipo, var});
+                            }
                         }
                         break;
                     case "time": 
                         if(tipo!="tiempo")
                             errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a tiempo.");
                         else{
-                            if(!var.isEmpty())
+                            if(!var.isEmpty()){
                                 variables.add(var);
+                                variablesTabla.add(new Object[]{tipo, var});
+                            }
                         }
                         break;
                     case "cadena": 
                         if(tipo!="alerta")
                             errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a alerta.");
                         else{
-                            if(!var.isEmpty())
+                            if(!var.isEmpty()){
                                 variables.add(var);
+                                variablesTabla.add(new Object[]{tipo, var});
+                            }
                         }
                         break;
                     case "colores": 
                         if(tipo!="color")
                             errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a color.");
                         else{
-                            if(!var.isEmpty())
+                            if(!var.isEmpty()){
                                 variables.add(var);
+                                variablesTabla.add(new Object[]{tipo, var});
+                            }
                         }
                         break;
                     case "energy": 
                         if(tipo!="energia")
                             errores.add("Error. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a energia.");
                         else{
-                            if(!var.isEmpty())
+                            if(!var.isEmpty()){
                                 variables.add(var);
+                                variablesTabla.add(new Object[]{tipo, var});
+                            }
                         }
                         break;
                 
                 }
                 if(elem[1].equals("llave_c")){
-                    guardarInit = false;
+                    evalInit = false;
                 }
+            }
+            
+            if(evalFun) {
+                
+                switch (elem[1].toString()) {
+                    case "funcion":
+                        tipo = elem[1].toString();
+                        break;
+                    case "parentesis_a":
+                        tipo = elem[1].toString();
+                        break;
+                    case "llave_a":
+                        tipo = elem[1].toString();
+                        break;
+                    case "igual":
+                        tipo = elem[1].toString();
+                        break;
+                    case "identificador":
+                        var = elem[0].toString();
+                        if(tipo=="funcion"){ //Si es tipo funcion, comparara si el identificador no es una funcion ya repetida. 
+                            if(funciones.contains(var)){
+                                errores.add("Error de declaracion. Linea: " + counter + ". La funcion \"" + var + "\" ya fue declarada.");
+                            } else 
+                                funciones.add(var);
+                        } else if (tipo=="parentesis_a"){ //Esto servira para evitar el contacto con los identificadores dentro de los parametros, proseguira con el analisis del curpo del ciclo al detectar si se encuentra con la llave de apertura {
+                            if(variables.contains(var)){
+                                errores.add("Error de declaracion. Linea: " + counter + ". El parametro \"" + var + "\" no puede nombrarse igual que una variable ya declarada.");
+                            } else 
+                                parametros.add(var);
+                        } else if (tipo!="parentesis_a"){ //Esto servira para evitar el contacto con los identificadores dentro de los parametros, proseguira con el analisis del curpo del ciclo al detectar si se encuentra con la llave de apertura {
+                            if(!variables.contains(var)){
+                                errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" no ha sido declarada.");
+                            }
+                        }
+                        break;
+                    case "verdad":
+                        tipo = obtenerTipo(variablesTabla, var);
+                        if(tipo != "decision"){
+                            errores.add("Error. Linea: " + counter + ". Asignacion incorrecta de tipos el valor " + elem[0].toString() + " no puede ser asignado a una variable de tipo " + tipo );
+                        }
+                        break;
+                    case "falso":
+                        tipo = obtenerTipo(variablesTabla, var);
+                        if(tipo != "decision"){
+                            errores.add("Error. Linea: " + counter + ". Asignacion incorrecta de tipos el valor \"" + elem[0].toString() + "\"  no puede ser asignado a una variable de tipo " + tipo );
+                        }
+                        break;
+                    case "veloc":
+                        tipo = obtenerTipo(variablesTabla, var);
+                        if(tipo != "velocidad"){
+                            errores.add("Error. Linea: " + counter + ". Asignacion incorrecta de tipos el valor \"" + elem[0].toString() + "\"  no puede ser asignado a una variable de tipo " + tipo );
+                        }
+                        break;
+                    case "time":
+                        tipo = obtenerTipo(variablesTabla, var);
+                        if(tipo != "tiempo"){
+                            errores.add("Error. Linea: " + counter + ". Asignacion incorrecta de tipos el valor \"" + elem[0].toString() + "\"  no puede ser asignado a una variable de tipo " + tipo );
+                        }
+                        break;
+                    case "cadena":
+                        tipo = obtenerTipo(variablesTabla, var);
+                        if(tipo != "alerta"){
+                            errores.add("Error. Linea: " + counter + ". Asignacion incorrecta de tipos el valor \"" + elem[0].toString() + "\"  no puede ser asignado a una variable de tipo " + tipo );
+                        }
+                        break;
+                    case "colores":
+                        tipo = obtenerTipo(variablesTabla, var);
+                        if(tipo != "color"){
+                            errores.add("Error. Linea: " + counter + ". Asignacion incorrecta de tipos el valor \"" + elem[0].toString() + "\"  no puede ser asignado a una variable de tipo " + tipo );
+                        }
+                        break;
+                    case "energy":
+                        tipo = obtenerTipo(variablesTabla, var);
+                        if(tipo != "energia"){
+                            errores.add("Error. Linea: " + counter + ". Asignacion incorrecta de tipos el valor \"" + elem[0].toString() + "\"  no puede ser asignado a una variable de tipo " + tipo );
+                        }
+                        break;
+                        
+               }
             }
             
             
         }
         
         for(String v: variables){
-                System.out.println(v);
-            }
+            System.out.println(v);
+        }
         
         errores.add("Analizador semantico correctamente");
         areaErrores.setText(mostrarErrores());
     }//GEN-LAST:event_btnSemanticoMouseClicked
     
+    
+    public String obtenerTipo(LinkedList<Object[]> list, String var){
+        String tipo = "";
+        for(Object[] elem: list){
+            if(elem[1].equals(var)){
+                tipo = elem[0].toString();
+                break;
+            }
+        }
+        return tipo;
+    }
+            
+            
     /*public void showTokens(){
         for(String i : lexi.getTokens())
             System.out.println(i);
