@@ -96,7 +96,7 @@ PRCOM ::= detectarColor parentesis_a parentesis_c |
 ;
 EXPRESION ::= TER | EXPRESION suma TER | EXPRESION resta TER
 ;
-TER ::= identificador | TIPOS | parentesis_a EXPRESION parentesis_c
+TER ::= identificador | TIPOS | EXPRESION
 ;
 CICLO ::= mientras parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c
 ;
