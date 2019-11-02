@@ -17,9 +17,9 @@ parser code
 
 
 terminal inicioSecuencia, inicializacion, importar, funcion, retorno, si, sino, verdad,
-falso, mientras, decision, velocidad, tiempo, alerta, color, energia, avanzar,energy,
+falso, mientras, decision, velocidad, tiempo, alerta, color, avanzar,
 detener, esperar, iniciar, reversa, regresarBase, detectarParada, detectarLinea,
-obstaculo, estadoCamara, duracionRecorrido, detectarAnomalia, estadoEnergia, detectarColor,
+obstaculo, estadoCamara, duracionRecorrido, detectarAnomalia, detectarColor,
 parentesis_a, parentesis_c, llave_a, llave_c, igual, suma, resta, identificador, cadena, colores,
 veloc, time, caracter_especial, op_relacional, punto_medio, detectorParada, separador;
 
@@ -39,9 +39,9 @@ LIBRERIAS ::= LIBRERIA |
 ;
 LIBRERIA ::= importar cadena punto_medio
 ;
-TIPOS ::= verdad | falso | veloc | time | cadena | colores | energy
+TIPOS ::= verdad | falso | veloc | time | cadena | colores
 ;
-DATOS ::= decision | velocidad | tiempo | alerta | color | energia
+DATOS ::= decision | velocidad | tiempo | alerta | color
 ;
 INICIO ::= inicioSecuencia identificador llave_a CUERPO_PROG llave_c
 ;
@@ -74,7 +74,7 @@ CONDICIONAL2 ::= sino llave_a CUERPO_CICLO llave_c
 ;
 EVALUACIONES ::= EVALUACION | EVALUACION separador EVALUACIONES
 ;
-EVALUACION ::= identificador op_relacional identificador | PRCOM op_relacional TIPOS | TIPOS op_relacional PRCOM | PRCOM op_relacional identificador | TIPOS op_relacional TIPOS
+EVALUACION ::= identificador op_relacional identificador | PRCOM op_relacional TIPOS | TIPOS op_relacional PRCOM | PRCOM op_relacional identificador | identificador op_relacional TIPOS
 ;
 PRMOV ::= avanzar parentesis_a parentesis_c punto_medio |
           detener parentesis_a parentesis_c punto_medio |
@@ -88,7 +88,6 @@ PRUBI ::= regresarBase parentesis_a parentesis_c punto_medio |
 PRCOM ::= detectarColor parentesis_a parentesis_c |
           detectarParada parentesis_a parentesis_c |
           detectarAnomalia parentesis_a parentesis_c |
-          estadoEnergia parentesis_a parentesis_c |
           estadoCamara parentesis_a parentesis_c |           
           duracionRecorrido parentesis_a parentesis_c | 
           detectarLinea parentesis_a parentesis_c | 
@@ -96,7 +95,7 @@ PRCOM ::= detectarColor parentesis_a parentesis_c |
 ;
 EXPRESION ::= TER | EXPRESION suma TER | EXPRESION resta TER
 ;
-TER ::= identificador | TIPOS | EXPRESION
+TER ::= identificador | TIPOS
 ;
 CICLO ::= mientras parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c
 ;

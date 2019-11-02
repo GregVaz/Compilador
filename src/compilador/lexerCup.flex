@@ -23,7 +23,6 @@ caracter_especial=[_*:;%/#¿?¡!]
 alert=[\"]({alf_tot})*[\"]
 colore=[#]([0-9]{6})
 veloc=[0-9]{1,2}
-energy=[0-9]{1,2}
 
 %{
     public Symbol symbol(int type, Object value){
@@ -59,7 +58,6 @@ energy=[0-9]{1,2}
 (tiempo)   {return new Symbol(sym.tiempo, yychar, yyline,yytext());}
 (alerta)   {return new Symbol(sym.alerta, yychar, yyline,yytext());}
 (color)   {return new Symbol(sym.color, yychar, yyline,yytext());}
-(energia)   {return new Symbol(sym.energia, yychar, yyline,yytext());}
 
 /*Palabras reservadas de movimiento*/
 (avanzar)     {return new Symbol(sym.avanzar, yychar, yyline,yytext());}
@@ -79,7 +77,6 @@ energy=[0-9]{1,2}
 (estadoCamara)   {return new Symbol(sym.estadoCamara, yychar, yyline,yytext());}
 (duracionRecorrido)   {return new Symbol(sym.duracionRecorrido, yychar, yyline,yytext());}
 (detectarAnomalia)   {return new Symbol(sym.detectarAnomalia, yychar, yyline,yytext());}
-(estadoEnergia)   {return new Symbol(sym.estadoEnergia, yychar, yyline,yytext());}
 (detectarColor)       {return new Symbol(sym.detectarColor, yychar, yyline,yytext());}
 
 /*Estructuras del lenguaje*/
@@ -87,7 +84,6 @@ energy=[0-9]{1,2}
 {tiemp}            {return new Symbol(sym.time, yychar, yyline,yytext());}
 {alert}            {return new Symbol(sym.cadena, yychar, yyline,yytext());}
 {veloc}             {return new Symbol(sym.veloc, yychar, yyline,yytext());}
-{energy}             {return new Symbol(sym.energy, yychar, yyline,yytext());}
 {colore}            {return new Symbol(sym.colores, yychar, yyline,yytext());}
 {caracter_especial} {return new Symbol(sym.caracter_especial, yychar, yyline,yytext());}
 

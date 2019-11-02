@@ -21,7 +21,6 @@ caracter_especial=[_*,:;%/#¿?¡!]
 alert=[\"]({alf_tot})*[\"]
 colore=[#]([0-9]{6})
 veloc=[0-9]{1,2}
-energy=[0-9]{1,2}
 numero_erroneo=({exp_dig}){3,32}
 %{
     public String lexeme;
@@ -56,7 +55,6 @@ numero_erroneo=({exp_dig}){3,32}
 (tiempo)   {lexeme=yytext(); return tiempo;}
 (alerta)   {lexeme=yytext(); return alerta;}
 (color)   {lexeme=yytext(); return color;}
-(energia)   {lexeme=yytext(); return energia;}
 
 /*Palabras reservadas de movimiento */
 (avanzar)     {lexeme=yytext(); return avanzar;}
@@ -76,7 +74,6 @@ numero_erroneo=({exp_dig}){3,32}
 (estadoCamara )       {lexeme=yytext(); return estadoCamara;}
 (duracionRecorrido)   {lexeme=yytext(); return duracionRecorrido;}
 (detectarAnomalia)    {lexeme=yytext(); return detectarAnomalia;}
-(estadoEnergia)      {lexeme=yytext(); return estadoEnergia;}
 (detectarColor)       {lexeme=yytext(); return detectarColor;}
 
 /*Estructuras del lenguaje */
@@ -84,7 +81,6 @@ numero_erroneo=({exp_dig}){3,32}
 {tiemp}            {lexeme=yytext(); return time;}
 {alert}            {lexeme=yytext(); return cadena;}
 {veloc}             {lexeme=yytext(); return veloc;}
-{energy}             {lexeme=yytext(); return energy;}
 {colore}            {lexeme=yytext(); return colores;}
 {caracter_especial} {lexeme=yytext(); return caracter_especial;}
 

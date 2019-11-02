@@ -771,6 +771,7 @@ public class pantalla extends javax.swing.JFrame {
                         expresion.add(elem);
                         break; 
                     case "punto_medio":
+                        expresion.add(elem);
                         validacionesAsig(expresion, parametros,variablesTabla, variables, counter);
                         break;   
                     case "si":
@@ -790,13 +791,11 @@ public class pantalla extends javax.swing.JFrame {
     public void validacionesAsig(LinkedList<Object[]> valores, LinkedList<String> parametros,LinkedList<Object[]> variablesTabla, LinkedList<String> variables, int renglon){
         String obj = "";
         String token = "";
+        String principalType = "";
         Object[] temp = new Object[]{};
+        LinkedList<String> tipos = new LinkedList<>();
         Boolean bandera = true;
         int expSize = valores.size();
-        
-        for(String var: parametros){
-            System.out.println(var);
-        }
         
         for(Object[] valor: valores){
             //System.out.println(valor[0] + " " + valor[1]); 
@@ -819,25 +818,82 @@ public class pantalla extends javax.swing.JFrame {
             
             token = valor[1].toString();
             obj = valor[0].toString();
+            //Ejemplo: token = identificador, obj = val1
             
-            if(token=="identificador"){
-                if(bandera) //Esto guardara el primer identificador que corresponde al valor de comparacion de la expresion
+            if("identificador".equals(token)){
+                if(bandera){ //Esto guardara el primer identificador que corresponde al valor de comparacion de la expresion
                     temp = valor;
+                    principalType = obtenerTipo(variablesTabla, temp[0].toString());
+                }
                 if(!variables.contains(obj) && !parametros.contains(obj)){
                     errores.add("Error de variable. Linea: " + renglon + ". La variable " + obj + " no ha sido declarada en el area de inicializacion o parametros.");
                 } 
                 
             }
            
-            if(expSize==3 && !bandera && token=="identificador"){
+            if(expSize==3 && !bandera && "identificador".equals(token)){
                 //evaluacion de una expresion con un solo operando
-                String var1 = obtenerTipo(variablesTabla, temp[0].toString());
                 String var2 = obtenerTipo(variablesTabla, obj);
-                if(var1!=var2)
-                    errores.add("Error. Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + var2 + " no puede ser asignado a la variable " + temp[0].toString() + " de tipo " + var1 );
+                if(!principalType.equals(var2))
+                    errores.add("Error. Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + var2 + " no puede ser asignado a la variable " + temp[0].toString() + " de tipo " + principalType );
+            } else if(expSize==3 && !bandera && !"igual".equals(token)){
+                //evaluacion de una expresion con un solo operando
+                String var2 = token;
+                if(null == principalType)errores.add("Error de asignacion. Linea: " + renglon + ". Asignacion incongruente tipos no identificados"); 
+                else switch (principalType) {
+                    case "velocidad":
+                        if(!"veloc".equals(var2))
+                            errores.add("Error de asignacion. Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + var2 + " no puede ser asignado a la variable " + temp[0].toString() + " de tipo " + principalType );
+                        break;
+                    case "decision":
+                        if(!"verdad".equals(var2) || !"falso".equals(var2))
+                            errores.add("Error de asignacion. Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + var2 + " no puede ser asignado a la variable " + temp[0].toString() + " de tipo " + principalType );
+                        break;
+                    case "tiempo":
+                        if(!"time".equals(var2))
+                            errores.add("Error de asignacion. Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + var2 + " no puede ser asignado a la variable " + temp[0].toString() + " de tipo " + principalType );
+                        break;
+                    case "alerta":
+                        if(!"cadena".equals(var2))
+                            errores.add("Error de asignacion. Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + var2 + " no puede ser asignado a la variable " + temp[0].toString() + " de tipo " + principalType );
+                        break;
+                    case "color":
+                        if(!"colores".equals(var2))
+                            errores.add("Error de asignacion. Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + var2 + " no puede ser asignado a la variable " + temp[0].toString() + " de tipo " + principalType );
+                        break;
+                    case "energia":
+                        if(!"energy".equals(var2))
+                            errores.add("Error de asignacion. Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + var2 + " no puede ser asignado a la variable " + temp[0].toString() + " de tipo " + principalType );
+                        break;
+                    default:
+                        errores.add("Error de asignacion. Linea: " + renglon + ". Asignacion incongruente tipos no identificados");
+                        break;
+                }
             } else {
-                //Aqui se evaluara una expresion de mas de un oeprando de lado izquierdo
-                
+                //Aqui se evaluara una expresion de mas de un operando de lado izquierdo
+                switch(token){
+                    case "identificador":
+                        String var1 = obtenerTipo(variablesTabla, obj);
+                        if(tipos.isEmpty()){
+                            tipos.add(var1);
+                            continue;
+                        }
+                        if(tipos.get(0)!=var1){
+                            errores.add("Error de operacion. Linea: " + renglon + ". Los operandos(variables) no son del mismo tipo");
+                            tipos.add(var1);
+                        } else 
+                            tipos.add(var1);
+                        break;
+                    case "suma":
+                        break;
+                    case "resta":
+                        break;
+                    case "punto_medio":
+                        String var3 = obtenerTipo(variablesTabla, temp[0].toString());
+                        if(var3!=tipos.get(0))
+                            errores.add("Error de asignacion. Linea: " + renglon + ". Los operacion resultante no corresponde al tipo de datos de la variable");
+                        break;
+                }
             }
             
             /*switch(token){
@@ -996,9 +1052,6 @@ public class pantalla extends javax.swing.JFrame {
                 case color:
                     modelo.addRow(new Object[]{"color","pr_declaracion"});
                     break;
-                case energia:
-                    modelo.addRow(new Object[]{"energia","pr_declaracion"});
-                    break;
                     
                 case avanzar:
                     modelo.addRow(new Object[]{"avanzar","pr_movimiento"});
@@ -1036,9 +1089,6 @@ public class pantalla extends javax.swing.JFrame {
                     modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
                     break;
                 case detectarAnomalia:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                case estadoEnergia:
                     modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
                     break;
                 case detectarColor:
