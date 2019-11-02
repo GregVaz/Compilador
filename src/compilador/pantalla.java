@@ -17,6 +17,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
@@ -576,11 +577,22 @@ public class pantalla extends javax.swing.JFrame {
         Boolean evalFun = false;
         Boolean evalDes = false;
         Boolean evalCic = false;
+        Boolean asignacion = false;
         Boolean evalPRMOV = false;
         String tipo = "";
         String var = "";
         String temp = "";
+        String vartype1 = "";
+        String vartype2 = "";
         int counter = 1;
+        LinkedList<Object[]> prcomTabla = new LinkedList<>();
+        prcomTabla.add(new Object[]{"color","detectarColor"});
+        prcomTabla.add(new Object[]{"color","detectarParada"});
+        prcomTabla.add(new Object[]{"verdad","detectarAnomalia"});
+        prcomTabla.add(new Object[]{"verdadero","estadoCamara"});
+        prcomTabla.add(new Object[]{"tiempo","duracionRecorrido"});
+        prcomTabla.add(new Object[]{"color","detectarLinea"});
+        prcomTabla.add(new Object[]{"verdad","obstaculo"});
         
         
         /*for(Object[] elem: this.tablaS){
@@ -592,60 +604,26 @@ public class pantalla extends javax.swing.JFrame {
             //Detectar que estamos en la parte de inicializacion de variables
             if(elem[1].equals("linea")){
                 counter++;
+                continue;
             }
             if(elem[1].equals("inicializacion")){
                 evalInit = true; //Cambiamos la bandera para que pueda leer las variables declaradas en el programa
-            }
+            } else
             if(elem[1].equals("funcion")){
                 evalFun = true; //Cambiamos la bandera para que pueda leer el cuerpo de una funcion
-            }
+            } else
             if(elem[1].equals("si")){
+                temp = "";
+                var = "";
+                tipo = "";
                 evalDes = true; //Cambiamos la bandera para que pueda leer la estrcutra de decision
-            } 
+            } else
             if(elem[1].equals("mientras")){
                 evalCic = true; //Cambiamos la bandera para que pueda leer la estructura de ciclo de mientras
-            }
+            } else
             if(elem[1].equals("avanzar") | elem[1].equals("esperar")){
                 temp = "";
                 evalPRMOV = true; //Cambiamos la bandera para que pueda leer la estructura de ciclo de mientras
-            }
-            
-            //analisis de palabras de movimiento que requieren de parametros
-            if(evalPRMOV) {
-                switch(elem[1].toString()){
-                    case "avanzar":
-                        tipo = "avanzar";
-                        break;
-                    case "esperar":
-                        tipo = "esperar";
-                        break;
-                    case "identificador":
-                        temp = obtenerTipo(variablesTabla, elem[0].toString());
-                        if(!var.contains(elem[0].toString())){
-                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
-                        } else if(tipo.equals("avanzar") && !temp.equals("velocidad"))
-                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
-                        else if(tipo.equals("esperar") && !temp.equals("tiempo")) 
-                                errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
-                        break;
-                    case "veloc":
-                        temp = elem[0].toString();
-                        if(!tipo.equals("avanzar"))
-                            errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". Parametro velocidad es solo aplicable al metodo avanzar");
-                        break;
-                    case "time":
-                        temp = elem[0].toString();
-                        if(!tipo.equals("esperar"))
-                            errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". Parametro tiempo es solo aplicable al metodo esperar");
-                        break;
-                    case "parentesis_c":
-                        if(temp.isEmpty())
-                            errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". El metodo necesita de un parametro");
-                        break;
-                }
-                if(elem[1].equals("parentesis_c")){
-                    evalPRMOV = false;
-                }
             }
             
             //Analisis de variables bandera evalInit para inicializacion
@@ -676,7 +654,7 @@ public class pantalla extends javax.swing.JFrame {
                         }
                         break;
                     case "veloc": 
-                        if(tipo!="velocidad")
+                        if(!"velocidad".equals(tipo))
                             errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos \"" + tipo + "\" no corresponde a velocidad.");
                         else{
                             if(!var.isEmpty()){
@@ -686,7 +664,7 @@ public class pantalla extends javax.swing.JFrame {
                         }
                         break;
                     case "verdad": 
-                        if(tipo!="decision")
+                        if(!"decision".equals(tipo))
                             errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a decision.");
                         else{
                             if(!var.isEmpty()){
@@ -696,7 +674,7 @@ public class pantalla extends javax.swing.JFrame {
                         }
                         break;
                     case "falso": 
-                        if(tipo!="decision")
+                        if(!"decision".equals(tipo))
                             errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a decision.");
                         else{
                             if(!var.isEmpty()){
@@ -706,7 +684,7 @@ public class pantalla extends javax.swing.JFrame {
                         }
                         break;
                     case "time": 
-                        if(tipo!="tiempo")
+                        if(!"tiempo".equals(tipo))
                             errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a tiempo.");
                         else{
                             if(!var.isEmpty()){
@@ -716,7 +694,7 @@ public class pantalla extends javax.swing.JFrame {
                         }
                         break;
                     case "cadena": 
-                        if(tipo!="alerta")
+                        if(!"alerta".equals(tipo))
                             errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a alerta.");
                         else{
                             if(!var.isEmpty()){
@@ -726,7 +704,7 @@ public class pantalla extends javax.swing.JFrame {
                         }
                         break;
                     case "colores": 
-                        if(tipo!="color")
+                        if(!"color".equals(tipo))
                             errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a color.");
                         else{
                             if(!var.isEmpty()){
@@ -741,6 +719,249 @@ public class pantalla extends javax.swing.JFrame {
                     evalInit = false;
                 }
             }
+            else 
+            //analisis de palabras de movimiento que requieren de parametros
+            if(evalPRMOV) {
+                switch(elem[1].toString()){
+                    case "avanzar":
+                        tipo = "avanzar";
+                        break;
+                    case "esperar":
+                        tipo = "esperar";
+                        break;
+                    case "identificador":
+                        temp = obtenerTipo(variablesTabla, elem[0].toString());
+                        if(!variables.contains(elem[0].toString())){
+                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
+                        } else if(tipo.equals("avanzar") && !temp.equals("velocidad"))
+                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
+                        else if(tipo.equals("esperar") && !temp.equals("tiempo")) 
+                                errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
+                        break;
+                    case "veloc":
+                        temp = elem[0].toString();
+                        if(!tipo.equals("avanzar"))
+                            errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". Parametro velocidad es solo aplicable al metodo avanzar");
+                        break;
+                    case "time":
+                        temp = elem[0].toString();
+                        if(!tipo.equals("esperar"))
+                            errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". Parametro tiempo es solo aplicable al metodo esperar");
+                        break;
+                    case "parentesis_c":
+                        if(temp.isEmpty())
+                            errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". El metodo necesita de un parametro");
+                        break;
+                }
+                if(elem[1].equals("parentesis_c")){
+                    evalPRMOV = false;
+                }
+            } 
+            else
+            //Analizar una asignación cuando esta entra en parte del cuerpo del ciclo
+            if(asignacion){
+                switch (elem[1].toString()) {  
+                    case "igual":
+                        expresion.add(elem);
+                        break;
+                    case "identificador":
+                        expresion.add(elem);
+                        break;
+                    case "verdad":
+                        expresion.add(elem);
+                        break;
+                    case "falso":
+                        expresion.add(elem);
+                        break;
+                    case "veloc":
+                        expresion.add(elem);
+                        break;
+                    case "time":
+                        expresion.add(elem);
+                        break;
+                    case "cadena":
+                        expresion.add(elem);
+                        break;
+                    case "colores":
+                        expresion.add(elem);
+                        break;
+                    case "suma":
+                        expresion.add(elem);
+                        break; 
+                    case "resta":
+                        expresion.add(elem);
+                        break; 
+                    case "punto_medio":
+                        expresion.add(elem);
+                        validacionesAsig(expresion, parametros, variablesTabla, variables, counter);
+                        break;
+                    default:
+                       asignacion = false;
+               }
+            } 
+            else
+            //Analisis de sentencia para bandera evalDes para decision
+            if(evalDes){
+                tipo = elem[1].toString();
+                var = elem[0].toString();
+                switch(tipo){
+                    case "op_relacional":
+                        break;
+                    case "llave_a":
+                        temp = "llave_a";
+                        break;
+                    case "identificador":
+                        if(temp.equals("llave_a")){
+                            evalDes = false;
+                            asignacion = true;
+                            expresion.add(elem);
+                        }else if(!variables.contains(var) && !parametros.contains(var)){
+                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
+                        } else if(vartype1.isEmpty()){
+                            vartype1 = obtenerTipo(variablesTabla, var);
+                        } else {
+                            vartype2 = obtenerTipo(variablesTabla, var);
+                            if(!vartype1.equals(vartype2))
+                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                        }
+                        break;
+                    case "detectarColor":
+                        if(vartype1.isEmpty()){
+                            vartype1 = obtenerTipo(prcomTabla, var);
+                        } else {
+                            vartype2 = obtenerTipo(prcomTabla, var);
+                            if(!vartype1.equals(vartype2))
+                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                        }
+                        break;
+                    case "detectarParada":
+                        if(vartype1.isEmpty()){
+                            vartype1 = obtenerTipo(prcomTabla, var);
+                        } else {
+                            vartype2 = obtenerTipo(prcomTabla, var);
+                            if(!vartype1.equals(vartype2))
+                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                        }
+                        break;
+                    case "detectarAnomalia":
+                        if(vartype1.isEmpty()){
+                            vartype1 = obtenerTipo(prcomTabla, var);
+                        } else {
+                            vartype2 = obtenerTipo(prcomTabla, var);
+                            if(!vartype1.equals(vartype2))
+                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                        }
+                        break;
+                    case "estadoCamara":
+                        if(vartype1.isEmpty()){
+                            vartype1 = obtenerTipo(prcomTabla, var);
+                        } else {
+                            vartype2 = obtenerTipo(prcomTabla, var);
+                            if(!vartype1.equals(vartype2))
+                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                        }
+                        break;
+                    case "duracionRecorrido":
+                        if(vartype1.isEmpty()){
+                            vartype1 = obtenerTipo(prcomTabla, var);
+                        } else {
+                            vartype2 = obtenerTipo(prcomTabla, var);
+                            if(!vartype1.equals(vartype2))
+                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                        }
+                        break;
+                    case "detectarLinea":
+                        if(vartype1.isEmpty()){
+                            vartype1 = obtenerTipo(prcomTabla, var);
+                        } else {
+                            vartype2 = obtenerTipo(prcomTabla, var);
+                            if(!vartype1.equals(vartype2))
+                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                        }
+                        break;
+                    case "obstaculo":
+                        if(vartype1.isEmpty()){
+                            vartype1 = obtenerTipo(prcomTabla, var);
+                        } else {
+                            vartype2 = obtenerTipo(prcomTabla, var);
+                            if(!vartype1.equals(vartype2))
+                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                        }
+                        break;
+                    case "veloc":
+                        if(vartype1.isEmpty()) {
+                            vartype1 = "velocidad";
+                        } else {
+                            vartype2 = "velocidad";
+                            if(!vartype1.equals(vartype2)){
+                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                            }
+                            vartype1 = vartype2;
+                        }
+                    break;
+                    
+                    case "verdad":
+                        if(vartype1.isEmpty()) {
+                            vartype1 = "decision";
+                        } else {
+                            vartype2 = "decision";
+                            if(!vartype1.equals(vartype2)){
+                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                            }
+                            vartype1 = vartype2;
+                        }
+                        break;
+
+                    case "falso":
+                        if(vartype1.isEmpty()) {
+                            vartype1 = "decision";
+                        } else {
+                            vartype2 = "decision";
+                            if(!vartype1.equals(vartype2)){
+                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                            }
+                            vartype1 = vartype2;
+                        }
+                        break;
+
+                    case "time":
+                        if(vartype1.isEmpty()) {
+                                vartype1 = "tiempo";
+                        } else {
+                            vartype2 = "tiempo";
+                            if(!vartype1.equals(vartype2)){
+                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                            }
+                            vartype1 = vartype2;
+                        }
+                        break;
+
+                    case "cadena":
+                        if(vartype1.isEmpty()) {
+                            vartype1 = "alerta";
+                        } else {
+                            vartype2 = "alerta";
+                            if(!vartype1.equals(vartype2)){
+                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                            }
+                            vartype1 = vartype2;
+                        }
+                        break;
+
+                    case "colores":
+                        if(vartype1.isEmpty()) {
+                            vartype1 = "color";
+                        } else {
+                            vartype2 = "color";
+                            if(!vartype1.equals(vartype2)){
+                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                            }
+                            vartype1 = vartype2;
+                        }
+                        break;
+                    }
+            }
+            else
             
             if(evalFun) {
                 switch (elem[1].toString()) {
@@ -785,40 +1006,16 @@ public class pantalla extends javax.swing.JFrame {
                                 parametros.add(var);
                                 variablesTabla.add(new Object[]{temp, var});
                             }
-                        }  else {
+                        }  else if(tipo.equals("llave_a")){
                             expresion.add(elem);
+                            asignacion = true;
                         }
-                        break;
-                    case "verdad":
-                        expresion.add(elem);
-                        break;
-                    case "falso":
-                        expresion.add(elem);
-                        break;
-                    case "veloc":
-                        expresion.add(elem);
-                        break;
-                    case "time":
-                        expresion.add(elem);
-                        break;
-                    case "cadena":
-                        expresion.add(elem);
-                        break;
-                    case "colores":
-                        expresion.add(elem);
-                        break;
-                    case "suma":
-                        expresion.add(elem);
                         break; 
-                    case "resta":
-                        expresion.add(elem);
-                        break; 
-                    case "punto_medio":
-                        expresion.add(elem);
-                        validacionesAsig(expresion, parametros, variablesTabla, variables, counter);
-                        break;   
                     case "si":
                         evalDes = true;
+                        break;
+                    case "mientras":
+                        evalCic = true;
                         break;
                }
                 
@@ -826,7 +1023,6 @@ public class pantalla extends javax.swing.JFrame {
                     evalFun = false;
                 }
             }
-            
             
         }
         
@@ -845,10 +1041,6 @@ public class pantalla extends javax.swing.JFrame {
         Boolean estado = false;
         String vartype1 = "";
         String vartype2 = "";
-        
-        variablesTabla.forEach((item) -> {
-            System.out.println(item[0] + " variable " + item[1]);
-        });
         
         for(Object[] valor: valores){
             //System.out.println(valor[0] + " " + valor[1]); 
