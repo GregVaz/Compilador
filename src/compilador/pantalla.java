@@ -628,6 +628,7 @@ public class pantalla extends javax.swing.JFrame {
             
             //Analisis de variables bandera evalInit para inicializacion
             if(evalInit){
+                System.out.println("Entrando a inicializacion");
                 switch (elem[1].toString()) {
                     case "llave_a":
                         break;
@@ -717,11 +718,13 @@ public class pantalla extends javax.swing.JFrame {
                 }
                 if(elem[1].equals("llave_c")){
                     evalInit = false;
+                    System.out.println("Saliendo a inicializacion");
                 }
             }
             else 
             //analisis de palabras de movimiento que requieren de parametros
             if(evalPRMOV) {
+                System.out.println("Entrando a evaluacion de palabras de movimiento");
                 switch(elem[1].toString()){
                     case "avanzar":
                         tipo = "avanzar";
@@ -755,11 +758,13 @@ public class pantalla extends javax.swing.JFrame {
                 }
                 if(elem[1].equals("parentesis_c")){
                     evalPRMOV = false;
+                    System.out.println("Saliendo de evaluación de parametros de movimiento");
                 }
             } 
             else
             //Analizar una asignación cuando esta entra en parte del cuerpo del ciclo
             if(asignacion){
+                System.out.println("Entrando a evaluacion para expresion de asignacion");
                 switch (elem[1].toString()) {  
                     case "igual":
                         expresion.add(elem);
@@ -794,14 +799,16 @@ public class pantalla extends javax.swing.JFrame {
                     case "punto_medio":
                         expresion.add(elem);
                         validacionesAsig(expresion, parametros, variablesTabla, variables, counter);
+                        asignacion = false;
+                        expresion.clear();
+                        System.out.println("Saliendo a evaluacion para expresion de asignacion");
                         break;
-                    default:
-                       asignacion = false;
                }
             } 
             else
             //Analisis de sentencia para bandera evalDes para decision
             if(evalDes){
+                 System.out.println("Entrando a evaluacion de decision");
                 tipo = elem[1].toString();
                 var = elem[0].toString();
                 switch(tipo){
@@ -815,6 +822,8 @@ public class pantalla extends javax.swing.JFrame {
                             evalDes = false;
                             asignacion = true;
                             expresion.add(elem);
+                            tipo = temp;
+                             System.out.println("Saliendo a evaluacion de decision");
                         }else if(!variables.contains(var) && !parametros.contains(var)){
                             errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
                         } else if(vartype1.isEmpty()){
@@ -964,6 +973,7 @@ public class pantalla extends javax.swing.JFrame {
             else
             
             if(evalFun) {
+                 System.out.println("Entrando a evaluacion de funcion");
                 switch (elem[1].toString()) {
                     case "funcion":
                         tipo = elem[1].toString();
@@ -1008,6 +1018,7 @@ public class pantalla extends javax.swing.JFrame {
                             }
                         }  else if(tipo.equals("llave_a")){
                             expresion.add(elem);
+                            System.out.println(expresion.size());
                             asignacion = true;
                         }
                         break; 
@@ -1021,6 +1032,7 @@ public class pantalla extends javax.swing.JFrame {
                 
                 if(elem[1].equals("llave_c")){
                     evalFun = false;
+                     System.out.println("Saliendo a evaluacion de funcion");
                 }
             }
             
@@ -1041,6 +1053,8 @@ public class pantalla extends javax.swing.JFrame {
         Boolean estado = false;
         String vartype1 = "";
         String vartype2 = "";
+        
+        System.out.println("Tamaño entrando a la evalucion de asignacion: " + valores.size());
         
         for(Object[] valor: valores){
             //System.out.println(valor[0] + " " + valor[1]); 
@@ -1166,6 +1180,7 @@ public class pantalla extends javax.swing.JFrame {
                         errores.add("Error1. Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + vartype1 + " no puede ser asignado a la variable principal " + temp[0].toString() + " de tipo " + principalType );                        
                     } else if (estado)
                         errores.add("Error2. Linea: " + renglon + ". Asignacion incorrecta de tipos la expresion resultante no puede ser asignada a la variable principal " + temp[0].toString() + " de tipo " + principalType );                        
+                    
                     break;
             }
             
