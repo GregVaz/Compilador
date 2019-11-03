@@ -19,7 +19,7 @@ tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-
 espacio=[ ,\t,\r]+
 caracter_especial=[_*,:;%/#¿?¡!]
 alert=[\"]({alf_tot})*[\"]
-colore=[#]([0-9]{6})
+colore=[#]([0-9A-F]{6})
 veloc=[0-9]{1,2}
 numero_erroneo=({exp_dig}){3,32}
 %{

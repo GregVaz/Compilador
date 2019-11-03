@@ -616,9 +616,16 @@ public class pantalla extends javax.swing.JFrame {
                 temp = "";
                 var = "";
                 tipo = "";
+                vartype1 = "";
+                vartype2 = "";
                 evalDes = true; //Cambiamos la bandera para que pueda leer la estrcutra de decision
             } else
             if(elem[1].equals("mientras")){
+                temp = "";
+                var = "";
+                tipo = "";
+                vartype1 = "";
+                vartype2 = "";
                 evalCic = true; //Cambiamos la bandera para que pueda leer la estructura de ciclo de mientras
             } else
             if(elem[1].equals("avanzar") | elem[1].equals("esperar")){
@@ -628,7 +635,7 @@ public class pantalla extends javax.swing.JFrame {
             
             //Analisis de variables bandera evalInit para inicializacion
             if(evalInit){
-                System.out.println("Entrando a inicializacion");
+                System.out.println("Entrando a INICIALIZACION");
                 switch (elem[1].toString()) {
                     case "llave_a":
                         break;
@@ -718,13 +725,13 @@ public class pantalla extends javax.swing.JFrame {
                 }
                 if(elem[1].equals("llave_c")){
                     evalInit = false;
-                    System.out.println("Saliendo a inicializacion");
+                    System.out.println("Saliendo a INICIALIZACION");
                 }
             }
             else 
             //analisis de palabras de movimiento que requieren de parametros
             if(evalPRMOV) {
-                System.out.println("Entrando a evaluacion de palabras de movimiento");
+                System.out.println("Entrando a evaluacion de PARAMETROS DE MOVIMIENTO");
                 switch(elem[1].toString()){
                     case "avanzar":
                         tipo = "avanzar";
@@ -758,13 +765,13 @@ public class pantalla extends javax.swing.JFrame {
                 }
                 if(elem[1].equals("parentesis_c")){
                     evalPRMOV = false;
-                    System.out.println("Saliendo de evaluación de parametros de movimiento");
+                    System.out.println("Saliendo de evaluación de PARAMETROS DE MOVIMIENTO");
                 }
             } 
             else
             //Analizar una asignación cuando esta entra en parte del cuerpo del ciclo
             if(asignacion){
-                System.out.println("Entrando a evaluacion para expresion de asignacion");
+                System.out.println("Entrando a evaluacion para expresion de ASIGNACION");
                 switch (elem[1].toString()) {  
                     case "igual":
                         expresion.add(elem);
@@ -801,14 +808,14 @@ public class pantalla extends javax.swing.JFrame {
                         validacionesAsig(expresion, parametros, variablesTabla, variables, counter);
                         asignacion = false;
                         expresion.clear();
-                        System.out.println("Saliendo a evaluacion para expresion de asignacion");
+                        System.out.println("Saliendo a evaluacion para expresion de ASIGNACION");
                         break;
                }
             } 
             else
             //Analisis de sentencia para bandera evalDes para decision
             if(evalDes){
-                 System.out.println("Entrando a evaluacion de decision");
+                 System.out.println("Entrando a evaluacion de DECISION");
                 tipo = elem[1].toString();
                 var = elem[0].toString();
                 switch(tipo){
@@ -819,14 +826,17 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                     case "llave_c":
                         temp = "llave_c";
+                        vartype1 = "";
+                        vartype2 = "";
                         evalDes = false;
+                        System.out.println("Saliendo a evaluacion de DECISION");
                         break;
                     case "identificador":
                         if(temp.equals("llave_a")){
                             asignacion = true;
                             expresion.add(elem);
                             tipo = temp;
-                             System.out.println("Cambiando a evaluacion de decision para asignacion");
+                            System.out.println("CAMBIANDO a evaluacion de decision para ASIGNACION");
                         }else if(!variables.contains(var) && !parametros.contains(var)){
                             errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
                         } else if(vartype1.isEmpty()){
@@ -974,9 +984,67 @@ public class pantalla extends javax.swing.JFrame {
                     }
             }
             else
-            
+            if(evalCic) {
+                System.out.println("Entrando a evaluacion de CICLO");
+                switch(elem[1].toString()){
+                    case "mientras":
+                        break;
+                    case "op_relacional":
+                        break;
+                    case "llave_a":
+                        temp = "llave_a";
+                        break;
+                    case "llave_c":
+                        temp = "llave_c";
+                        evalCic = false;
+                        break;
+                    case "parentesis_a":
+                        break;
+                    case "parentesis_c":
+                        break;
+                    case "identificador":
+                        var = elem[0].toString();
+                        if(temp.equals("llave_a") || temp.equals("llave_c")){
+                            asignacion = true;
+                            expresion.add(elem);
+                            tipo = temp;
+                             System.out.println("CAMBIANDO a evaluacion de ciclo para ASIGNACION");
+                        }else if(!variables.contains(var) && !parametros.contains(var)){
+                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
+                        } else if(vartype1.isEmpty()){
+                            vartype1 = obtenerTipo(variablesTabla, var);
+                            if(!vartype1.equals("color"))
+                                 errores.add("Error de ciclo. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no es de tipo color.");
+                        } else {
+                            vartype2 = obtenerTipo(variablesTabla, var);
+                            if(!vartype2.equals("color"))
+                                 errores.add("Error de ciclo. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no es de tipo color.");
+                            if(!vartype1.equals(vartype2))
+                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean de tipo color"); 
+                        }
+                        break;
+                    case "colores":
+                        if(vartype1.isEmpty()) {
+                            errores.add("Error de ciclo. Linea: " + counter + ". El parametro de relación para el ciclo primero debe de ser un identificador de tipo color");
+                        } else {
+                            vartype2 = "color";
+                            if(!vartype1.equals(vartype2)){
+                                errores.add("Error de parametros de relacion en ciclo. Linea: " + counter + ". La variable de tipo " + vartype1 + " no corresponde a la variable de tipo " + vartype2  );
+                            }
+                        }
+                        break;
+                    case "si":
+                        vartype1 = "";
+                        vartype2 = "";
+                        evalDes = true;
+                        break;
+                    default:
+                        errores.add("Error de ciclo. Linea: " + counter + ". Las declaraciones de comparación tienen que ser entre datos/variables de tipo color");
+                }
+            }else 
+                
             if(evalFun) {
-                 System.out.println("Entrando a evaluacion de funcion");
+                System.out.println("Entrando a evaluacion de FUNCION");
                 switch (elem[1].toString()) {
                     case "funcion":
                         tipo = elem[1].toString();
@@ -1021,7 +1089,6 @@ public class pantalla extends javax.swing.JFrame {
                             }
                         }  else if(temp.equals("llave_c")){
                             expresion.add(elem);
-                            System.out.println(expresion.size());
                             asignacion = true;
                         }
                         break; 
@@ -1035,7 +1102,7 @@ public class pantalla extends javax.swing.JFrame {
                 
                 if(elem[1].equals("llave_c")){
                     evalFun = false;
-                     System.out.println("Saliendo a evaluacion de funcion");
+                     System.out.println("Saliendo a evaluacion de FUNCION");
                 }
             }
             

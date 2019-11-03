@@ -28,7 +28,7 @@ non terminal CONDICIONAL,CONDICIONAL2,COND,ESPACIO,CUERPO,
                 DATOS,DECLARACION, DECLARACIONES,FUNCION,ASIG,PARAM,CUERPO_PROG,INICIO,
                 PRMOV,PRUBI,PRCOM,RETORNO,EVALUACION,EVALUACIONES,
                 LIBRERIA,LIBRERIAS,PROGRAMA,INICIALIZACION,TIPOS,
-                EXPRESION,CICLO,CUERPO_CICLO,TER;
+                EXPRESION,CICLO,CUERPO_CICLO,TER, PAR_CICLO;
 
 start with PROGRAMA;
 
@@ -105,7 +105,9 @@ EXPRESION ::= TER | EXPRESION suma TER | EXPRESION resta TER
 ;
 TER ::= identificador | TIPOS
 ;
-CICLO ::= mientras parentesis_a identificador op_relacional colores parentesis_c llave_a CUERPO_CICLO llave_c
+CICLO ::= mientras parentesis_a PAR_CICLO parentesis_c llave_a CUERPO_CICLO llave_c
+;
+PAR_CICLO ::= identificador op_relacional colores |  identificador op_relacional identificador
 ;
 CUERPO_CICLO ::= COND | COND CUERPO_CICLO
 ;
