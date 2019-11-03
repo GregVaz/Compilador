@@ -817,13 +817,16 @@ public class pantalla extends javax.swing.JFrame {
                     case "llave_a":
                         temp = "llave_a";
                         break;
+                    case "llave_c":
+                        temp = "llave_c";
+                        evalDes = false;
+                        break;
                     case "identificador":
                         if(temp.equals("llave_a")){
-                            evalDes = false;
                             asignacion = true;
                             expresion.add(elem);
                             tipo = temp;
-                             System.out.println("Saliendo a evaluacion de decision");
+                             System.out.println("Cambiando a evaluacion de decision para asignacion");
                         }else if(!variables.contains(var) && !parametros.contains(var)){
                             errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
                         } else if(vartype1.isEmpty()){
@@ -1016,7 +1019,7 @@ public class pantalla extends javax.swing.JFrame {
                                 parametros.add(var);
                                 variablesTabla.add(new Object[]{temp, var});
                             }
-                        }  else if(tipo.equals("llave_a")){
+                        }  else if(temp.equals("llave_c")){
                             expresion.add(elem);
                             System.out.println(expresion.size());
                             asignacion = true;
