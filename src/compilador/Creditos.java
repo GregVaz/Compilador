@@ -112,8 +112,8 @@ public class Creditos extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel11.setText("impartida por la  Dra. Alvarado Mares Sonia");
-        panel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 300, -1, -1));
+        jLabel11.setText("impartida por la  Mtro. Ibarra Carlos Francisco");
+        panel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 310, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
@@ -122,7 +122,7 @@ public class Creditos extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel13.setText("para la materia de Lenguajes y Automatas I");
+        jLabel13.setText("para la materia de Lenguajes y Automatas II");
         panel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 290, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N

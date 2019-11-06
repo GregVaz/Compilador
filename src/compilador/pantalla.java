@@ -29,6 +29,7 @@ import org.jw.menage.ui.components.TextLineNumber;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java_cup.runtime.Symbol;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import jflex.Out;
 
@@ -112,6 +113,7 @@ public class pantalla extends javax.swing.JFrame {
         visualizar = new javax.swing.JLabel();
         btnSintactico = new javax.swing.JLabel();
         btnSemantico = new javax.swing.JLabel();
+        intermedio = new javax.swing.JLabel();
         panelCodigo = new javax.swing.JPanel();
         codigo_Central = new javax.swing.JScrollPane();
         textoCodigo = new javax.swing.JPanel();
@@ -301,6 +303,15 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
 
+        intermedio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/intermedio.png"))); // NOI18N
+        intermedio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        intermedio.setFocusable(false);
+        intermedio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                intermedioMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelAccionesLayout = new javax.swing.GroupLayout(panelAcciones);
         panelAcciones.setLayout(panelAccionesLayout);
         panelAccionesLayout.setHorizontalGroup(
@@ -326,7 +337,9 @@ public class pantalla extends javax.swing.JFrame {
                 .addComponent(jLabel12)
                 .addGap(18, 18, 18)
                 .addComponent(visualizar)
-                .addContainerGap(412, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(intermedio)
+                .addContainerGap(370, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,6 +353,7 @@ public class pantalla extends javax.swing.JFrame {
             .addComponent(visualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnSintactico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnSemantico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(intermedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(panelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, -1));
@@ -356,7 +370,7 @@ public class pantalla extends javax.swing.JFrame {
         textPane.setBackground(new java.awt.Color(61, 64, 58));
         textPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         textPane.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        textPane.setForeground(new java.awt.Color(255, 255, 255));
+        textPane.setForeground(new java.awt.Color(254, 254, 254));
         textPane.setCaretColor(new java.awt.Color(247, 255, 235));
         textPane.setSelectedTextColor(new java.awt.Color(61, 64, 58));
         textPane.setSelectionColor(new java.awt.Color(247, 255, 235));
@@ -628,7 +642,7 @@ public class pantalla extends javax.swing.JFrame {
                 vartype2 = "";
                 evalCic = true; //Cambiamos la bandera para que pueda leer la estructura de ciclo de mientras
             } else
-            if(elem[1].equals("avanzar") | elem[1].equals("esperar")){
+            if(elem[1].equals("avanzar") || elem[1].equals("esperar")){
                 temp = "";
                 evalPRMOV = true; //Cambiamos la bandera para que pueda leer la estructura de ciclo de mientras
             }
@@ -749,12 +763,10 @@ public class pantalla extends javax.swing.JFrame {
                                 errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
                         break;
                     case "veloc":
-                        temp = elem[0].toString();
                         if(!tipo.equals("avanzar"))
                             errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". Parametro velocidad es solo aplicable al metodo avanzar");
                         break;
-                    case "time":
-                        temp = elem[0].toString();
+                    case "time": 
                         if(!tipo.equals("esperar"))
                             errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". Parametro tiempo es solo aplicable al metodo esperar");
                         break;
@@ -1087,7 +1099,7 @@ public class pantalla extends javax.swing.JFrame {
                                 parametros.add(var);
                                 variablesTabla.add(new Object[]{temp, var});
                             }
-                        }  else if(temp.equals("llave_c")){
+                        }  else if(temp.equals("llave_a")){
                             expresion.add(elem);
                             asignacion = true;
                         }
@@ -1111,6 +1123,15 @@ public class pantalla extends javax.swing.JFrame {
         errores.add("Analizador semantico correctamente");
         areaErrores.setText(mostrarErrores());
     }//GEN-LAST:event_btnSemanticoMouseClicked
+
+    private void intermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_intermedioMouseClicked
+        IntermedioPantalla ventana = new IntermedioPantalla();
+        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ventana.setLocationRelativeTo(this);
+        ventana.setPrograma(tablaS);
+        ventana.setVisible(true);
+        ventana.ponerCodigoIntermedio();
+    }//GEN-LAST:event_intermedioMouseClicked
 
     
     
@@ -1545,6 +1566,7 @@ public class pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel btnSemantico;
     private javax.swing.JLabel btnSintactico;
     private javax.swing.JScrollPane codigo_Central;
+    private javax.swing.JLabel intermedio;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;

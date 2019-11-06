@@ -58,7 +58,8 @@ DECLARACIONES ::= DECLARACION |
 ;
 DECLARACION ::= DATOS identificador igual TIPOS punto_medio
 ;
-FUNCION ::= funcion identificador parentesis_a PARAM parentesis_c llave_a CUERPO_CICLO llave_c
+FUNCION ::= funcion identificador parentesis_a PARAM parentesis_c llave_a CUERPO_CICLO llave_c | 
+funcion identificador parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c 
 ;
 PARAM ::= DATOS identificador | 
           DATOS identificador separador PARAM   
