@@ -13,14 +13,16 @@ alf_tot=[A-Za-z0-9]
 exp_alf=[A-Za-z_áéíóú]
 exp_alf_num={exp_alf}|{exp_dig}
 ide={alf_min}({alf_tot}){0,15}
-ide_invalido={exp_dig}({alf_tot}){0,15} | ({caracter_especial}){0,15}
-tiemp=(([0-5][0-9]):([0-5][0-9]))
-tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-9]))|(([0-5][0-9]):([0-5]))
+tiemp=(([0-5][0-9]):([0-5][0-9])) | (([6][0]):([0][0]))
 espacio=[ ,\t,\r]+
-caracter_especial=[_*,:;%/#¿?¡!]
+caracter_especial=[_,:;%#¿?¡!@!"$&]
 alert=[\"]({alf_tot})*[\"]
 colore=[#]([0-9A-F]{6})
 veloc=[0-9]{1,2}
+
+
+ide_invalido={exp_dig}({alf_tot}){0,15} | {exp_dig}({alf_tot}){16,64} | {caracter_especial}+{alf_tot}+
+tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-9]))|(([0-5][0-9]):([0-5]))
 numero_erroneo=({exp_dig}){3,32}
 %{
     public String lexeme;
@@ -98,7 +100,7 @@ numero_erroneo=({exp_dig}){3,32}
 
 
 /*Errores*/
-{ide_invalido}      {lexeme=yytext(); return ide_error;}
-{tiempo_invalido}   {lexeme=yytext(); return tiempo_error;}
 {numero_erroneo}    {lexeme=yytext(); return numero_error;}
+{tiempo_invalido}   {lexeme=yytext(); return tiempo_error;}
+{ide_invalido}      {lexeme=yytext(); return ide_error;}
 . {return error;}

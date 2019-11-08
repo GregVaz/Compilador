@@ -30,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java_cup.runtime.Symbol;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 import jflex.Out;
 
@@ -542,7 +543,8 @@ public class pantalla extends javax.swing.JFrame {
         try {
             errores.clear();
             analizarLexico();
-            errores.add("Analizador lexico correctamente");
+            if(errores.isEmpty())
+                errores.add("Analizador lexico correctamente");
             areaErrores.setText(mostrarErrores());
         } catch (IOException ex) {
             System.out.println("Error 2");
@@ -1331,6 +1333,7 @@ public class pantalla extends javax.swing.JFrame {
         
         while (true) {
             Tokens token = lexer.yylex();
+            String dato = lexer.lexeme.toString();
             if (token == null) {
                 return;
             }
@@ -1445,6 +1448,10 @@ public class pantalla extends javax.swing.JFrame {
                     break;
                 case caracter_especial:
                     modelo.addRow(new Object[]{lexer.lexeme,"caracter_especial"});
+                    if(dato.equals("!"))
+                        errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de operaciones relacionales, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    else 
+                       errores.add("Error de Lexico. Linea: " + cont + ". El caracter: \""+lexer.lexeme+"\" es un caracter especial, se utiliza para casos muy particulares\npor lo que ten precaucion al momento de codificar tu programa.\n");
                     break;
                 case op_relacional:
                     modelo.addRow(new Object[]{lexer.lexeme,"op_relacional"});
@@ -1473,19 +1480,19 @@ public class pantalla extends javax.swing.JFrame {
                 //Errores
                 case error:
                     modelo.addRow(new Object[]{lexer.lexeme,"error"});
-                    errores.add("Error de Lexico." + "; Texto: \""+lexer.lexeme+"\"");
+                    errores.add("Error de Lexico. Linea:" + cont + ". Texto: \""+lexer.lexeme+"\"\n");
                     break;
                 case ide_error:
                     modelo.addRow(new Object[]{lexer.lexeme,"ide_error"});
-                    errores.add("Error de Lexico." + "; Texto: \""+lexer.lexeme+"\"");
+                    errores.add("Error de Lexico. Linea:" + cont + ". El identificador: \""+lexer.lexeme+"\" no corresponde a la declaración correcta.\n      Un identificador valido inica con una minuscula seguido de 0 o 14 mas letras minusculas, mayusculas o digitos.\n");
                     break;
                 case tiempo_error:
                     modelo.addRow(new Object[]{lexer.lexeme,"tiempo_error"});
-                    errores.add("Error de Lexico." + "; Texto: \""+lexer.lexeme+"\"");
+                    errores.add("Error de Lexico. Linea:" + cont + ". La declaración de tiempo: \""+lexer.lexeme+"\" es incorrecta. \n        Por favor de seguir con el estandar: 00:00 a 60:00 como representación de segundos.\n");
                     break;
                 case numero_error:
                     modelo.addRow(new Object[]{lexer.lexeme,"numero_error"});
-                    errores.add("Error de Lexico." + "; Texto: \""+lexer.lexeme+"\"");
+                    errores.add("Error de Lexico. Linea:" + cont + ". La declaración del número: \""+lexer.lexeme+"\" sobrepasa el tamaño permitido para la variable de tipo velocidad. \n        Por favor de colocar entre el rango de valores 0-99.\n");
                     break;
             }
         }
