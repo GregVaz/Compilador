@@ -15,13 +15,13 @@ exp_alf_num={exp_alf}|{exp_dig}
 ide={alf_min}({alf_tot}){0,15}
 tiemp=(([0-5][0-9]):([0-5][0-9])) | (([6][0]):([0][0]))
 espacio=[ ,\t,\r]+
-caracter_especial=[_,:;%#¿?¡!@!"$&]
+caracter_especial=[_,:;%#¿?¡!@!$&\"]
 alert=[\"]({alf_tot})*[\"]
 colore=[#]([0-9A-F]{6})
 veloc=[0-9]{1,2}
 
 
-ide_invalido={exp_dig}({alf_tot}){0,15} | {exp_dig}({alf_tot}){16,64} | {caracter_especial}+{alf_tot}+
+ide_invalido={exp_dig}({alf_tot}){0,15} | {exp_dig}({alf_tot}){16,64} | {caracter_especial}*{alf_tot}*{caracter_especial}* | {alf_tot}*{caracter_especial}*{alf_tot}*
 tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-9]))|(([0-5][0-9]):([0-5]))
 numero_erroneo=({exp_dig}){3,32}
 %{
