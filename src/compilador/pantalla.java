@@ -17,7 +17,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
@@ -51,6 +50,7 @@ public class pantalla extends javax.swing.JFrame {
     DefaultTableModel modelo;
     String[] variables;
     LinkedList<String> errores;
+    LinkedList<JLabel> erroresl;
     LinkedList<Object[]> tablaS;
     
     /**
@@ -68,7 +68,7 @@ public class pantalla extends javax.swing.JFrame {
         numeroLinea.setForeground(Color.WHITE);
         numeroLinea.setCurrentLineForeground(carmesi);
         textoCodigo.add(numeroLinea, BorderLayout.WEST);
-        
+            
         filter = new FileNameExtensionFilter("Archivos Para Compilador STEINS","steins");
         direccionArchivo= "";
         
@@ -82,10 +82,18 @@ public class pantalla extends javax.swing.JFrame {
         modelo.setColumnIdentifiers(new Object[]{"Lexema", "Componente lexico"});
         tablaSimbolos.setModel(modelo);
         
+        
         errores = new LinkedList<>();
         tablaS = new LinkedList<>();
         
         textPane.setText("inicioSecuencia jav1 {\n  inicializacion {\n velocidad best = 2· } \n funcion fun1(velocidad data) { \n best = data + 1· } \n}");
+        /* Colocar el error o linea de color
+        textPane.setSelectionStart(10);
+        textPane.setSelectionEnd(40);
+        textPane.setSelectionColor(Color.RED);
+        textPane.setSelectedTextColor(Color.WHITE);
+        */
+        
     }
     
     
@@ -412,7 +420,7 @@ public class pantalla extends javax.swing.JFrame {
         areaErrores.setBorder(null);
         scrollErrores.setViewportView(areaErrores);
 
-        panelErrores.add(scrollErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 0, 940, 110));
+        panelErrores.add(scrollErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 0, 790, 110));
 
         minErrores.setForeground(new java.awt.Color(255, 255, 255));
         minErrores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/minimizaError.png"))); // NOI18N
@@ -422,7 +430,7 @@ public class pantalla extends javax.swing.JFrame {
                 minErroresMouseClicked(evt);
             }
         });
-        panelErrores.add(minErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 16, 940, 80));
+        panelErrores.add(minErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 16, 810, 80));
 
         getContentPane().add(panelErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 990, 110));
 
@@ -539,17 +547,21 @@ public class pantalla extends javax.swing.JFrame {
         areaErrores.setText("");
         
         modelo.setRowCount(0);
-            
-        try {
-            errores.clear();
-            analizarLexico();
-            if(errores.isEmpty())
-                errores.add("Analizador lexico correctamente");
-            areaErrores.setText(mostrarErrores());
-        } catch (IOException ex) {
-            System.out.println("Error 2");
-            Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        if(textPane.getText().equals("")){
+            errores.add("IDE vacio, sin codigo para analisis.");
+            areaErrores.setText(mostrarErrores()); 
+        } else 
+            try {
+                errores.clear();
+                analizarLexico();
+                if(errores.isEmpty())
+                    errores.add("Analizador lexico correctamente");
+                areaErrores.setText(mostrarErrores());
+            } catch (IOException ex) {
+                System.out.println("Error 2");
+                Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
+            }
        
     }//GEN-LAST:event_btnLexicoMouseClicked
 
@@ -1135,6 +1147,211 @@ public class pantalla extends javax.swing.JFrame {
         ventana.ponerCodigoIntermedio();
     }//GEN-LAST:event_intermedioMouseClicked
 
+//******************************************************************************
+//******************** ANALIZADOR LEXICO ***************************************
+//******************************************************************************    
+    private void analizarLexico() throws IOException{
+        int cont = 1;
+        this.tablaS.clear(); //Limpia la tabla de valores para el analizador Semantico
+        
+        
+        String expr = (String) textPane.getText();
+        Lexer lexer = new Lexer(new StringReader(expr));
+        
+        while (true) {
+            Tokens token = lexer.yylex();
+            String dato = lexer.lexeme.toString();
+            if (token == null) {
+                return;
+            }
+            this.tablaS.add(new Object[]{lexer.lexeme.toString(),token.toString()});
+            switch (token) {
+                case linea:
+                    cont++;
+                    break;
+                case inicioSecuencia:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_control"});
+                    break;
+                case inicializacion:
+                    modelo.addRow(new Object[]{"inicializacion","pr_control"});
+                    break;
+                case importar:
+                    modelo.addRow(new Object[]{"importar","pr_control"});
+                    break;
+                case funcion:
+                    modelo.addRow(new Object[]{"funcion","pr_control"});
+                    break;
+                case retorno:
+                    modelo.addRow(new Object[]{"retorno","pr_control"});
+                    break;
+                case si:
+                    modelo.addRow(new Object[]{"si","pr_control"});
+                    break;
+                case sino:
+                    modelo.addRow(new Object[]{"sino","pr_control"});
+                    break;
+                case verdad:
+                    modelo.addRow(new Object[]{"verdad","pr_control"});
+                    break;
+                case falso:
+                    modelo.addRow(new Object[]{"falso","pr_control"});
+                    break;
+                case mientras:
+                    modelo.addRow(new Object[]{"mientras","pr_control"});
+                    break;
+                    
+                case decision:
+                    modelo.addRow(new Object[]{"decision","pr_declaracion"});
+                    break;
+                case velocidad:
+                    modelo.addRow(new Object[]{"velocidad","pr_declaracion"});
+                    break;
+                case tiempo:
+                    modelo.addRow(new Object[]{"tiempo","pr_declaracion"});
+                    break;
+                case alerta:
+                    modelo.addRow(new Object[]{"alerta","pr_declaracion"});
+                    break;
+                case color:
+                    modelo.addRow(new Object[]{"color","pr_declaracion"});
+                    break;
+                    
+                case avanzar:
+                    modelo.addRow(new Object[]{"avanzar","pr_movimiento"});
+                    break;
+                case detener:
+                    modelo.addRow(new Object[]{"detener","pr_movimiento"});
+                    break;
+                case esperar:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    break;
+                case iniciar:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    break;
+                case reversa:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    break;
+                    
+                case regresarBase:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
+                    break;
+                case detectarParada:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
+                    break;
+                case detectarLinea:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
+                    break;
+                    
+                case obstaculo:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    break;
+                case estadoCamara:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    break;
+                case duracionRecorrido:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    break;
+                case detectarAnomalia:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    break;
+                case detectarColor:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    break;
+                    
+                case identificador:
+                    modelo.addRow(new Object[]{lexer.lexeme,"identificador"});
+                    break;
+                case time:
+                    modelo.addRow(new Object[]{lexer.lexeme,"time"});
+                    break;
+                case cadena:
+                    modelo.addRow(new Object[]{lexer.lexeme,"cadena"});
+                    break;
+                case veloc:
+                    modelo.addRow(new Object[]{lexer.lexeme,"veloc"});
+                    break;
+                case colores:
+                    modelo.addRow(new Object[]{lexer.lexeme,"colores"});
+                    break;
+                case caracter_especial:
+                    modelo.addRow(new Object[]{lexer.lexeme,"caracter_especial"});
+                    if(dato.equals("!"))
+                        errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de operaciones relacionales, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    else if(dato.equals("#"))
+                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de declaración y manipulacion de colores, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    else if(dato.equals(":"))
+                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de declaración y manipulacion de tiempo, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    else if(dato.equals("\""))
+                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de declaración y manipulacion de alerta, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    else
+                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para separar parametros, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    break;
+                case op_relacional:
+                    modelo.addRow(new Object[]{lexer.lexeme,"op_relacional"});
+                    break;
+                case igual:
+                    modelo.addRow(new Object[]{lexer.lexeme,"igual"});
+                    break;
+                case suma:
+                    modelo.addRow(new Object[]{lexer.lexeme,"suma"});
+                    break;
+                case resta:
+                    modelo.addRow(new Object[]{lexer.lexeme,"resta"});
+                    break;
+                case producto:
+                    modelo.addRow(new Object[]{lexer.lexeme,"producto"});
+                    break;
+                case division:
+                    modelo.addRow(new Object[]{lexer.lexeme,"division"});
+                    break;
+                case potencia:
+                    modelo.addRow(new Object[]{lexer.lexeme,"potencia"});
+                    break;
+                case parentesis_a:
+                    modelo.addRow(new Object[]{lexer.lexeme,"parentesis_a"});
+                    break;
+                case parentesis_c:
+                    modelo.addRow(new Object[]{lexer.lexeme,"parentesis_c"});
+                    break;
+                case llave_a:
+                    modelo.addRow(new Object[]{lexer.lexeme,"llave_a"});
+                    break;
+                case llave_c:
+                    modelo.addRow(new Object[]{lexer.lexeme,"llave_c"});
+                    break;
+                //Errores
+                case error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". Texto: \""+lexer.lexeme+"\"\n");
+                    break;
+                case ide_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"ide_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". El identificador: \""+lexer.lexeme+"\" no corresponde a la declaración correcta.\n      Un identificador valido inica con una minuscula seguido de 0 o 14 mas letras minusculas, mayusculas o digitos.\n");
+                    break;
+                case tiempo_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"tiempo_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración de tiempo: \""+lexer.lexeme+"\" es incorrecta. \n        Por favor de seguir con el estandar: 00:00 a 60:00 como representación de segundos.\n");
+                    break;
+                case numero_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"numero_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración del número: \""+lexer.lexeme+"\" sobrepasa el tamaño permitido para la variable de tipo velocidad. \n        Por favor de colocar entre el rango de valores 0-99.\n");
+                    break;
+                case cadena_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"cadena_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración del alerta: \""+lexer.lexeme+"\" es incorrecta.\n        Por favor revisa que tenga comillas dobles \" de apertura y cierre del mensaje de alerta\n");
+                    break;
+                case color_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"color_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración de colores: \""+lexer.lexeme+"\" es incorrecta.\n        Por favor revisa que la sintaxis corresponda con la siguiente forma #HHHHHH en formato hexadecimal.\n");
+                    break;
+                case caracter_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"caracter_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". El caracter: \""+lexer.lexeme+"\" es un caracter no perteneciente al lenguaje, por favor de no utilizarlo en su programa.\n");
+                    break;
+            }
+        }
+    }
+    
     
     
     public void validacionesAsig(LinkedList<Object[]> valores, LinkedList<String> parametros,LinkedList<Object[]> variablesTabla, LinkedList<String> variables, int renglon){
@@ -1323,181 +1540,7 @@ public class pantalla extends javax.swing.JFrame {
         }
     }
     
-    private void analizarLexico() throws IOException{
-        int cont = 1;
-        this.tablaS.clear(); //Limpia la tabla de valores para el analizador Semantico
-        
-        
-        String expr = (String) textPane.getText();
-        Lexer lexer = new Lexer(new StringReader(expr));
-        
-        while (true) {
-            Tokens token = lexer.yylex();
-            String dato = lexer.lexeme.toString();
-            if (token == null) {
-                return;
-            }
-            this.tablaS.add(new Object[]{lexer.lexeme.toString(),token.toString()});
-            switch (token) {
-                case linea:
-                    cont++;
-                    break;
-                case inicioSecuencia:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_control"});
-                    break;
-                case inicializacion:
-                    modelo.addRow(new Object[]{"inicializacion","pr_control"});
-                    break;
-                case importar:
-                    modelo.addRow(new Object[]{"importar","pr_control"});
-                    break;
-                case funcion:
-                    modelo.addRow(new Object[]{"funcion","pr_control"});
-                    break;
-                case retorno:
-                    modelo.addRow(new Object[]{"retorno","pr_control"});
-                    break;
-                case si:
-                    modelo.addRow(new Object[]{"si","pr_control"});
-                    break;
-                case sino:
-                    modelo.addRow(new Object[]{"sino","pr_control"});
-                    break;
-                case verdad:
-                    modelo.addRow(new Object[]{"verdad","pr_control"});
-                    break;
-                case falso:
-                    modelo.addRow(new Object[]{"falso","pr_control"});
-                    break;
-                case mientras:
-                    modelo.addRow(new Object[]{"mientras","pr_control"});
-                    break;
-                    
-                case decision:
-                    modelo.addRow(new Object[]{"decision","pr_declaracion"});
-                    break;
-                case velocidad:
-                    modelo.addRow(new Object[]{"velocidad","pr_declaracion"});
-                    break;
-                case tiempo:
-                    modelo.addRow(new Object[]{"tiempo","pr_declaracion"});
-                    break;
-                case alerta:
-                    modelo.addRow(new Object[]{"alerta","pr_declaracion"});
-                    break;
-                case color:
-                    modelo.addRow(new Object[]{"color","pr_declaracion"});
-                    break;
-                    
-                case avanzar:
-                    modelo.addRow(new Object[]{"avanzar","pr_movimiento"});
-                    break;
-                case detener:
-                    modelo.addRow(new Object[]{"detener","pr_movimiento"});
-                    break;
-                case esperar:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
-                    break;
-                case iniciar:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
-                    break;
-                case reversa:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
-                    break;
-                    
-                case regresarBase:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
-                    break;
-                case detectarParada:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
-                    break;
-                case detectarLinea:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
-                    break;
-                    
-                case obstaculo:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                case estadoCamara:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                case duracionRecorrido:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                case detectarAnomalia:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                case detectarColor:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                    
-                case identificador:
-                    modelo.addRow(new Object[]{lexer.lexeme,"identificador"});
-                    break;
-                case time:
-                    modelo.addRow(new Object[]{lexer.lexeme,"time"});
-                    break;
-                case cadena:
-                    modelo.addRow(new Object[]{lexer.lexeme,"cadena"});
-                    break;
-                case veloc:
-                    modelo.addRow(new Object[]{lexer.lexeme,"veloc"});
-                    break;
-                case colores:
-                    modelo.addRow(new Object[]{lexer.lexeme,"colores"});
-                    break;
-                case caracter_especial:
-                    modelo.addRow(new Object[]{lexer.lexeme,"caracter_especial"});
-                    if(dato.equals("!"))
-                        errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de operaciones relacionales, \npor lo que no puedes escribirlo de forma independiente.\n");
-                    else 
-                       errores.add("Error de Lexico. Linea: " + cont + ". El caracter: \""+lexer.lexeme+"\" es un caracter especial, se utiliza para casos muy particulares\npor lo que ten precaucion al momento de codificar tu programa.\n");
-                    break;
-                case op_relacional:
-                    modelo.addRow(new Object[]{lexer.lexeme,"op_relacional"});
-                    break;
-                case igual:
-                    modelo.addRow(new Object[]{lexer.lexeme,"igual"});
-                    break;
-                case suma:
-                    modelo.addRow(new Object[]{lexer.lexeme,"suma"});
-                    break;
-                case resta:
-                    modelo.addRow(new Object[]{lexer.lexeme,"resta"});
-                    break;
-                case parentesis_a:
-                    modelo.addRow(new Object[]{lexer.lexeme,"parentesis_a"});
-                    break;
-                case parentesis_c:
-                    modelo.addRow(new Object[]{lexer.lexeme,"parentesis_c"});
-                    break;
-                case llave_a:
-                    modelo.addRow(new Object[]{lexer.lexeme,"llave_a"});
-                    break;
-                case llave_c:
-                    modelo.addRow(new Object[]{lexer.lexeme,"llave_c"});
-                    break;
-                //Errores
-                case error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"error"});
-                    errores.add("Error de Lexico. Linea:" + cont + ". Texto: \""+lexer.lexeme+"\"\n");
-                    break;
-                case ide_error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"ide_error"});
-                    errores.add("Error de Lexico. Linea:" + cont + ". El identificador: \""+lexer.lexeme+"\" no corresponde a la declaración correcta.\n      Un identificador valido inica con una minuscula seguido de 0 o 14 mas letras minusculas, mayusculas o digitos.\n");
-                    break;
-                case tiempo_error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"tiempo_error"});
-                    errores.add("Error de Lexico. Linea:" + cont + ". La declaración de tiempo: \""+lexer.lexeme+"\" es incorrecta. \n        Por favor de seguir con el estandar: 00:00 a 60:00 como representación de segundos.\n");
-                    break;
-                case numero_error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"numero_error"});
-                    errores.add("Error de Lexico. Linea:" + cont + ". La declaración del número: \""+lexer.lexeme+"\" sobrepasa el tamaño permitido para la variable de tipo velocidad. \n        Por favor de colocar entre el rango de valores 0-99.\n");
-                    break;
-            }
-        }
-    }
-    
+
     
     public boolean guardarArchivo(){
         if(direccionArchivo.equals("")){

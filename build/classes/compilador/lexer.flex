@@ -1,4 +1,4 @@
-package compilador;
+    package compilador;
 
 import static compilador.Tokens.*;
 
@@ -15,14 +15,16 @@ exp_alf_num={exp_alf}|{exp_dig}
 ide={alf_min}({alf_tot}){0,15}
 tiemp=(([0-5][0-9]):([0-5][0-9])) | (([6][0]):([0][0]))
 espacio=[ ,\t,\r]+
-caracter_especial=[_,:;%#¿?¡!@!$&\"]
+caracter_especial=[,:#!\"]
 alert=[\"]({alf_tot})*[\"]
 colore=[#]([0-9A-F]{6})
 veloc=[0-9]{1,2}
 
-
+caracter_invalido=[_;%¿?¡[]~`@$&]
 ide_invalido={exp_dig}({alf_tot}){0,15} | {exp_dig}({alf_tot}){16,64} | {caracter_especial}*{alf_tot}*{caracter_especial}* | {alf_tot}*{caracter_especial}*{alf_tot}*
-tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-9]))|(([0-5][0-9]):([0-5]))
+tiempo_invalido=(([6-9][0-9]):([0-9][0-9]))|(([0-9]):([0-9]))|(([0-9]):([0-5][0-9]))|(([0-5][0-9]):([0-9]))
+alert_invalido=[\"]({alf_tot})* | ({alf_tot})*[\"] 
+color_invalido=[#]([0-9A-F]{1,5}) | [#]({alf_tot}*)
 numero_erroneo=({exp_dig}){3,32}
 %{
     public String lexeme;
@@ -91,6 +93,9 @@ numero_erroneo=({exp_dig}){3,32}
 ("=" )   {lexeme=yytext(); return igual;}
 ("+")     {lexeme=yytext(); return suma;}
 ("-")    {lexeme=yytext(); return resta;}
+("*")    {lexeme=yytext(); return producto;}
+("/")    {lexeme=yytext(); return division;}
+("^")    {lexeme=yytext(); return potencia;}
 ("(")    {lexeme=yytext(); return parentesis_a;}
 (")")     {lexeme=yytext(); return parentesis_c;}
 ("{")     {lexeme=yytext(); return llave_a;}
@@ -100,7 +105,10 @@ numero_erroneo=({exp_dig}){3,32}
 
 
 /*Errores*/
+{caracter_invalido}    {lexeme=yytext(); return caracter_error;}
 {numero_erroneo}    {lexeme=yytext(); return numero_error;}
+{alert_invalido}    {lexeme=yytext(); return cadena_error;}
+{color_invalido}    {lexeme=yytext(); return color_error;}
 {tiempo_invalido}   {lexeme=yytext(); return tiempo_error;}
 {ide_invalido}      {lexeme=yytext(); return ide_error;}
 . {return error;}
