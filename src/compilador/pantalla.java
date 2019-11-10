@@ -112,17 +112,17 @@ public class pantalla extends javax.swing.JFrame {
         jlbMinimizar = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         panelAcciones = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        lbAbrir = new javax.swing.JLabel();
+        lbNuevo = new javax.swing.JLabel();
+        lbGuardarComo = new javax.swing.JLabel();
+        lbGuardar = new javax.swing.JLabel();
+        lbPalabrasReservadas = new javax.swing.JLabel();
+        lbInfo = new javax.swing.JLabel();
         btnLexico = new javax.swing.JLabel();
-        visualizar = new javax.swing.JLabel();
+        lbVisualizar = new javax.swing.JLabel();
         btnSintactico = new javax.swing.JLabel();
         btnSemantico = new javax.swing.JLabel();
-        intermedio = new javax.swing.JLabel();
+        lbIntermedio = new javax.swing.JLabel();
         panelCodigo = new javax.swing.JPanel();
         codigo_Central = new javax.swing.JScrollPane();
         textoCodigo = new javax.swing.JPanel();
@@ -195,75 +195,75 @@ public class pantalla extends javax.swing.JFrame {
         panelAcciones.setForeground(new java.awt.Color(61, 64, 58));
         panelAcciones.setPreferredSize(new java.awt.Dimension(983, 30));
 
-        jLabel3.setBackground(new java.awt.Color(247, 255, 235));
-        jLabel3.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(244, 241, 233));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/abrirArchivo.png"))); // NOI18N
-        jLabel3.setToolTipText("Abrir Archivo");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbAbrir.setBackground(new java.awt.Color(247, 255, 235));
+        lbAbrir.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        lbAbrir.setForeground(new java.awt.Color(244, 241, 233));
+        lbAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/abrirArchivo.png"))); // NOI18N
+        lbAbrir.setToolTipText("Abrir Archivo");
+        lbAbrir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbAbrir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                lbAbrirMouseClicked(evt);
             }
         });
 
-        jLabel4.setBackground(new java.awt.Color(247, 255, 235));
-        jLabel4.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(244, 241, 233));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevoArchivo.png"))); // NOI18N
-        jLabel4.setToolTipText("Abrir Archivo");
-        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbNuevo.setBackground(new java.awt.Color(247, 255, 235));
+        lbNuevo.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        lbNuevo.setForeground(new java.awt.Color(244, 241, 233));
+        lbNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevoArchivo.png"))); // NOI18N
+        lbNuevo.setToolTipText("Abrir Archivo");
+        lbNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                lbNuevoMouseClicked(evt);
             }
         });
 
-        jLabel8.setBackground(new java.awt.Color(247, 255, 235));
-        jLabel8.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(244, 241, 233));
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardarArchivoComo.png"))); // NOI18N
-        jLabel8.setToolTipText("Guardar Archivo Como");
-        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbGuardarComo.setBackground(new java.awt.Color(247, 255, 235));
+        lbGuardarComo.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        lbGuardarComo.setForeground(new java.awt.Color(244, 241, 233));
+        lbGuardarComo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardarArchivoComo.png"))); // NOI18N
+        lbGuardarComo.setToolTipText("Guardar Archivo Como");
+        lbGuardarComo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbGuardarComo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
+                lbGuardarComoMouseClicked(evt);
             }
         });
 
-        jLabel9.setBackground(new java.awt.Color(247, 255, 235));
-        jLabel9.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(244, 241, 233));
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardarArchivo.png"))); // NOI18N
-        jLabel9.setToolTipText("Guardar Archivo");
-        jLabel9.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbGuardar.setBackground(new java.awt.Color(247, 255, 235));
+        lbGuardar.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        lbGuardar.setForeground(new java.awt.Color(244, 241, 233));
+        lbGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardarArchivo.png"))); // NOI18N
+        lbGuardar.setToolTipText("Guardar Archivo");
+        lbGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
+                lbGuardarMouseClicked(evt);
             }
         });
 
-        jLabel11.setBackground(new java.awt.Color(247, 255, 235));
-        jLabel11.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(244, 241, 233));
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tablaDeSimbolos.png"))); // NOI18N
-        jLabel11.setToolTipText("Tabla de  Simbolos");
-        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbPalabrasReservadas.setBackground(new java.awt.Color(247, 255, 235));
+        lbPalabrasReservadas.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        lbPalabrasReservadas.setForeground(new java.awt.Color(244, 241, 233));
+        lbPalabrasReservadas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tablaDeSimbolos.png"))); // NOI18N
+        lbPalabrasReservadas.setToolTipText("Tabla de  Simbolos");
+        lbPalabrasReservadas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbPalabrasReservadas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
+                lbPalabrasReservadasMouseClicked(evt);
             }
         });
 
-        jLabel12.setBackground(new java.awt.Color(247, 255, 235));
-        jLabel12.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(244, 241, 233));
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/acercaDe.png"))); // NOI18N
-        jLabel12.setToolTipText("Acerca de...");
-        jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbInfo.setBackground(new java.awt.Color(247, 255, 235));
+        lbInfo.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        lbInfo.setForeground(new java.awt.Color(244, 241, 233));
+        lbInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/acercaDe.png"))); // NOI18N
+        lbInfo.setToolTipText("Acerca de...");
+        lbInfo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbInfo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel12MouseClicked(evt);
+                lbInfoMouseClicked(evt);
             }
         });
 
@@ -279,12 +279,12 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
 
-        visualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ojo.png"))); // NOI18N
-        visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        visualizar.setFocusable(false);
-        visualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbVisualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ojo.png"))); // NOI18N
+        lbVisualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbVisualizar.setFocusable(false);
+        lbVisualizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                visualizarMouseClicked(evt);
+                lbVisualizarMouseClicked(evt);
             }
         });
 
@@ -312,12 +312,12 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
 
-        intermedio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/intermedio.png"))); // NOI18N
-        intermedio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        intermedio.setFocusable(false);
-        intermedio.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbIntermedio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/intermedio.png"))); // NOI18N
+        lbIntermedio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbIntermedio.setFocusable(false);
+        lbIntermedio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                intermedioMouseClicked(evt);
+                lbIntermedioMouseClicked(evt);
             }
         });
 
@@ -327,15 +327,15 @@ public class pantalla extends javax.swing.JFrame {
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAccionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
+                .addComponent(lbNuevo)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(lbAbrir)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel9)
+                .addComponent(lbGuardar)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8)
+                .addComponent(lbGuardarComo)
                 .addGap(168, 168, 168)
-                .addComponent(jLabel11)
+                .addComponent(lbPalabrasReservadas)
                 .addGap(18, 18, 18)
                 .addComponent(btnLexico)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -343,26 +343,26 @@ public class pantalla extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addComponent(btnSemantico)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel12)
+                .addComponent(lbInfo)
                 .addGap(18, 18, 18)
-                .addComponent(visualizar)
+                .addComponent(lbVisualizar)
                 .addGap(18, 18, 18)
-                .addComponent(intermedio)
+                .addComponent(lbIntermedio)
                 .addContainerGap(370, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(lbGuardarComo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbPalabrasReservadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnLexico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(visualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbVisualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnSintactico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnSemantico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(intermedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbIntermedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(panelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, -1));
@@ -501,7 +501,7 @@ public class pantalla extends javax.swing.JFrame {
         this.setExtendedState(ICONIFIED);
     }//GEN-LAST:event_jlbMinimizarMouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void lbAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAbrirMouseClicked
         JFileChooser AbrirA = new JFileChooser();
         AbrirA.setFileFilter(filter);
         int opcion = AbrirA.showOpenDialog(this);
@@ -511,33 +511,33 @@ public class pantalla extends javax.swing.JFrame {
         }
         else
             showMessageDialog(this,"No se selecciono ningun archivo","Advertencia!", JOptionPane.WARNING_MESSAGE);
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_lbAbrirMouseClicked
 
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+    private void lbGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbGuardarMouseClicked
         guardarArchivo();
-    }//GEN-LAST:event_jLabel9MouseClicked
+    }//GEN-LAST:event_lbGuardarMouseClicked
 
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+    private void lbGuardarComoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbGuardarComoMouseClicked
         String temp = direccionArchivo;
         direccionArchivo = "";
         if(!guardarArchivo())
             direccionArchivo = temp;
-    }//GEN-LAST:event_jLabel8MouseClicked
+    }//GEN-LAST:event_lbGuardarComoMouseClicked
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+    private void lbNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbNuevoMouseClicked
         direccionArchivo = "";
         textPane.setText("");
-    }//GEN-LAST:event_jLabel4MouseClicked
+    }//GEN-LAST:event_lbNuevoMouseClicked
 
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+    private void lbInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbInfoMouseClicked
         Creditos cr = new Creditos();
         cr.setVisible(true);
-    }//GEN-LAST:event_jLabel12MouseClicked
+    }//GEN-LAST:event_lbInfoMouseClicked
 
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+    private void lbPalabrasReservadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPalabrasReservadasMouseClicked
         Informacion in = new Informacion();
         in.setVisible(true);
-    }//GEN-LAST:event_jLabel11MouseClicked
+    }//GEN-LAST:event_lbPalabrasReservadasMouseClicked
 
     private void btnLexicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLexicoMouseClicked
         //minErrores.setEnabled(true);
@@ -559,7 +559,6 @@ public class pantalla extends javax.swing.JFrame {
                     errores.add("Analizador lexico correctamente");
                 areaErrores.setText(mostrarErrores());
             } catch (IOException ex) {
-                System.out.println("Error 2");
                 Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
             }
        
@@ -572,7 +571,7 @@ public class pantalla extends javax.swing.JFrame {
         minErrores.setEnabled(false);
     }//GEN-LAST:event_minErroresMouseClicked
 
-    private void visualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visualizarMouseClicked
+    private void lbVisualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbVisualizarMouseClicked
         if(vis == 0){
             panelCodigo.setSize(983,440);
             codigo_Central.setSize(973,419);
@@ -586,16 +585,282 @@ public class pantalla extends javax.swing.JFrame {
             areaErrores.setBackground(contraste);
             vis = 0;
         }
-    }//GEN-LAST:event_visualizarMouseClicked
+    }//GEN-LAST:event_lbVisualizarMouseClicked
 
     private void btnSintacticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSintacticoMouseClicked
-        errores.clear();
-        analizadorSintactico();
+
+        try{
+            analizadorSintactico();   
+            if(errores.isEmpty())
+                errores.add("Analisis sintactico correctamente");
+        } catch (IOException ex){
+            Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
+        }
         areaErrores.setText(mostrarErrores());
     }//GEN-LAST:event_btnSintacticoMouseClicked
 
     private void btnSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSemanticoMouseClicked
         //errores.clear();
+        try{
+            if(this.errores.isEmpty()){
+                analizadorSemantico();
+                errores.add("Analizador semantico correctamente");
+            } else {
+                errores.add("\nPor favor corrija los errores lexicos o semanticos para continuar con el analisis semantico");
+                JOptionPane.showMessageDialog(this, "Analisis semantico abortado", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+                
+        }catch (IOException ex){
+            Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        areaErrores.setText(mostrarErrores());
+    }//GEN-LAST:event_btnSemanticoMouseClicked
+
+    private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
+        IntermedioPantalla ventana = new IntermedioPantalla();
+        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ventana.setLocationRelativeTo(this);
+        ventana.setPrograma(tablaS);
+        ventana.setVisible(true);
+        ventana.ponerCodigoIntermedio();
+    }//GEN-LAST:event_lbIntermedioMouseClicked
+
+    
+    
+//******************************************************************************
+//******************** ANALIZADOR LEXICO ***************************************
+//******************************************************************************    
+    private void analizarLexico() throws IOException{
+        int cont = 1;
+        this.tablaS.clear(); //Limpia la tabla de valores para el analizador Semantico
+        
+        
+        String expr = (String) textPane.getText();
+        Lexer lexer = new Lexer(new StringReader(expr));
+        
+        while (true) {
+            Tokens token = lexer.yylex();
+            String dato = lexer.lexeme.toString();
+            if (token == null) {
+                return;
+            }
+            this.tablaS.add(new Object[]{lexer.lexeme.toString(),token.toString()});
+            switch (token) {
+                case linea:
+                    cont++;
+                    break;
+                case inicioSecuencia:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_control"});
+                    break;
+                case inicializacion:
+                    modelo.addRow(new Object[]{"inicializacion","pr_control"});
+                    break;
+                case importar:
+                    modelo.addRow(new Object[]{"importar","pr_control"});
+                    break;
+                case funcion:
+                    modelo.addRow(new Object[]{"funcion","pr_control"});
+                    break;
+                case retorno:
+                    modelo.addRow(new Object[]{"retorno","pr_control"});
+                    break;
+                case si:
+                    modelo.addRow(new Object[]{"si","pr_control"});
+                    break;
+                case sino:
+                    modelo.addRow(new Object[]{"sino","pr_control"});
+                    break;
+                case verdad:
+                    modelo.addRow(new Object[]{"verdad","pr_control"});
+                    break;
+                case falso:
+                    modelo.addRow(new Object[]{"falso","pr_control"});
+                    break;
+                case mientras:
+                    modelo.addRow(new Object[]{"mientras","pr_control"});
+                    break;
+                    
+                case decision:
+                    modelo.addRow(new Object[]{"decision","pr_declaracion"});
+                    break;
+                case velocidad:
+                    modelo.addRow(new Object[]{"velocidad","pr_declaracion"});
+                    break;
+                case tiempo:
+                    modelo.addRow(new Object[]{"tiempo","pr_declaracion"});
+                    break;
+                case alerta:
+                    modelo.addRow(new Object[]{"alerta","pr_declaracion"});
+                    break;
+                case color:
+                    modelo.addRow(new Object[]{"color","pr_declaracion"});
+                    break;
+                    
+                case avanzar:
+                    modelo.addRow(new Object[]{"avanzar","pr_movimiento"});
+                    break;
+                case detener:
+                    modelo.addRow(new Object[]{"detener","pr_movimiento"});
+                    break;
+                case esperar:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    break;
+                case iniciar:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    break;
+                case reversa:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    break;
+                    
+                case regresarBase:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
+                    break;
+                case detectarParada:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
+                    break;
+                case detectarLinea:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
+                    break;
+                    
+                case obstaculo:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    break;
+                case estadoCamara:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    break;
+                case duracionRecorrido:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    break;
+                case detectarAnomalia:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    break;
+                case detectarColor:
+                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    break;
+                    
+                case identificador:
+                    modelo.addRow(new Object[]{lexer.lexeme,"identificador"});
+                    break;
+                case time:
+                    modelo.addRow(new Object[]{lexer.lexeme,"time"});
+                    break;
+                case cadena:
+                    modelo.addRow(new Object[]{lexer.lexeme,"cadena"});
+                    break;
+                case veloc:
+                    modelo.addRow(new Object[]{lexer.lexeme,"veloc"});
+                    break;
+                case colores:
+                    modelo.addRow(new Object[]{lexer.lexeme,"colores"});
+                    break;
+                case caracter_especial:
+                    modelo.addRow(new Object[]{lexer.lexeme,"caracter_especial"});
+                    if(dato.equals("!"))
+                        errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de operaciones relacionales, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    else if(dato.equals("#"))
+                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de declaración y manipulacion de colores, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    else if(dato.equals(":"))
+                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de declaración y manipulacion de tiempo, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    else if(dato.equals("\""))
+                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de declaración y manipulacion de alerta, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    else
+                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para separar parametros, \npor lo que no puedes escribirlo de forma independiente.\n");
+                    break;
+                case op_relacional:
+                    modelo.addRow(new Object[]{lexer.lexeme,"op_relacional"});
+                    break;
+                case igual:
+                    modelo.addRow(new Object[]{lexer.lexeme,"igual"});
+                    break;
+                case suma:
+                    modelo.addRow(new Object[]{lexer.lexeme,"suma"});
+                    break;
+                case resta:
+                    modelo.addRow(new Object[]{lexer.lexeme,"resta"});
+                    break;
+                case producto:
+                    modelo.addRow(new Object[]{lexer.lexeme,"producto"});
+                    break;
+                case division:
+                    modelo.addRow(new Object[]{lexer.lexeme,"division"});
+                    break;
+                case potencia:
+                    modelo.addRow(new Object[]{lexer.lexeme,"potencia"});
+                    break;
+                case parentesis_a:
+                    modelo.addRow(new Object[]{lexer.lexeme,"parentesis_a"});
+                    break;
+                case parentesis_c:
+                    modelo.addRow(new Object[]{lexer.lexeme,"parentesis_c"});
+                    break;
+                case llave_a:
+                    modelo.addRow(new Object[]{lexer.lexeme,"llave_a"});
+                    break;
+                case llave_c:
+                    modelo.addRow(new Object[]{lexer.lexeme,"llave_c"});
+                    break;
+                //Errores
+                case error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". Texto: \""+lexer.lexeme+"\"\n");
+                    break;
+                case ide_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"ide_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". El identificador: \""+lexer.lexeme+"\" no corresponde a la declaración correcta.\n      Un identificador valido inica con una minuscula seguido de 0 o 14 mas letras minusculas, mayusculas o digitos.\n");
+                    break;
+                case tiempo_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"tiempo_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración de tiempo: \""+lexer.lexeme+"\" es incorrecta. \n        Por favor de seguir con el estandar: 00:00 a 60:00 como representación de segundos.\n");
+                    break;
+                case numero_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"numero_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración del número: \""+lexer.lexeme+"\" sobrepasa el tamaño permitido para la variable de tipo velocidad. \n        Por favor de colocar entre el rango de valores 0-99.\n");
+                    break;
+                case cadena_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"cadena_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración del alerta: \""+lexer.lexeme+"\" es incorrecta.\n        Por favor revisa que tenga comillas dobles \" de apertura y cierre del mensaje de alerta\n");
+                    break;
+                case color_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"color_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración de colores: \""+lexer.lexeme+"\" es incorrecta.\n        Por favor revisa que la sintaxis corresponda con la siguiente forma #HHHHHH en formato hexadecimal.\n");
+                    break;
+                case caracter_error:
+                    modelo.addRow(new Object[]{lexer.lexeme,"caracter_error"});
+                    errores.add("Error de Lexico. Linea: " + cont + ". El caracter: \""+lexer.lexeme+"\" es un caracter no perteneciente al lenguaje, por favor de no utilizarlo en su programa.\n");
+                    break;
+            }
+        }
+    }
+
+    
+//******************************************************************************
+//******************** ANALIZADOR SINTACTICO ***************************************
+//******************************************************************************    
+    
+    public void analizadorSintactico() throws IOException{
+        String ST = textPane.getText();
+        Sintax s = new Sintax(new LexerCup(new StringReader(ST)));
+        
+        try {
+            s.parse();
+            for(String err: s.getL()){
+                errores.add(err);
+            }
+        } catch (Exception ex) {
+            Symbol sym = s.getS();
+            for(String err: s.getL()){
+                errores.add(err);
+            }
+            errores.add("Error de sintaxis. Linea: " + (sym.left + 1) + "; Texto: \""+sym.value+"\"");
+        }
+    }
+    
+    
+    
+//******************************************************************************
+//******************** ANALIZADOR SEMANTICO ***************************************
+//******************************************************************************  
+    private void analizadorSemantico() throws IOException{
         LinkedList<String> variables = new LinkedList<>();
         LinkedList<Object[]> variablesTabla = new LinkedList<>();
         LinkedList<String> funciones = new LinkedList<>();
@@ -1133,226 +1398,7 @@ public class pantalla extends javax.swing.JFrame {
             }
             
         }
-        
-        errores.add("Analizador semantico correctamente");
-        areaErrores.setText(mostrarErrores());
-    }//GEN-LAST:event_btnSemanticoMouseClicked
-
-    private void intermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_intermedioMouseClicked
-        IntermedioPantalla ventana = new IntermedioPantalla();
-        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        ventana.setLocationRelativeTo(this);
-        ventana.setPrograma(tablaS);
-        ventana.setVisible(true);
-        ventana.ponerCodigoIntermedio();
-    }//GEN-LAST:event_intermedioMouseClicked
-
-//******************************************************************************
-//******************** ANALIZADOR LEXICO ***************************************
-//******************************************************************************    
-    private void analizarLexico() throws IOException{
-        int cont = 1;
-        this.tablaS.clear(); //Limpia la tabla de valores para el analizador Semantico
-        
-        
-        String expr = (String) textPane.getText();
-        Lexer lexer = new Lexer(new StringReader(expr));
-        
-        while (true) {
-            Tokens token = lexer.yylex();
-            String dato = lexer.lexeme.toString();
-            if (token == null) {
-                return;
-            }
-            this.tablaS.add(new Object[]{lexer.lexeme.toString(),token.toString()});
-            switch (token) {
-                case linea:
-                    cont++;
-                    break;
-                case inicioSecuencia:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_control"});
-                    break;
-                case inicializacion:
-                    modelo.addRow(new Object[]{"inicializacion","pr_control"});
-                    break;
-                case importar:
-                    modelo.addRow(new Object[]{"importar","pr_control"});
-                    break;
-                case funcion:
-                    modelo.addRow(new Object[]{"funcion","pr_control"});
-                    break;
-                case retorno:
-                    modelo.addRow(new Object[]{"retorno","pr_control"});
-                    break;
-                case si:
-                    modelo.addRow(new Object[]{"si","pr_control"});
-                    break;
-                case sino:
-                    modelo.addRow(new Object[]{"sino","pr_control"});
-                    break;
-                case verdad:
-                    modelo.addRow(new Object[]{"verdad","pr_control"});
-                    break;
-                case falso:
-                    modelo.addRow(new Object[]{"falso","pr_control"});
-                    break;
-                case mientras:
-                    modelo.addRow(new Object[]{"mientras","pr_control"});
-                    break;
-                    
-                case decision:
-                    modelo.addRow(new Object[]{"decision","pr_declaracion"});
-                    break;
-                case velocidad:
-                    modelo.addRow(new Object[]{"velocidad","pr_declaracion"});
-                    break;
-                case tiempo:
-                    modelo.addRow(new Object[]{"tiempo","pr_declaracion"});
-                    break;
-                case alerta:
-                    modelo.addRow(new Object[]{"alerta","pr_declaracion"});
-                    break;
-                case color:
-                    modelo.addRow(new Object[]{"color","pr_declaracion"});
-                    break;
-                    
-                case avanzar:
-                    modelo.addRow(new Object[]{"avanzar","pr_movimiento"});
-                    break;
-                case detener:
-                    modelo.addRow(new Object[]{"detener","pr_movimiento"});
-                    break;
-                case esperar:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
-                    break;
-                case iniciar:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
-                    break;
-                case reversa:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
-                    break;
-                    
-                case regresarBase:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
-                    break;
-                case detectarParada:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
-                    break;
-                case detectarLinea:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
-                    break;
-                    
-                case obstaculo:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                case estadoCamara:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                case duracionRecorrido:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                case detectarAnomalia:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                case detectarColor:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
-                    break;
-                    
-                case identificador:
-                    modelo.addRow(new Object[]{lexer.lexeme,"identificador"});
-                    break;
-                case time:
-                    modelo.addRow(new Object[]{lexer.lexeme,"time"});
-                    break;
-                case cadena:
-                    modelo.addRow(new Object[]{lexer.lexeme,"cadena"});
-                    break;
-                case veloc:
-                    modelo.addRow(new Object[]{lexer.lexeme,"veloc"});
-                    break;
-                case colores:
-                    modelo.addRow(new Object[]{lexer.lexeme,"colores"});
-                    break;
-                case caracter_especial:
-                    modelo.addRow(new Object[]{lexer.lexeme,"caracter_especial"});
-                    if(dato.equals("!"))
-                        errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de operaciones relacionales, \npor lo que no puedes escribirlo de forma independiente.\n");
-                    else if(dato.equals("#"))
-                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de declaración y manipulacion de colores, \npor lo que no puedes escribirlo de forma independiente.\n");
-                    else if(dato.equals(":"))
-                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de declaración y manipulacion de tiempo, \npor lo que no puedes escribirlo de forma independiente.\n");
-                    else if(dato.equals("\""))
-                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para la realizacion de declaración y manipulacion de alerta, \npor lo que no puedes escribirlo de forma independiente.\n");
-                    else
-                       errores.add("Error de Lexico. Linea: " + cont + ". Sintaxis invalida para el caracter especial: \""+ dato +"\". El caracter es utilizado para separar parametros, \npor lo que no puedes escribirlo de forma independiente.\n");
-                    break;
-                case op_relacional:
-                    modelo.addRow(new Object[]{lexer.lexeme,"op_relacional"});
-                    break;
-                case igual:
-                    modelo.addRow(new Object[]{lexer.lexeme,"igual"});
-                    break;
-                case suma:
-                    modelo.addRow(new Object[]{lexer.lexeme,"suma"});
-                    break;
-                case resta:
-                    modelo.addRow(new Object[]{lexer.lexeme,"resta"});
-                    break;
-                case producto:
-                    modelo.addRow(new Object[]{lexer.lexeme,"producto"});
-                    break;
-                case division:
-                    modelo.addRow(new Object[]{lexer.lexeme,"division"});
-                    break;
-                case potencia:
-                    modelo.addRow(new Object[]{lexer.lexeme,"potencia"});
-                    break;
-                case parentesis_a:
-                    modelo.addRow(new Object[]{lexer.lexeme,"parentesis_a"});
-                    break;
-                case parentesis_c:
-                    modelo.addRow(new Object[]{lexer.lexeme,"parentesis_c"});
-                    break;
-                case llave_a:
-                    modelo.addRow(new Object[]{lexer.lexeme,"llave_a"});
-                    break;
-                case llave_c:
-                    modelo.addRow(new Object[]{lexer.lexeme,"llave_c"});
-                    break;
-                //Errores
-                case error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"error"});
-                    errores.add("Error de Lexico. Linea: " + cont + ". Texto: \""+lexer.lexeme+"\"\n");
-                    break;
-                case ide_error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"ide_error"});
-                    errores.add("Error de Lexico. Linea: " + cont + ". El identificador: \""+lexer.lexeme+"\" no corresponde a la declaración correcta.\n      Un identificador valido inica con una minuscula seguido de 0 o 14 mas letras minusculas, mayusculas o digitos.\n");
-                    break;
-                case tiempo_error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"tiempo_error"});
-                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración de tiempo: \""+lexer.lexeme+"\" es incorrecta. \n        Por favor de seguir con el estandar: 00:00 a 60:00 como representación de segundos.\n");
-                    break;
-                case numero_error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"numero_error"});
-                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración del número: \""+lexer.lexeme+"\" sobrepasa el tamaño permitido para la variable de tipo velocidad. \n        Por favor de colocar entre el rango de valores 0-99.\n");
-                    break;
-                case cadena_error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"cadena_error"});
-                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración del alerta: \""+lexer.lexeme+"\" es incorrecta.\n        Por favor revisa que tenga comillas dobles \" de apertura y cierre del mensaje de alerta\n");
-                    break;
-                case color_error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"color_error"});
-                    errores.add("Error de Lexico. Linea: " + cont + ". La declaración de colores: \""+lexer.lexeme+"\" es incorrecta.\n        Por favor revisa que la sintaxis corresponda con la siguiente forma #HHHHHH en formato hexadecimal.\n");
-                    break;
-                case caracter_error:
-                    modelo.addRow(new Object[]{lexer.lexeme,"caracter_error"});
-                    errores.add("Error de Lexico. Linea: " + cont + ". El caracter: \""+lexer.lexeme+"\" es un caracter no perteneciente al lenguaje, por favor de no utilizarlo en su programa.\n");
-                    break;
-            }
-        }
-    }
-    
-    
+    } 
     
     public void validacionesAsig(LinkedList<Object[]> valores, LinkedList<String> parametros,LinkedList<Object[]> variablesTabla, LinkedList<String> variables, int renglon){
         String obj = "";
@@ -1509,12 +1555,8 @@ public class pantalla extends javax.swing.JFrame {
         }
         return tipo;
     }
-            
-            
-    /*public void showTokens(){
-        for(String i : lexi.getTokens())
-            System.out.println(i);
-    }*/
+
+    
     
     public String mostrarErrores() {
         String next = "";
@@ -1524,23 +1566,9 @@ public class pantalla extends javax.swing.JFrame {
         return next;
     }
     
-    public void analizadorSintactico(){
-        String ST = textPane.getText();
-        Sintax s = new Sintax(new LexerCup(new StringReader(ST)));
-        
-        try {
-            s.parse();
-            errores.add("Analisis sintactico correctamente");
-        } catch (Exception ex) {
-            Symbol sym = s.getS(); 
-            //System.out.println("Error de sintaxis. Linea: " + (sym.right + 1) + ". Columna: " + (sym.left + 1) + "; Texto: \""+sym.value+"\"");
-            //if(sym.value.equals("}"))
-            //    sym.value = "Revisa que la experesion termine en punto medio o siga las instrucciones de asignacion corespondientes";
-            errores.add("Error de sintaxis. Linea: " + (sym.right + 1) + ". Columna: " + (sym.left + 1) + "; Texto: \""+sym.value+"\"");
-        }
-    }
-    
-
+//******************************************************************************
+//***************************** ARCHIVOS ***************************************
+//******************************************************************************    
     
     public boolean guardarArchivo(){
         if(direccionArchivo.equals("")){
@@ -1616,16 +1644,17 @@ public class pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel btnSemantico;
     private javax.swing.JLabel btnSintactico;
     private javax.swing.JScrollPane codigo_Central;
-    private javax.swing.JLabel intermedio;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jlbCerrar;
     private javax.swing.JLabel jlbMinimizar;
+    private javax.swing.JLabel lbAbrir;
+    private javax.swing.JLabel lbGuardar;
+    private javax.swing.JLabel lbGuardarComo;
+    private javax.swing.JLabel lbInfo;
+    private javax.swing.JLabel lbIntermedio;
+    private javax.swing.JLabel lbNuevo;
+    private javax.swing.JLabel lbPalabrasReservadas;
+    private javax.swing.JLabel lbVisualizar;
     private javax.swing.JLabel minErrores;
     private javax.swing.JPanel paneTabla;
     private javax.swing.JPanel panelAcciones;
@@ -1637,6 +1666,5 @@ public class pantalla extends javax.swing.JFrame {
     private javax.swing.JTable tablaSimbolos;
     private javax.swing.JTextPane textPane;
     private javax.swing.JPanel textoCodigo;
-    private javax.swing.JLabel visualizar;
     // End of variables declaration//GEN-END:variables
 }

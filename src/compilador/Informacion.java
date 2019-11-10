@@ -1,5 +1,8 @@
 package compilador;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,13 +14,24 @@ package compilador;
  * @author chiva
  */
 public class Informacion extends javax.swing.JFrame {
-
+    Hashtable<String, String> pr = new Hashtable<>();
+    
     /**
      * Creates new form Informacion
      */
     public Informacion() {
         initComponents();
-        panel1.setVisible(true);
+        pr.put("inicioSecuencia", "\nInstrucción de inicio de nuestro programa, entendida como la declaración de inicio\ndel programa, esto nos permitirá mantener un orden en nuestro bloque de código\nasignando un nombre correspondiente.\n");
+        pr.put("inicializacion", "\nPrimera instrucción a ejecutar donde se inicializan todas las variables.\n");
+        pr.put("importar", "\nLa declaración de importación combina dos operaciones; busca el módulo nombrado\nluego vincula los resultados de esa búsqueda a un nombre en el ámbito local.\n");
+        pr.put("funcion(*Parametros)", "\nDeclaración de un nombre único que contiene un bloque de código que realiza una \ntarea en específico, y se puede invocar a través de su nombre.\n");
+        asignar();
+    }
+    
+    public void asignar(){
+        for (Map.Entry<String, String> entry : pr.entrySet()) {
+            txtPr.setText(txtPr.getText() + entry.getKey() + entry.getValue() + "\n");
+        }
     }
 
     /**
@@ -30,24 +44,14 @@ public class Informacion extends javax.swing.JFrame {
     private void initComponents() {
 
         panel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtPr = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jlbCerrar = new javax.swing.JLabel();
 
@@ -58,66 +62,6 @@ public class Informacion extends javax.swing.JFrame {
 
         panel1.setBackground(new java.awt.Color(61, 64, 58));
         panel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel2.setText("Instrucción de inicio de nuestro programa, entendida como la declaración de inicio");
-        panel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 34, -1, -1));
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel3.setText("asignando un nombre correspondiente.");
-        panel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, 20));
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel4.setText("del programa, esto nos permitirá mantener un orden en nuestro bloque de código");
-        panel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 45, -1, 20));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel7.setText("Primera instrucción a ejecutar donde se inicializan todas las variables.");
-        panel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel8.setText("inicializacion");
-        panel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel9.setText("luego vincula los resultados de esa búsqueda a un nombre en el ámbito local.");
-        panel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, 20));
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel10.setText("importar ");
-        panel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel11.setText("La declaración de importación combina dos operaciones; busca el módulo nombrado");
-        panel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel12.setText("tarea en específico, y se puede invocar a través de su nombre.");
-        panel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, 20));
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel13.setText("Declaración de un nombre único que contiene un bloque de código que realiza una ");
-        panel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel14.setText("funcion(*Parametros)");
-        panel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel5.setText("inicioSecuencia");
-        panel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(247, 255, 235));
@@ -148,6 +92,12 @@ public class Informacion extends javax.swing.JFrame {
         jLabel20.setForeground(new java.awt.Color(204, 204, 204));
         jLabel20.setText("si");
         panel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
+
+        txtPr.setColumns(20);
+        txtPr.setRows(5);
+        jScrollPane1.setViewportView(txtPr);
+
+        panel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 460, 250));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(61, 64, 58));
@@ -235,25 +185,15 @@ public class Informacion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlbCerrar;
     private javax.swing.JPanel panel1;
+    private javax.swing.JTextArea txtPr;
     // End of variables declaration//GEN-END:variables
 }

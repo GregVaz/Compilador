@@ -7,15 +7,13 @@ import static compilador.Tokens.*;
 %class Lexer
 %type Tokens
 alf_min=[a-z]
-alf_may=[A-Z]
 exp_dig=[0-9]
 alf_tot=[A-Za-z0-9]
 exp_alf=[A-Za-z_áéíóú]
-exp_alf_num={exp_alf}|{exp_dig}
 ide={alf_min}({alf_tot}){0,15}
 tiemp=(([0-5][0-9]):([0-5][0-9])) | (([6][0]):([0][0]))
 espacio=[ ,\t,\r]+
-caracter_especial=[,:#!\"]
+caracter_especial=[,:#|!\"]
 alert=[\"]({alf_tot})*[\"]
 colore=[#]([0-9A-F]{6})
 veloc=[0-9]{1,2}
@@ -105,10 +103,10 @@ numero_erroneo=({exp_dig}){3,32}
 
 
 /*Errores*/
-{caracter_invalido}    {lexeme=yytext(); return caracter_error;}
 {numero_erroneo}    {lexeme=yytext(); return numero_error;}
 {alert_invalido}    {lexeme=yytext(); return cadena_error;}
 {color_invalido}    {lexeme=yytext(); return color_error;}
 {tiempo_invalido}   {lexeme=yytext(); return tiempo_error;}
 {ide_invalido}      {lexeme=yytext(); return ide_error;}
+{caracter_invalido}    {lexeme=yytext(); return caracter_error;}
 . {return error;}

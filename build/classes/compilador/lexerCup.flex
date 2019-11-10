@@ -15,14 +15,19 @@ alf_tot=[A-Za-z0-9]
 exp_alf=[A-Za-z_áéíóú]
 exp_alf_num={exp_alf}|{exp_dig}
 ide={alf_min}({alf_tot}){0,15}
-ide_invalido = {exp_dig}({alf_tot}){0,15}
-tiemp=([0-5][0-9])(:[0-5][0-9])
-tiempo_invalido=(([6-9][0-9]):([6-9][0-9]))|(([0-9]):([0-9]))|(([0-5]):([0-5][0-9]))|(([0-5][0-9]):([0-5]))
+tiemp=(([0-5][0-9]):([0-5][0-9])) | (([6][0]):([0][0]))
 espacio=[ \t, \r, \n]+
-caracter_especial=[_*:;%/#¿?¡!]
+caracter_especial=[,:#!\"]
 alert=[\"]({alf_tot})*[\"]
 colore=[#]([0-9A-F]{6})
 veloc=[0-9]{1,2}
+
+caracter_invalido=[_;%¿?¡[]~`@$&]
+ide_invalido={exp_dig}({alf_tot}){0,15} | {exp_dig}({alf_tot}){16,64} | {caracter_especial}*{alf_tot}*{caracter_especial}* | {alf_tot}*{caracter_especial}*{alf_tot}*
+tiempo_invalido=(([6-9][0-9]):([0-9][0-9]))|(([0-9]):([0-9]))|(([0-9]):([0-5][0-9]))|(([0-5][0-9]):([0-9]))
+alert_invalido=[\"]({alf_tot})* | ({alf_tot})*[\"] 
+color_invalido=[#]([0-9A-F]{1,5}) | [#]({alf_tot}*)
+numero_erroneo=({exp_dig}){3,32}
 
 %{
     public Symbol symbol(int type, Object value){
@@ -92,6 +97,9 @@ veloc=[0-9]{1,2}
 ("=")     {return new Symbol(sym.igual, yychar, yyline,yytext());}
 ("+")     {return new Symbol(sym.suma, yychar, yyline,yytext());}
 ("-")     {return new Symbol(sym.resta, yychar, yyline,yytext());}
+("*")     {return new Symbol(sym.producto, yychar, yyline,yytext());}
+("/")     {return new Symbol(sym.division, yychar, yyline,yytext());}
+("^")     {return new Symbol(sym.potencia, yychar, yyline,yytext());}
 ("(")     {return new Symbol(sym.parentesis_a, yychar, yyline,yytext());}
 (")")     {return new Symbol(sym.parentesis_c, yychar, yyline,yytext());}
 ("{")     {return new Symbol(sym.llave_a, yychar, yyline,yytext());}
@@ -100,6 +108,10 @@ veloc=[0-9]{1,2}
 (",")     {return new Symbol(sym.separador, yychar, yyline,yytext());}
 
 /*Errores*/
-{ide_invalido}      {return new Symbol(sym.error, yyline,yychar, yytext());}
-{tiempo_invalido}   {return new Symbol(sym.error, yyline,yychar, yytext());}
+{caracter_invalido} {return new Symbol(sym.caracter_error, yyline,yychar, yytext());}
+{numero_erroneo}    {return new Symbol(sym.numero_error, yyline,yychar, yytext());}
+{alert_invalido}    {return new Symbol(sym.cadena_error, yyline,yychar, yytext());}
+{color_invalido}    {return new Symbol(sym.color_error, yyline,yychar, yytext());}
+{tiempo_invalido}   {return new Symbol(sym.tiempo_error, yyline,yychar, yytext());}
+{ide_invalido}      {return new Symbol(sym.ide_error, yyline,yychar, yytext());}
 . {return new Symbol(sym.error, yychar, yyline, yytext());}

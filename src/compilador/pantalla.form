@@ -143,15 +143,15 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbNuevo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbAbrir" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbGuardar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbGuardarComo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
-                  <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbPalabrasReservadas" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnLexico" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -159,33 +159,33 @@
                   <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                   <Component id="btnSemantico" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbInfo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="visualizar" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbVisualizar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="intermedio" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbIntermedio" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="370" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jLabel4" alignment="0" pref="30" max="32767" attributes="0"/>
-              <Component id="jLabel8" alignment="1" max="32767" attributes="0"/>
-              <Component id="jLabel9" alignment="0" max="32767" attributes="0"/>
-              <Component id="jLabel11" alignment="0" max="32767" attributes="0"/>
-              <Component id="jLabel12" alignment="0" max="32767" attributes="0"/>
-              <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
+              <Component id="lbNuevo" alignment="0" pref="30" max="32767" attributes="0"/>
+              <Component id="lbGuardarComo" alignment="1" max="32767" attributes="0"/>
+              <Component id="lbGuardar" alignment="0" max="32767" attributes="0"/>
+              <Component id="lbPalabrasReservadas" alignment="0" max="32767" attributes="0"/>
+              <Component id="lbInfo" alignment="0" max="32767" attributes="0"/>
+              <Component id="lbAbrir" alignment="0" max="32767" attributes="0"/>
               <Component id="btnLexico" alignment="0" max="32767" attributes="0"/>
-              <Component id="visualizar" alignment="1" max="32767" attributes="0"/>
+              <Component id="lbVisualizar" alignment="1" max="32767" attributes="0"/>
               <Component id="btnSintactico" alignment="0" max="32767" attributes="0"/>
               <Component id="btnSemantico" alignment="0" max="32767" attributes="0"/>
-              <Component id="intermedio" alignment="0" max="32767" attributes="0"/>
+              <Component id="lbIntermedio" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="lbAbrir">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="eb" green="ff" red="f7" type="rgb"/>
@@ -205,10 +205,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel3MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbAbrirMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="lbNuevo">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="eb" green="ff" red="f7" type="rgb"/>
@@ -228,10 +228,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel4MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbNuevoMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel8">
+        <Component class="javax.swing.JLabel" name="lbGuardarComo">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="eb" green="ff" red="f7" type="rgb"/>
@@ -251,10 +251,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel8MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbGuardarComoMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel9">
+        <Component class="javax.swing.JLabel" name="lbGuardar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="eb" green="ff" red="f7" type="rgb"/>
@@ -274,10 +274,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel9MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbGuardarMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel11">
+        <Component class="javax.swing.JLabel" name="lbPalabrasReservadas">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="eb" green="ff" red="f7" type="rgb"/>
@@ -297,10 +297,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel11MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbPalabrasReservadasMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel12">
+        <Component class="javax.swing.JLabel" name="lbInfo">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="eb" green="ff" red="f7" type="rgb"/>
@@ -320,7 +320,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel12MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbInfoMouseClicked"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="btnLexico">
@@ -346,7 +346,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnLexicoMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="visualizar">
+        <Component class="javax.swing.JLabel" name="lbVisualizar">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/imagenes/ojo.png"/>
@@ -357,7 +357,7 @@
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="visualizarMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbVisualizarMouseClicked"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="btnSintactico">
@@ -406,7 +406,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSemanticoMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="intermedio">
+        <Component class="javax.swing.JLabel" name="lbIntermedio">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/imagenes/intermedio.png"/>
@@ -417,7 +417,7 @@
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="intermedioMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbIntermedioMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>

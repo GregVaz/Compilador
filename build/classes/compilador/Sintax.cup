@@ -1,10 +1,13 @@
 package compilador;
 
 import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+
 
 parser code
 {:
     private Symbol s;
+    public LinkedList<String> error = new LinkedList<>();
     
     public void syntax_error(Symbol s){
         this.s = s;
@@ -13,6 +16,10 @@ parser code
     public Symbol getS(){
         return this.s;
     }
+
+    public LinkedList<String> getL(){
+        return error;
+    }
 :};
 
 
@@ -20,8 +27,10 @@ terminal inicioSecuencia, inicializacion, importar, funcion, retorno, si, sino, 
 falso, mientras, decision, velocidad, tiempo, alerta, color, avanzar,
 detener, esperar, iniciar, reversa, regresarBase, detectarParada, detectarLinea,
 obstaculo, estadoCamara, duracionRecorrido, detectarAnomalia, detectarColor,
-parentesis_a, parentesis_c, llave_a, llave_c, igual, suma, resta, identificador, cadena, colores,
-veloc, time, caracter_especial, op_relacional, punto_medio, detectorParada, separador;
+parentesis_a, parentesis_c, llave_a, llave_c, igual, suma, resta, producto, division, 
+potencia, identificador, cadena, colores,
+veloc, time, caracter_especial, op_relacional, punto_medio, detectorParada, separador,
+ide_error, numero_error, caracter_error, cadena_error, color_error, tiempo_error;
 
 
 non terminal CONDICIONAL,CONDICIONAL2,COND,ESPACIO,CUERPO,
@@ -39,7 +48,13 @@ LIBRERIAS ::= LIBRERIA |
 ;
 LIBRERIA ::= importar cadena punto_medio
 ;
-TIPOS ::= verdad | falso | veloc | time | cadena | colores
+TIPOS ::= verdad | falso | veloc | time | cadena | colores 
+| error:e 
+{:
+parser.report_error("Operand missing", null);
+this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de tipos: el dato no corresponde a ningun tipo de dato valido,\nverifica que sea de tipo decision, velocidad, tiempo, cadena o colores.");
+System.out.println("Error de tipo");
+:}
 ;
 DATOS ::= decision | velocidad | tiempo | alerta | color
 ;
