@@ -37,59 +37,95 @@ non terminal CONDICIONAL,CONDICIONAL2,COND,ESPACIO,CUERPO,
                 DATOS,DECLARACION, DECLARACIONES,FUNCION,ASIG,PARAM,CUERPO_PROG,INICIO,
                 PRMOV,PRUBI,PRCOM,RETORNO,EVALUACION,EVALUACIONES,
                 LIBRERIA,LIBRERIAS,PROGRAMA,INICIALIZACION,TIPOS,
-                EXPRESION,CICLO,CUERPO_CICLO,TER, PAR_CICLO;
+                EXPRESION,CICLO,CUERPO_CICLO,TER, PAR_CICLO, CIERRE;
 
 start with PROGRAMA;
 
 PROGRAMA ::= LIBRERIAS INICIO | INICIO
 ;
+
 LIBRERIAS ::= LIBRERIA | 
               LIBRERIA LIBRERIAS
 ;
-LIBRERIA ::= importar cadena punto_medio
+
+LIBRERIA ::= importar cadena CIERRE
+| error:e 
+{:
+parser.report_error("Tipo erroneo", null);
+this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de importación: verifica la palabra reservada importar o la cadena este escrita correctamente\n");
+:}
 ;
+
 TIPOS ::= verdad | falso | veloc | time | cadena | colores 
 | error:e 
 {:
-parser.report_error("Operand missing", null);
-this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de tipos: el dato no corresponde a ningun tipo de dato valido,\nverifica que sea de tipo decision, velocidad, tiempo, cadena o colores.");
-System.out.println("Error de tipo");
+parser.report_error("Tipo erroneo", null);
+this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de tipos: el dato no corresponde a ningun tipo de dato valido,\nverifica que sea de tipo verdad, falso, velocidad, tiempo, cadena o colores.\n");
 :}
 ;
+
 DATOS ::= decision | velocidad | tiempo | alerta | color
+| error:e 
+{:
+parser.report_error("Tipo erroneo", null);
+this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de datos: el dato no corresponde a ningun tipo de declaración correcta,\nverifica que sea de tipo decision, velocidad, tiempo, alerta o color.\n");
+:}
 ;
+
+CIERRE ::= punto_medio
+| error:e 
+{:
+parser.report_error("Tipo erroneo", null);
+this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de fin. Verifique que este colocado el punto medio.\n");
+:}
+;
+
 INICIO ::= inicioSecuencia identificador llave_a CUERPO_PROG llave_c
 ;
+
 CUERPO_PROG ::= INICIALIZACION | INICIALIZACION CUERPO
 ;
+
 CUERPO ::= ESPACIO | ESPACIO CUERPO
 ;
+
 ESPACIO ::= FUNCION | CONDICIONAL | CICLO
 ;
+
 INICIALIZACION ::= inicializacion llave_a llave_c | inicializacion llave_a DECLARACIONES llave_c 
 ;
+
 DECLARACIONES ::= DECLARACION | 
                   DECLARACION DECLARACIONES
 ;
-DECLARACION ::= DATOS identificador igual TIPOS punto_medio
+
+DECLARACION ::= DATOS identificador igual TIPOS CIERRE
 ;
+
 FUNCION ::= funcion identificador parentesis_a PARAM parentesis_c llave_a CUERPO_CICLO llave_c | 
 funcion identificador parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c 
 ;
+
 PARAM ::= DATOS identificador | 
           DATOS identificador separador PARAM   
 ;
-ASIG ::= identificador igual EXPRESION punto_medio
+
+ASIG ::= identificador igual EXPRESION CIERRE
 ;
-RETORNO ::= retorno identificador punto_medio
+
+RETORNO ::= retorno identificador CIERRE
 ;
+
 CONDICIONAL ::= si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_CICLO llave_c | 
                 si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_CICLO llave_c CONDICIONAL2
 ;
+
 CONDICIONAL2 ::= sino llave_a CUERPO_CICLO llave_c
 ;
+
 EVALUACIONES ::= EVALUACION | EVALUACION separador EVALUACIONES
 ;
+
 EVALUACION ::=  identificador op_relacional identificador | 
                 identificador op_relacional TIPOS | 
                 TIPOS op_relacional identificador | 
@@ -98,17 +134,20 @@ EVALUACION ::=  identificador op_relacional identificador |
                 PRCOM op_relacional TIPOS | 
                 TIPOS op_relacional PRCOM 
 ;
-PRMOV ::= avanzar parentesis_a identificador parentesis_c punto_medio |
-          avanzar parentesis_a TIPOS parentesis_c punto_medio |
-          detener parentesis_a parentesis_c punto_medio |
-          esperar parentesis_a identificador parentesis_c punto_medio |
-          esperar parentesis_a TIPOS parentesis_c punto_medio |
-          iniciar parentesis_a parentesis_c punto_medio |
-          reversa parentesis_a parentesis_c punto_medio
+
+PRMOV ::= avanzar parentesis_a identificador parentesis_c CIERRE |
+          avanzar parentesis_a TIPOS parentesis_c CIERRE |
+          detener parentesis_a parentesis_c CIERRE |
+          esperar parentesis_a identificador parentesis_c CIERRE |
+          esperar parentesis_a TIPOS parentesis_c CIERRE |
+          iniciar parentesis_a parentesis_c CIERRE |
+          reversa parentesis_a parentesis_c CIERRE
 ;
-PRUBI ::= regresarBase parentesis_a parentesis_c punto_medio |
-          detectorParada parentesis_a parentesis_c punto_medio
+
+PRUBI ::= regresarBase parentesis_a parentesis_c CIERRE |
+          detectorParada parentesis_a parentesis_c CIERRE
 ;
+
 PRCOM ::= detectarColor parentesis_a parentesis_c |
           detectarParada parentesis_a parentesis_c |
           detectarAnomalia parentesis_a parentesis_c |
@@ -117,15 +156,24 @@ PRCOM ::= detectarColor parentesis_a parentesis_c |
           detectarLinea parentesis_a parentesis_c | 
           obstaculo parentesis_a parentesis_c 
 ;
+
 EXPRESION ::= TER | EXPRESION suma TER | EXPRESION resta TER
 ;
+
 TER ::= identificador | TIPOS
 ;
+
 CICLO ::= mientras parentesis_a PAR_CICLO parentesis_c llave_a CUERPO_CICLO llave_c
 ;
+
 PAR_CICLO ::= identificador op_relacional colores |  identificador op_relacional identificador
 ;
+
 CUERPO_CICLO ::= COND | COND CUERPO_CICLO
 ;
+
 COND ::= ASIG | PRMOV | PRUBI | CONDICIONAL | RETORNO
 ;
+
+
+//No terminales para marco de errores
