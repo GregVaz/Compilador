@@ -37,7 +37,7 @@ non terminal CONDICIONAL,CONDICIONAL2,COND,ESPACIO,CUERPO,
                 DATOS,DECLARACION, DECLARACIONES,FUNCION,ASIG,PARAM,CUERPO_PROG,INICIO,
                 PRMOV,PRUBI,PRCOM,RETORNO,EVALUACION,EVALUACIONES,
                 LIBRERIA,LIBRERIAS,PROGRAMA,INICIALIZACION,TIPOS,
-                EXPRESION,CICLO,CUERPO_CICLO,TER, PAR_CICLO, CIERRE;
+                EXPRESION,CICLO,CUERPO_CICLO, CUERPO_SI,TER, PAR_CICLO, CIERRE;
 
 start with PROGRAMA;
 
@@ -51,7 +51,6 @@ LIBRERIAS ::= LIBRERIA |
 LIBRERIA ::= importar cadena CIERRE
 | error:e 
 {:
-parser.report_error("Tipo erroneo", null);
 this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de importación: verifica la palabra reservada importar o la cadena este escrita correctamente\n");
 :}
 ;
@@ -59,7 +58,6 @@ this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1
 TIPOS ::= verdad | falso | veloc | time | cadena | colores 
 | error:e 
 {:
-parser.report_error("Tipo erroneo", null);
 this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de tipos: el dato no corresponde a ningun tipo de dato valido,\nverifica que sea de tipo verdad, falso, velocidad, tiempo, cadena o colores.\n");
 :}
 ;
@@ -67,7 +65,6 @@ this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1
 DATOS ::= decision | velocidad | tiempo | alerta | color
 | error:e 
 {:
-parser.report_error("Tipo erroneo", null);
 this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de datos: el dato no corresponde a ningun tipo de declaración correcta,\nverifica que sea de tipo decision, velocidad, tiempo, alerta o color.\n");
 :}
 ;
@@ -75,7 +72,6 @@ this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1
 CIERRE ::= punto_medio
 | error:e 
 {:
-parser.report_error("Tipo erroneo", null);
 this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de fin. Verifique que este colocado el punto medio.\n");
 :}
 ;
@@ -102,9 +98,68 @@ DECLARACIONES ::= DECLARACION |
 DECLARACION ::= DATOS identificador igual TIPOS CIERRE
 ;
 
-FUNCION ::= funcion identificador parentesis_a PARAM parentesis_c llave_a CUERPO_CICLO llave_c | 
-funcion identificador parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c 
-;
+FUNCION ::= funcion:a
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. Escribe la sintaxis de la función correctamente\n");
+                :} |
+            funcion:a llave_a llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. Por favot escribe la sintaxis de laa función correctamente\n");
+                :} |
+            funcion:a llave_a CUERPO_CICLO llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. Los parentesis no han sido escritos.\n");
+                :} |
+            funcion:a parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. El identificador para la función no ha sido definido.\n");
+                :} |
+            funcion:a identificador parentesis_c llave_a CUERPO_CICLO llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. El parentesis de apertura no ha sido escrito.\n");
+                :} |
+            funcion:a identificador parentesis_a llave_a CUERPO_CICLO llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. El parentesis de cierre no ha sido escrito.\n");
+                :} |
+            funcion:a identificador parentesis_a parentesis_c CUERPO_CICLO llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. La llave de apertura no ha sido escrito.\n");
+                :} |
+            funcion:a identificador parentesis_a parentesis_c llave_a llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. La función no tiene instrucciones, declaración de función ilogica.\n");
+                :} |
+            funcion:a parentesis_a PARAM parentesis_c llave_a CUERPO_CICLO llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. El identificador para la función no ha sido definido.\n");
+                :} |
+            funcion:a identificador PARAM parentesis_c llave_a CUERPO_CICLO llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. El parentesis de apertura no ha sido escrito.\n");
+                :} |
+            funcion:a identificador parentesis_a PARAM llave_a CUERPO_CICLO llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. El parentesis de cierre no ha sido escrito.\n");
+                :} |
+            funcion:a identificador parentesis_a PARAM parentesis_c CUERPO_CICLO llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. La llave de apertura no ha sido escrito.\n");
+                :} |
+            funcion:a identificador parentesis_a PARAM parentesis_c llave_a llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. La función no tiene instrucciones, declaración de función ilogica.\n");
+                :} |
+            funcion:a identificador parentesis_a PARAM parentesis_c llave_c
+                {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. La función no tiene instrucciones ni llave de apertura, declaración de función ilogica.\n");
+                :} |
+            funcion identificador parentesis_a PARAM parentesis_c llave_a CUERPO_CICLO llave_c | 
+            funcion identificador parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c |
+            error:a {: 
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. Verifica que las llaves, parentesis y estructura de la función esten escritas.\n");
+                :}
+;    
 
 PARAM ::= DATOS identificador | 
           DATOS identificador separador PARAM   
@@ -116,8 +171,8 @@ ASIG ::= identificador igual EXPRESION CIERRE
 RETORNO ::= retorno identificador CIERRE
 ;
 
-CONDICIONAL ::= si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_CICLO llave_c | 
-                si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_CICLO llave_c CONDICIONAL2
+CONDICIONAL ::= si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_SI llave_c | 
+                si parentesis_a EVALUACIONES parentesis_c llave_a CUERPO_SI llave_c CONDICIONAL2
 ;
 
 CONDICIONAL2 ::= sino llave_a CUERPO_CICLO llave_c
@@ -176,4 +231,3 @@ COND ::= ASIG | PRMOV | PRUBI | CONDICIONAL | RETORNO
 ;
 
 
-//No terminales para marco de errores

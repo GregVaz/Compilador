@@ -848,10 +848,7 @@ public class pantalla extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             Symbol sym = s.getS();
-            for(String err: s.getL()){
-                errores.add(err);
-            }
-            errores.add("Error de sintaxis. Linea: " + (sym.left + 1) + "; Texto: \""+sym.value+"\"");
+            errores.add("Error de sintaxis. Linea: " + (sym.right + 1) + "; Texto: \""+sym.value+"\"");
         }
     }
     
