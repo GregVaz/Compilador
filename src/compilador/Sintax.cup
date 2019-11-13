@@ -33,11 +33,15 @@ veloc, time, caracter_especial, op_relacional, punto_medio, detectorParada, sepa
 ide_error, numero_error, caracter_error, cadena_error, color_error, tiempo_error;
 
 
-non terminal CONDICIONAL,CONDICIONAL2,COND,ESPACIO,CUERPO,
+non terminal CONDICIONAL,CONDICIONAL2,COND,ESPACIO,CUERPO,CUERPO_EXP, EXPR,
                 DATOS,DECLARACION, DECLARACIONES,FUNCION,ASIG,PARAM,CUERPO_PROG,INICIO,
                 PRMOV,PRUBI,PRCOM,RETORNO,EVALUACION,EVALUACIONES,
                 LIBRERIA,LIBRERIAS,PROGRAMA,INICIALIZACION,TIPOS,
                 EXPRESION,CICLO,CUERPO_CICLO, CUERPO_SI,TER, PAR_CICLO, CIERRE;
+
+precedence left suma, resta;
+precedence left producto, division;
+precedence left potencia;
 
 start with PROGRAMA;
 
@@ -212,10 +216,22 @@ PRCOM ::= detectarColor parentesis_a parentesis_c |
           obstaculo parentesis_a parentesis_c 
 ;
 
-EXPRESION ::= TER | EXPRESION suma TER | EXPRESION resta TER
+
+
+EXPRESION ::= EXPR | EXPRESION EXPR
 ;
 
-TER ::= identificador | TIPOS
+
+EXPR ::= TER   | 
+         TER suma EXPR | 
+         TER resta EXPR |
+         TER producto EXPR |
+         TER division EXPR |
+         TER potencia EXPR |
+         parentesis_a EXPR parentesis_c
+;
+
+TER ::= identificador | veloc
 ;
 
 CICLO ::= mientras parentesis_a PAR_CICLO parentesis_c llave_a CUERPO_CICLO llave_c

@@ -591,7 +591,7 @@ public class pantalla extends javax.swing.JFrame {
 
         try{
             analizadorSintactico();   
-            if(errores.isEmpty())
+            if(errores.isEmpty() || errores.size() == 1)
                 errores.add("Analisis sintactico correctamente");
         } catch (IOException ex){
             Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
@@ -847,7 +847,7 @@ public class pantalla extends javax.swing.JFrame {
                 errores.add(err);
             }
         } catch (Exception ex) {
-            Symbol sym = s.getS();
+            Symbol sym = s.getS();  
             errores.add("Error de sintaxis. Linea: " + (sym.right + 1) + "; Texto: \""+sym.value+"\"");
         }
     }

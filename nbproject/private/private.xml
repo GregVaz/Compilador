@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/media/d3sc5rt/Data/projects/Compilador/src/compilador/lexer.flex</file>
-            <file>file:/media/d3sc5rt/Data/projects/Compilador/src/compilador/Lexer.java</file>
-            <file>file:/media/d3sc5rt/Data/projects/Compilador/src/compilador/Tokens.java</file>
+            <file>file:/media/d3sc5rt/Data/projects/Compilador/src/compilador/lexerCup.flex</file>
+            <file>file:/media/d3sc5rt/Data/projects/Compilador/src/compilador/Sintax.java</file>
+            <file>file:/media/d3sc5rt/Data/projects/Compilador/src/compilador/Sintax.cup</file>
             <file>file:/media/d3sc5rt/Data/projects/Compilador/src/compilador/pantalla.java</file>
-            <file>file:/media/d3sc5rt/Data/projects/Compilador/src/compilador/LabelError.java</file>
         </group>
     </open-files>
 </project-private>
