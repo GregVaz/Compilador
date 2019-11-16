@@ -1103,7 +1103,7 @@ public class pantalla extends javax.swing.JFrame {
             else
             //Analisis de sentencia para bandera evalDes para decision
             if(evalDes){
-                 System.out.println("Entrando a evaluacion de DECISION");
+                System.out.println("Entrando a evaluacion de DECISION");
                 tipo = elem[1].toString();
                 var = elem[0].toString();
                 switch(tipo){
