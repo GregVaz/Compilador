@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import java_cup.runtime.Symbol;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import jflex.Out;
 
@@ -82,11 +83,20 @@ public class pantalla extends javax.swing.JFrame {
         modelo.setColumnIdentifiers(new Object[]{"Lexema", "Componente lexico"});
         tablaSimbolos.setModel(modelo);
         
+        panelTitulo.setVisible(false);
         
         errores = new LinkedList<>();
         tablaS = new LinkedList<>();
         
-        textPane.setText("inicioSecuencia jav1 {\n  inicializacion {\n velocidad best = 2· } \n funcion fun1(velocidad data) { \n best = data + 1· } \n}");
+        textPane.setText("inicioSecuencia jav1 {"
+                + "\n  inicializacion {\n \tvelocidad normal = 5· \n \tvelocidad baja = 2· \n \tcolor alertaMensaje = #FF0000· "
+                + "\n \tcolor avanza = #000000· \n \tcolor esperarCarro = #00FF00· \n \talerta errorColor = \"Color incorrecto\"· \n \ttiempo tiempoEspera = 05:00· \n} "
+                + "\n \nfuncion cambioVelocidad(velocidad data) { \n \tnormal = data + normal· \n\tretorno normal· \n} "
+                + "\n \nmientras(detectarColor()==#FFFFFF){ \n\tavanzar(normal)·\n \tsi(detectarColor()==esperarCarro){ \n\t\tdetener()·\n \t\tesperar(tiempoEspera)· \n \t\tavanzar(cambioVelocidad())· }"
+                + "\n \tsi(detectarColor()==errorColor){ \n\t\t detener()· \n\t\tregresarBase()· \n\t} \n}"
+                + "\n}");
+        
+        
         /* Colocar el error o linea de color
         textPane.setSelectionStart(10);
         textPane.setSelectionEnd(40);
@@ -118,10 +128,8 @@ public class pantalla extends javax.swing.JFrame {
         lbGuardar = new javax.swing.JLabel();
         lbPalabrasReservadas = new javax.swing.JLabel();
         lbInfo = new javax.swing.JLabel();
-        btnLexico = new javax.swing.JLabel();
+        btnCompilador = new javax.swing.JLabel();
         lbVisualizar = new javax.swing.JLabel();
-        btnSintactico = new javax.swing.JLabel();
-        btnSemantico = new javax.swing.JLabel();
         lbIntermedio = new javax.swing.JLabel();
         panelCodigo = new javax.swing.JPanel();
         codigo_Central = new javax.swing.JScrollPane();
@@ -136,8 +144,7 @@ public class pantalla extends javax.swing.JFrame {
         tablaSimbolos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
-        setResizable(false);
+        setPreferredSize(new java.awt.Dimension(990, 500));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelTitulo.setBackground(new java.awt.Color(247, 255, 235));
@@ -267,15 +274,15 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
 
-        btnLexico.setBackground(new java.awt.Color(247, 255, 235));
-        btnLexico.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        btnLexico.setForeground(new java.awt.Color(244, 241, 233));
-        btnLexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compilar.png"))); // NOI18N
-        btnLexico.setToolTipText("Acerca de...");
-        btnLexico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnLexico.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnCompilador.setBackground(new java.awt.Color(247, 255, 235));
+        btnCompilador.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        btnCompilador.setForeground(new java.awt.Color(244, 241, 233));
+        btnCompilador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compilar.png"))); // NOI18N
+        btnCompilador.setToolTipText("Acerca de...");
+        btnCompilador.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnCompilador.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnLexicoMouseClicked(evt);
+                btnCompiladorMouseClicked(evt);
             }
         });
 
@@ -285,30 +292,6 @@ public class pantalla extends javax.swing.JFrame {
         lbVisualizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbVisualizarMouseClicked(evt);
-            }
-        });
-
-        btnSintactico.setBackground(new java.awt.Color(247, 255, 235));
-        btnSintactico.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        btnSintactico.setForeground(new java.awt.Color(244, 241, 233));
-        btnSintactico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compilar.png"))); // NOI18N
-        btnSintactico.setToolTipText("Acerca de...");
-        btnSintactico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnSintactico.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSintacticoMouseClicked(evt);
-            }
-        });
-
-        btnSemantico.setBackground(new java.awt.Color(247, 255, 235));
-        btnSemantico.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        btnSemantico.setForeground(new java.awt.Color(244, 241, 233));
-        btnSemantico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compilar.png"))); // NOI18N
-        btnSemantico.setToolTipText("Acerca de...");
-        btnSemantico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnSemantico.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSemanticoMouseClicked(evt);
             }
         });
 
@@ -337,18 +320,14 @@ public class pantalla extends javax.swing.JFrame {
                 .addGap(168, 168, 168)
                 .addComponent(lbPalabrasReservadas)
                 .addGap(18, 18, 18)
-                .addComponent(btnLexico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSintactico)
-                .addGap(13, 13, 13)
-                .addComponent(btnSemantico)
+                .addComponent(btnCompilador)
                 .addGap(18, 18, 18)
                 .addComponent(lbInfo)
                 .addGap(18, 18, 18)
                 .addComponent(lbVisualizar)
                 .addGap(18, 18, 18)
                 .addComponent(lbIntermedio)
-                .addContainerGap(370, Short.MAX_VALUE))
+                .addContainerGap(449, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,10 +337,8 @@ public class pantalla extends javax.swing.JFrame {
             .addComponent(lbPalabrasReservadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnLexico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnCompilador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbVisualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnSintactico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnSemantico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbIntermedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -437,6 +414,7 @@ public class pantalla extends javax.swing.JFrame {
         paneTabla.setBackground(new java.awt.Color(36, 35, 34));
 
         scrollTabla.setBackground(new java.awt.Color(61, 64, 58));
+        scrollTabla.setPreferredSize(new java.awt.Dimension(452, 800));
 
         tablaSimbolos.setBackground(new java.awt.Color(36, 35, 34));
         tablaSimbolos.setForeground(new java.awt.Color(247, 255, 235));
@@ -465,6 +443,7 @@ public class pantalla extends javax.swing.JFrame {
         });
         tablaSimbolos.setGridColor(new java.awt.Color(247, 255, 235));
         tablaSimbolos.setPreferredSize(new java.awt.Dimension(300, 330));
+        tablaSimbolos.setRowHeight(14);
         tablaSimbolos.setSelectionBackground(new java.awt.Color(247, 255, 235));
         tablaSimbolos.setSelectionForeground(new java.awt.Color(36, 35, 34));
         scrollTabla.setViewportView(tablaSimbolos);
@@ -488,7 +467,7 @@ public class pantalla extends javax.swing.JFrame {
 
         getContentPane().add(paneTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 50, 240, 330));
 
-        setSize(new java.awt.Dimension(983, 491));
+        setSize(new java.awt.Dimension(999, 530));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -539,7 +518,7 @@ public class pantalla extends javax.swing.JFrame {
         in.setVisible(true);
     }//GEN-LAST:event_lbPalabrasReservadasMouseClicked
 
-    private void btnLexicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLexicoMouseClicked
+    private void btnCompiladorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCompiladorMouseClicked
         //minErrores.setEnabled(true);
         panelCodigo.setSize(740,320);
         codigo_Central.setSize(733,309);
@@ -555,14 +534,52 @@ public class pantalla extends javax.swing.JFrame {
             try {
                 errores.clear();
                 analizarLexico();
+                //if(errores.isEmpty())
+                //    errores.add("Analizador lexico correctamente");
+                analizadorSintactico(); 
+                //if(errores.isEmpty() || errores.size() == 1)
+                //    errores.add("Analisis sintactico correctamente");
+                if(this.errores.isEmpty()){
+                analizadorSemantico();
                 if(errores.isEmpty())
-                    errores.add("Analizador lexico correctamente");
+                    errores.add("Analizador semantico correctamente");
+                } else {
+                    errores.add("\nPor favor corrija los errores lexicos o semanticos para continuar con el analisis semantico");
+                    //JOptionPane.showMessageDialog(this, "Analisis semantico abortado", "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 areaErrores.setText(mostrarErrores());
             } catch (IOException ex) {
                 Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
             }
        
-    }//GEN-LAST:event_btnLexicoMouseClicked
+        /*
+         try{
+            analizadorSintactico();   
+            //if(errores.isEmpty() || errores.size() == 1)
+            //    errores.add("Analisis sintactico correctamente");
+        } catch (IOException ex){
+            Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        areaErrores.setText(mostrarErrores());
+        */
+        
+        /*
+        //errores.clear();
+        try{
+            if(this.errores.isEmpty()){
+                analizadorSemantico();
+                errores.add("Analizador semantico correctamente");
+            } else {
+                errores.add("\nPor favor corrija los errores lexicos o semanticos para continuar con el analisis semantico");
+                JOptionPane.showMessageDialog(this, "Analisis semantico abortado", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+                
+        }catch (IOException ex){
+            Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        areaErrores.setText(mostrarErrores());
+        */
+    }//GEN-LAST:event_btnCompiladorMouseClicked
 
     private void minErroresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minErroresMouseClicked
         panelCodigo.setSize(983,440);
@@ -586,35 +603,6 @@ public class pantalla extends javax.swing.JFrame {
             vis = 0;
         }
     }//GEN-LAST:event_lbVisualizarMouseClicked
-
-    private void btnSintacticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSintacticoMouseClicked
-
-        try{
-            analizadorSintactico();   
-            if(errores.isEmpty() || errores.size() == 1)
-                errores.add("Analisis sintactico correctamente");
-        } catch (IOException ex){
-            Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        areaErrores.setText(mostrarErrores());
-    }//GEN-LAST:event_btnSintacticoMouseClicked
-
-    private void btnSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSemanticoMouseClicked
-        //errores.clear();
-        try{
-            if(this.errores.isEmpty()){
-                analizadorSemantico();
-                errores.add("Analizador semantico correctamente");
-            } else {
-                errores.add("\nPor favor corrija los errores lexicos o semanticos para continuar con el analisis semantico");
-                JOptionPane.showMessageDialog(this, "Analisis semantico abortado", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-                
-        }catch (IOException ex){
-            Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        areaErrores.setText(mostrarErrores());
-    }//GEN-LAST:event_btnSemanticoMouseClicked
 
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
         IntermedioPantalla ventana = new IntermedioPantalla();
@@ -703,39 +691,39 @@ public class pantalla extends javax.swing.JFrame {
                     modelo.addRow(new Object[]{"detener","pr_movimiento"});
                     break;
                 case esperar:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    modelo.addRow(new Object[]{"esperar","pr_movimiento"});
                     break;
                 case iniciar:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    modelo.addRow(new Object[]{"iniciar","pr_movimiento"});
                     break;
                 case reversa:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_movimiento"});
+                    modelo.addRow(new Object[]{"reversa","pr_movimiento"});
                     break;
                     
                 case regresarBase:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
+                    modelo.addRow(new Object[]{"regresarBase","pr_ubicacion"});
                     break;
                 case detectarParada:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
+                    modelo.addRow(new Object[]{"detectarParada","pr_ubicacion"});
                     break;
                 case detectarLinea:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_ubicacion"});
+                    modelo.addRow(new Object[]{"detectarLinea","pr_ubicacion"});
                     break;
                     
                 case obstaculo:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    modelo.addRow(new Object[]{"obstaculo","pr_seguridad"});
                     break;
                 case estadoCamara:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    modelo.addRow(new Object[]{"estadoCamara","pr_seguridad"});
                     break;
                 case duracionRecorrido:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    modelo.addRow(new Object[]{"duracionRecorrido","pr_seguridad"});
                     break;
                 case detectarAnomalia:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    modelo.addRow(new Object[]{"detectarAnomalia","pr_seguridad"});
                     break;
                 case detectarColor:
-                    modelo.addRow(new Object[]{"inicioSecuencia","pr_seguridad"});
+                    modelo.addRow(new Object[]{"detectarColor","pr_seguridad"});
                     break;
                     
                 case identificador:
@@ -863,18 +851,33 @@ public class pantalla extends javax.swing.JFrame {
         LinkedList<String> funciones = new LinkedList<>();
         LinkedList<String> parametros = new LinkedList<>();
         LinkedList<Object[]> expresion = new LinkedList<>();
+        LinkedList<Object[]> funcionesTabla = new LinkedList<>();
+        
+        //Variables de banderas
         Boolean evalInit = false;
         Boolean evalFun = false;
         Boolean evalDes = false;
         Boolean evalCic = false;
         Boolean asignacion = false;
         Boolean evalPRMOV = false;
+        Boolean cuerpo = false;
+        
+        //Objeto principal
+        String token = "";
+        String obj = "";
+        
+        //Variables de uso temporales
         String tipo = "";
         String var = "";
         String temp = "";
+        
+        //Variables de uso de comparacion entre elementos
         String vartype1 = "";
         String vartype2 = "";
+        
+        //Contador de linea
         int counter = 1;
+        
         LinkedList<Object[]> prcomTabla = new LinkedList<>();
         prcomTabla.add(new Object[]{"color","detectarColor"});
         prcomTabla.add(new Object[]{"color","detectarParada"});
@@ -884,25 +887,25 @@ public class pantalla extends javax.swing.JFrame {
         prcomTabla.add(new Object[]{"color","detectarLinea"});
         prcomTabla.add(new Object[]{"verdad","obstaculo"});
         
-        
-        /*for(Object[] elem: this.tablaS){
-           System.out.println(elem[0] + "   " + elem[1]);
-        }*/
-        
         //Inicio del analisis semantico
+        System.out.println("Inicio del programa");
         for(Object[] elem: this.tablaS){
+            obj = elem[0].toString();
+            token = elem[1].toString();
+            
             //Detectar que estamos en la parte de inicializacion de variables
-            if(elem[1].equals("linea")){
+            if(token.equals("linea")){
                 counter++;
                 continue;
             }
-            if(elem[1].equals("inicializacion")){
+            
+            if(token.equals("inicializacion")){
                 evalInit = true; //Cambiamos la bandera para que pueda leer las variables declaradas en el programa
             } else
-            if(elem[1].equals("funcion")){
+            if(token.equals("funcion")){
                 evalFun = true; //Cambiamos la bandera para que pueda leer el cuerpo de una funcion
             } else
-            if(elem[1].equals("si")){
+            if(token.equals("si")){
                 temp = "";
                 var = "";
                 tipo = "";
@@ -910,7 +913,7 @@ public class pantalla extends javax.swing.JFrame {
                 vartype2 = "";
                 evalDes = true; //Cambiamos la bandera para que pueda leer la estrcutra de decision
             } else
-            if(elem[1].equals("mientras")){
+            if(token.equals("mientras")){
                 temp = "";
                 var = "";
                 tipo = "";
@@ -918,42 +921,43 @@ public class pantalla extends javax.swing.JFrame {
                 vartype2 = "";
                 evalCic = true; //Cambiamos la bandera para que pueda leer la estructura de ciclo de mientras
             } else
-            if(elem[1].equals("avanzar") || elem[1].equals("esperar")){
+            if(token.equals("avanzar") || token.equals("esperar")){
                 temp = "";
                 evalPRMOV = true; //Cambiamos la bandera para que pueda leer la estructura de ciclo de mientras
             }
             
+            
             //Analisis de variables bandera evalInit para inicializacion
             if(evalInit){
                 System.out.println("Entrando a INICIALIZACION");
-                switch (elem[1].toString()) {
+                switch (token) {
                     case "llave_a":
                         break;
                     case "decision":
-                        tipo = elem[1].toString();
+                        tipo = token;
                         break;
                     case "velocidad":
-                        tipo = elem[1].toString();
+                        tipo = token;
                         break;
                     case "tiempo":
-                        tipo = elem[1].toString();
+                        tipo = token;
                         break;
                     case "alerta":
-                        tipo = elem[1].toString();
+                        tipo = token;
                         break;
                     case "color":
-                        tipo = elem[1].toString();
+                        tipo = token;
                         break;
                     case "identificador": //Evaluamos que la variable no haya sido ya declarada, de ser asi, colocara la variable que lo guarda en vacio para que no lo guarde una vez exista una comparacion con lo que se esta declarando.
-                        var = elem[0].toString();
+                        var = obj;
                         if(variables.contains(var)){
-                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
+                            errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
                             var = "";
                         }
                         break;
                     case "veloc": 
                         if(!"velocidad".equals(tipo))
-                            errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos \"" + tipo + "\" no corresponde a velocidad.");
+                            errores.add("Error semantico de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos \"" + tipo + "\" no corresponde a velocidad.");
                         else{
                             if(!var.isEmpty()){
                                 variables.add(var);
@@ -963,7 +967,7 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                     case "verdad": 
                         if(!"decision".equals(tipo))
-                            errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a decision.");
+                            errores.add("Error semantico de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a decision.");
                         else{
                             if(!var.isEmpty()){
                                 variables.add(var);
@@ -973,7 +977,7 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                     case "falso": 
                         if(!"decision".equals(tipo))
-                            errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a decision.");
+                            errores.add("Error semantico de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a decision.");
                         else{
                             if(!var.isEmpty()){
                                 variables.add(var);
@@ -983,7 +987,7 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                     case "time": 
                         if(!"tiempo".equals(tipo))
-                            errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a tiempo.");
+                            errores.add("Error semantico de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a tiempo.");
                         else{
                             if(!var.isEmpty()){
                                 variables.add(var);
@@ -993,7 +997,7 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                     case "cadena": 
                         if(!"alerta".equals(tipo))
-                            errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a alerta.");
+                            errores.add("Error semantico de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a alerta.");
                         else{
                             if(!var.isEmpty()){
                                 variables.add(var);
@@ -1003,7 +1007,7 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                     case "colores": 
                         if(!"color".equals(tipo))
-                            errores.add("Error de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a color.");
+                            errores.add("Error semantico de tipos. Linea: " + counter + ". Declaracion incorrecta de tipos " + tipo + " no corresponde a color.");
                         else{
                             if(!var.isEmpty()){
                                 variables.add(var);
@@ -1013,7 +1017,7 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                 
                 }
-                if(elem[1].equals("llave_c")){
+                if(token.equals("llave_c")){
                     evalInit = false;
                     System.out.println("Saliendo a INICIALIZACION");
                 }
@@ -1022,36 +1026,41 @@ public class pantalla extends javax.swing.JFrame {
             //analisis de palabras de movimiento que requieren de parametros
             if(evalPRMOV) {
                 System.out.println("Entrando a evaluacion de PARAMETROS DE MOVIMIENTO");
-                switch(elem[1].toString()){
+                switch(token){
                     case "avanzar":
-                        tipo = "avanzar";
+                        tipo = token;
                         break;
                     case "esperar":
-                        tipo = "esperar";
+                        tipo = token;
                         break;
                     case "identificador":
-                        temp = obtenerTipo(variablesTabla, elem[0].toString());
-                        if(!variables.contains(elem[0].toString())){
-                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
-                        } else if(tipo.equals("avanzar") && !temp.equals("velocidad"))
-                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
+                        temp = obtenerTipo(variablesTabla, obj);
+                        if(temp.isEmpty())
+                            temp = obtenerTipoFuncion(funcionesTabla,obj);
+                        if(!variables.contains(obj) && !funciones.contains(obj)){
+                            errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable o funcion \"" + obj + "\" no ha sido declarada.");
+                        } else if(tipo.equals("avanzar") && !temp.equals("velocidad") )
+                            errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable o funcion \"" + obj + "\" no corresponde al tipo velocidad.");
                         else if(tipo.equals("esperar") && !temp.equals("tiempo")) 
-                                errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + var + "\" ya fue declarada.");
+                                errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable \"" + obj + "\" no corresponde al tipo tiempo.");
                         break;
                     case "veloc":
                         if(!tipo.equals("avanzar"))
-                            errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". Parametro velocidad es solo aplicable al metodo avanzar");
+                            errores.add("Error semantico de parametros en metodo de movimiento. Linea: " + counter + ". Parametro velocidad es solo aplicable al metodo avanzar");
                         break;
                     case "time": 
                         if(!tipo.equals("esperar"))
-                            errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". Parametro tiempo es solo aplicable al metodo esperar");
+                            errores.add("Error semantico de parametros en metodo de movimiento. Linea: " + counter + ". Parametro tiempo es solo aplicable al metodo esperar");
                         break;
+                    case "parentesis_a":
+                        tipo = token;
                     case "parentesis_c":
-                        if(temp.isEmpty())
-                            errores.add("Error de parametros en metodo de movimiento. Linea: " + counter + ". El metodo necesita de un parametro");
+                        if(temp.isEmpty() && !tipo.equals("parentesis_a"))
+                            errores.add("Error semantico de parametros en metodo de movimiento. Linea: " + counter + ". El metodo necesita de un parametro");
+                        tipo = token;
                         break;
                 }
-                if(elem[1].equals("parentesis_c")){
+                if(token.equals("parentesis_c")&& !tipo.equals("parentesis_a")){
                     evalPRMOV = false;
                     System.out.println("Saliendo de evaluación de PARAMETROS DE MOVIMIENTO");
                 }
@@ -1060,7 +1069,7 @@ public class pantalla extends javax.swing.JFrame {
             //Analizar una asignación cuando esta entra en parte del cuerpo del ciclo
             if(asignacion){
                 System.out.println("Entrando a evaluacion para expresion de ASIGNACION");
-                switch (elem[1].toString()) {  
+                switch (token) {  
                     case "igual":
                         expresion.add(elem);
                         break;
@@ -1104,16 +1113,15 @@ public class pantalla extends javax.swing.JFrame {
             //Analisis de sentencia para bandera evalDes para decision
             if(evalDes){
                 System.out.println("Entrando a evaluacion de DECISION");
-                tipo = elem[1].toString();
-                var = elem[0].toString();
-                switch(tipo){
+                var = obj;
+                switch(token){
                     case "op_relacional":
                         break;
                     case "llave_a":
-                        temp = "llave_a";
+                        tipo = "llave_a";
                         break;
                     case "llave_c":
-                        temp = "llave_c";
+                        tipo = "llave_c";
                         vartype1 = "";
                         vartype2 = "";
                         evalDes = false;
@@ -1123,16 +1131,15 @@ public class pantalla extends javax.swing.JFrame {
                         if(temp.equals("llave_a")){
                             asignacion = true;
                             expresion.add(elem);
-                            tipo = temp;
                             System.out.println("CAMBIANDO a evaluacion de decision para ASIGNACION");
                         }else if(!variables.contains(var) && !parametros.contains(var)){
-                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
+                            errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable \"" + token + "\" no ha sido declarada.");
                         } else if(vartype1.isEmpty()){
                             vartype1 = obtenerTipo(variablesTabla, var);
                         } else {
                             vartype2 = obtenerTipo(variablesTabla, var);
                             if(!vartype1.equals(vartype2))
-                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                               errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
                         }
                         break;
                     case "detectarColor":
@@ -1141,7 +1148,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = obtenerTipo(prcomTabla, var);
                             if(!vartype1.equals(vartype2))
-                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                               errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
                         }
                         break;
                     case "detectarParada":
@@ -1150,7 +1157,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = obtenerTipo(prcomTabla, var);
                             if(!vartype1.equals(vartype2))
-                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                               errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
                         }
                         break;
                     case "detectarAnomalia":
@@ -1159,7 +1166,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = obtenerTipo(prcomTabla, var);
                             if(!vartype1.equals(vartype2))
-                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                               errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
                         }
                         break;
                     case "estadoCamara":
@@ -1168,7 +1175,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = obtenerTipo(prcomTabla, var);
                             if(!vartype1.equals(vartype2))
-                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                               errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
                         }
                         break;
                     case "duracionRecorrido":
@@ -1177,7 +1184,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = obtenerTipo(prcomTabla, var);
                             if(!vartype1.equals(vartype2))
-                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                               errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
                         }
                         break;
                     case "detectarLinea":
@@ -1186,7 +1193,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = obtenerTipo(prcomTabla, var);
                             if(!vartype1.equals(vartype2))
-                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                               errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
                         }
                         break;
                     case "obstaculo":
@@ -1195,7 +1202,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = obtenerTipo(prcomTabla, var);
                             if(!vartype1.equals(vartype2))
-                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
+                               errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean del mismo tipo"); 
                         }
                         break;
                     case "veloc":
@@ -1204,7 +1211,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = "velocidad";
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                                errores.add("Error semantico de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
                             }
                             vartype1 = vartype2;
                         }
@@ -1274,7 +1281,7 @@ public class pantalla extends javax.swing.JFrame {
             else
             if(evalCic) {
                 System.out.println("Entrando a evaluacion de CICLO");
-                switch(elem[1].toString()){
+                switch(token){
                     case "mientras":
                         break;
                     case "op_relacional":
@@ -1291,33 +1298,33 @@ public class pantalla extends javax.swing.JFrame {
                     case "parentesis_c":
                         break;
                     case "identificador":
-                        var = elem[0].toString();
+                        var = obj;
                         if(temp.equals("llave_a") || temp.equals("llave_c")){
                             asignacion = true;
                             expresion.add(elem);
                             tipo = temp;
                              System.out.println("CAMBIANDO a evaluacion de ciclo para ASIGNACION");
                         }else if(!variables.contains(var) && !parametros.contains(var)){
-                            errores.add("Error de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
+                            errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
                         } else if(vartype1.isEmpty()){
                             vartype1 = obtenerTipo(variablesTabla, var);
                             if(!vartype1.equals("color"))
-                                 errores.add("Error de ciclo. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no es de tipo color.");
+                                 errores.add("Error semantico de ciclo. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no es de tipo color.");
                         } else {
                             vartype2 = obtenerTipo(variablesTabla, var);
                             if(!vartype2.equals("color"))
-                                 errores.add("Error de ciclo. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no es de tipo color.");
+                                 errores.add("Error semantico de ciclo. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no es de tipo color.");
                             if(!vartype1.equals(vartype2))
-                               errores.add("Error de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean de tipo color"); 
+                               errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean de tipo color"); 
                         }
                         break;
                     case "colores":
                         if(vartype1.isEmpty()) {
-                            errores.add("Error de ciclo. Linea: " + counter + ". El parametro de relación para el ciclo primero debe de ser un identificador de tipo color");
+                            errores.add("Error semantico de ciclo. Linea: " + counter + ". El parametro de relación para el ciclo primero debe de ser un identificador de tipo color");
                         } else {
                             vartype2 = "color";
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de parametros de relacion en ciclo. Linea: " + counter + ". La variable de tipo " + vartype1 + " no corresponde a la variable de tipo " + vartype2  );
+                                errores.add("Error semantico de parametros de relacion en ciclo. Linea: " + counter + ". La variable de tipo " + vartype1 + " no corresponde a la variable de tipo " + vartype2  );
                             }
                         }
                         break;
@@ -1327,58 +1334,62 @@ public class pantalla extends javax.swing.JFrame {
                         evalDes = true;
                         break;
                     default:
-                        errores.add("Error de ciclo. Linea: " + counter + ". Las declaraciones de comparación tienen que ser entre datos/variables de tipo color");
+                        errores.add("Error semantico de ciclo. Linea: " + counter + ". Las declaraciones de comparación tienen que ser entre datos/variables de tipo color");
                 }
             }else 
                 
             if(evalFun) {
                 System.out.println("Entrando a evaluacion de FUNCION");
-                switch (elem[1].toString()) {
+                switch (token) {
                     case "funcion":
-                        tipo = elem[1].toString();
+                        tipo = token;
                         break;
                     case "decision":
-                        temp = elem[1].toString();
+                        tipo = token;
                         break;
                     case "velocidad":
-                        temp = elem[1].toString();
+                        tipo = token;
                         break;
                     case "tiempo":
-                        temp = elem[1].toString();
+                        tipo = token;
                         break;
                     case "alerta":
-                        temp = elem[1].toString();
+                        tipo = token;
                         break;
                     case "color":
-                        temp = elem[1].toString();
+                        tipo = token;
                         break;
                     case "parentesis_a":
-                        tipo = elem[1].toString();
+                        tipo = token;
                         break;
                     case "llave_a":
-                        tipo = elem[1].toString();
+                        cuerpo = true;
                         break;
                     case "igual":
                         expresion.add(elem);
                         break;
                     case "identificador":
-                        var = elem[0].toString();
+                        var = obj;
                         if("funcion".equals(tipo)){ //Si es tipo funcion, comparara si el identificador no es una funcion ya repetida. 
                             if(funciones.contains(var)){
-                                errores.add("Error de asignacion. Linea: " + counter + ". La funcion \"" + var + "\" ya fue declarada.");
-                            } else 
+                                errores.add("Error semantico de asignacion. Linea: " + counter + ". La funcion \"" + var + "\" ya fue declarada.");
+                            } else {
+                                temp = var;
                                 funciones.add(var);
+                            }
                         } else if ("parentesis_a".equals(tipo)){ //Esto servira para evitar el contacto con los identificadores dentro de los parametros, proseguira con el analisis del curpo del ciclo al detectar si se encuentra con la llave de apertura {
                             if(variables.contains(var)){
-                                errores.add("Error de parametros. Linea: " + counter + ". El parametro \"" + var + "\" no puede nombrarse igual que una variable ya declarada.");
+                                errores.add("Error semantico de parametros. Linea: " + counter + ". El parametro \"" + var + "\" no puede nombrarse igual que una variable ya declarada.");
                             } else {
                                 parametros.add(var);
                                 variablesTabla.add(new Object[]{temp, var});
                             }
-                        }  else if(temp.equals("llave_a")){
+                        }  else if(tipo.equals("retorno")){
+                            funcionesTabla.add(new Object[]{temp, obj, obtenerTipo(variablesTabla, obj)});
+                        } else if(cuerpo){
                             expresion.add(elem);
                             asignacion = true;
-                        }
+                        } 
                         break; 
                     case "si":
                         evalDes = true;
@@ -1386,11 +1397,15 @@ public class pantalla extends javax.swing.JFrame {
                     case "mientras":
                         evalCic = true;
                         break;
+                    case "retorno":
+                        tipo = token;
+                        break;
                }
                 
-                if(elem[1].equals("llave_c")){
+                if(token.equals("llave_c")){
                     evalFun = false;
-                     System.out.println("Saliendo a evaluacion de FUNCION");
+                    cuerpo = false;
+                    System.out.println("Saliendo a evaluacion de FUNCION");
                 }
             }
             
@@ -1423,13 +1438,14 @@ public class pantalla extends javax.swing.JFrame {
             //4.- identificador (+-) tipos
             //5.- tipos (+-) identificador
             //6.- tipos (+-) tipos
-            //7.- Cualquier de las operaciones anteriores de forma compleja de mas de dos operando e intercalando las operaciones de suma y resta (+-)
+            //7.- Cualquier de las operaciones anteriores de forma compleja de mas de dos operando e intercalando las operaciones de suma, resta, producto y diviision 
             
             //Una vez evaluamos que una expresion pueda ser correcta comparar que el lado izquierdo pertenece al mismo tipo que el lado derecho
             
-            token = valor[1].toString();
             obj = valor[0].toString();
+            token = valor[1].toString();
             //Ejemplo: token = identificador, obj = val1
+            //System.out.println(obj);
             
             switch(token){
                 case "identificador":
@@ -1456,6 +1472,12 @@ public class pantalla extends javax.swing.JFrame {
                     break;
                 
                 case "resta":
+                    break;
+                    
+                case "producto":
+                    break;
+                    
+                case "division":
                     break;
                     
                 case "veloc":
@@ -1548,7 +1570,19 @@ public class pantalla extends javax.swing.JFrame {
             if(elem[1].equals(var)){
                 tipo = elem[0].toString();
                 break;
-            }
+            } 
+        }
+        return tipo;
+    }
+    
+    
+    public String obtenerTipoFuncion(LinkedList<Object[]> list, String var){
+        String tipo = "";
+        for(Object[] elem: list){
+            if(elem[0].equals(var)){
+                tipo = elem[2].toString();
+                break;
+            } 
         }
         return tipo;
     }
@@ -1637,9 +1671,7 @@ public class pantalla extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaErrores;
-    private javax.swing.JLabel btnLexico;
-    private javax.swing.JLabel btnSemantico;
-    private javax.swing.JLabel btnSintactico;
+    private javax.swing.JLabel btnCompilador;
     private javax.swing.JScrollPane codigo_Central;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jlbCerrar;

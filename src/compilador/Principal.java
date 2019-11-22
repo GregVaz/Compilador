@@ -10,15 +10,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-/**
+/*
  *
  * @author Grego
  */
 public class Principal {
     public static void main(String[]args) throws Exception{
-        String ruta1 = "/home/d3sc5rt/Documentos/projects/Compilador/src/compilador/lexer.flex";
-        String ruta2 = "/home/d3sc5rt/Documentos/projects/Compilador/src/compilador/lexerCup.flex";
-        String[] rutaS = {"-parser", "Sintax", "/home/d3sc5rt/Documentos/projects/Compilador/src/compilador/Sintax.cup"};
+        String ruta1 = "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\src\\compilador\\lexer.flex";
+        String ruta2 = "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\src\\compilador\\lexerCup.flex";
+        String[] rutaS = {"-parser", "Sintax", "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\src\\compilador\\Sintax.cup"};
         generar(ruta1, ruta2, rutaS);
     }
     
@@ -30,21 +30,21 @@ public class Principal {
         jflex.Main.generate(archivo);
         java_cup.Main.main(rutaS);
         
-        Path rutaSym = Paths.get("/home/d3sc5rt/Documentos/projects/Compilador/src/compilador/sym.java");
+        Path rutaSym = Paths.get("C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\src\\compilador\\sym.java");
         if(Files.exists(rutaSym)){
             Files.delete(rutaSym);
         }
         Files.move(
-                Paths.get("/home/d3sc5rt/Documentos/projects/Compilador/sym.java"), 
-                Paths.get("/home/d3sc5rt/Documentos/projects/Compilador/src/compilador/sym.java")
+                Paths.get("C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\sym.java"), 
+                Paths.get("C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\src\\compilador\\sym.java")
         );
-        Path rutaSin = Paths.get("/home/d3sc5rt/Documentos/projects/Compilador/src/compilador/Sintax.java");
+        Path rutaSin = Paths.get("C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\src\\compilador\\Sintax.java");
         if(Files.exists(rutaSin)){
             Files.delete(rutaSin);
         }
         Files.move(
-                Paths.get("/home/d3sc5rt/Documentos/projects/Compilador/Sintax.java"), 
-                Paths.get("/home/d3sc5rt/Documentos/projects/Compilador/src/compilador/Sintax.java")
+                Paths.get("C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\Sintax.java"), 
+                Paths.get("C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\src\\compilador\\Sintax.java")
         );
     }
 }

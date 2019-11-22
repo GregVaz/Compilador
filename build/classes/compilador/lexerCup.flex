@@ -18,7 +18,7 @@ ide={alf_min}({alf_tot}){0,15}
 tiemp=(([0-5][0-9]):([0-5][0-9])) | (([6][0]):([0][0]))
 espacio=[ \t, \r, \n]+
 caracter_especial=[,:#!\"]
-alert=[\"]({alf_tot})*[\"]
+alert=[\"][A-Za-z0-9 \\t \\r]*[\"]
 colore=[#]([0-9A-F]{6})
 veloc=[0-9]{1,2}
 

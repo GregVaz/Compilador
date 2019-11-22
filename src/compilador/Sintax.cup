@@ -36,7 +36,7 @@ ide_error, numero_error, caracter_error, cadena_error, color_error, tiempo_error
 non terminal CONDICIONAL,CONDICIONAL2,COND,ESPACIO,CUERPO,CUERPO_EXP, EXPR,
                 DATOS,DECLARACION, DECLARACIONES,FUNCION,ASIG,PARAM,CUERPO_PROG,INICIO,
                 PRMOV,PRUBI,PRCOM,RETORNO,EVALUACION,EVALUACIONES,
-                LIBRERIA,LIBRERIAS,PROGRAMA,INICIALIZACION,TIPOS,
+                LIBRERIA,LIBRERIAS,PROGRAMA,INICIALIZACION,TIPOS, COND_SI,
                 EXPRESION,CICLO,CUERPO_CICLO, CUERPO_SI,TER, PAR_CICLO, CIERRE;
 
 precedence left suma, resta;
@@ -196,9 +196,10 @@ EVALUACION ::=  identificador op_relacional identificador |
 
 PRMOV ::= avanzar parentesis_a identificador parentesis_c CIERRE |
           avanzar parentesis_a TIPOS parentesis_c CIERRE |
+          avanzar parentesis_a identificador parentesis_a  parentesis_c parentesis_c CIERRE |
           detener parentesis_a parentesis_c CIERRE |
           esperar parentesis_a identificador parentesis_c CIERRE |
-          esperar parentesis_a TIPOS parentesis_c CIERRE |
+          esperar parentesis_a time parentesis_c CIERRE |
           iniciar parentesis_a parentesis_c CIERRE |
           reversa parentesis_a parentesis_c CIERRE
 ;
@@ -227,23 +228,29 @@ EXPR ::= TER   |
          TER resta EXPR |
          TER producto EXPR |
          TER division EXPR |
-         TER potencia EXPR |
-         parentesis_a EXPR parentesis_c
+         TER potencia EXPR 
 ;
 
-TER ::= identificador | veloc
+TER ::= identificador | veloc | parentesis_a EXPR parentesis_c
 ;
 
 CICLO ::= mientras parentesis_a PAR_CICLO parentesis_c llave_a CUERPO_CICLO llave_c
 ;
 
-PAR_CICLO ::= identificador op_relacional colores |  identificador op_relacional identificador
+PAR_CICLO ::= identificador op_relacional colores |  
+              identificador op_relacional identificador | 
+              detectarColor parentesis_a parentesis_c op_relacional colores | 
+              detectarColor parentesis_a parentesis_c op_relacional identificador
 ;
 
 CUERPO_CICLO ::= COND | COND CUERPO_CICLO
 ;
 
+CUERPO_SI ::= COND_SI | COND_SI CUERPO_SI
+;
+
 COND ::= ASIG | PRMOV | PRUBI | CONDICIONAL | RETORNO
 ;
 
-
+COND_SI ::= ASIG | PRMOV | PRUBI | CONDICIONAL
+;
