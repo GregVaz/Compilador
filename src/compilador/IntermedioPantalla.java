@@ -40,7 +40,7 @@ public class IntermedioPantalla extends javax.swing.JFrame {
     
     public void ponerCodigoIntermedio(){
         this.programa.forEach((item) -> {
-            System.out.println(item[0] + " " + item[1]);
+            //System.out.println(item[0] + " " + item[1]);
             var = item[0].toString();
             tipo = item[1].toString();
             

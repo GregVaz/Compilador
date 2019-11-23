@@ -25,6 +25,8 @@ public class Informacion extends javax.swing.JFrame {
         pr.put("inicializacion", "\nPrimera instrucción a ejecutar donde se inicializan todas las variables.\n");
         pr.put("importar", "\nLa declaración de importación combina dos operaciones; busca el módulo nombrado\nluego vincula los resultados de esa búsqueda a un nombre en el ámbito local.\n");
         pr.put("funcion(*Parametros)", "\nDeclaración de un nombre único que contiene un bloque de código que realiza una \ntarea en específico, y se puede invocar a través de su nombre.\n");
+        pr.put("retorno", "\nLa instrucción return se emplea para salir de la secuencia de ejecución de las sentencias de un método y, opcionalmente, devolver un valor.\n");
+        pr.put("si", "\nSentencia que se ejecutará si la condición se evalúa como falsa, y exista una cláusula “sino”\n");
         asignar();
     }
     
@@ -44,12 +46,6 @@ public class Informacion extends javax.swing.JFrame {
     private void initComponents() {
 
         panel1 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtPr = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -63,41 +59,11 @@ public class Informacion extends javax.swing.JFrame {
         panel1.setBackground(new java.awt.Color(61, 64, 58));
         panel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel15.setText("sentencias de un método y, opcionalmente, devolver un valor.");
-        panel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, -1, 20));
-
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel16.setText("La instrucción return se emplea para salir de la secuencia de ejecución de las ");
-        panel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
-
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel17.setText("retorno");
-        panel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, -1, -1));
-
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel18.setText("cláusula “sino”");
-        panel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, -1, 20));
-
-        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(247, 255, 235));
-        jLabel19.setText("Sentencia que se ejecutará si la condición se evalúa como falsa, y exista una ");
-        panel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, -1, -1));
-
-        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel20.setText("si");
-        panel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
-
         txtPr.setColumns(20);
         txtPr.setRows(5);
         jScrollPane1.setViewportView(txtPr);
 
-        panel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 460, 250));
+        panel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 460, 370));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(61, 64, 58));
@@ -121,7 +87,7 @@ public class Informacion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, Short.MAX_VALUE))
+                        .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(127, 127, 127)
                         .addComponent(jLabel1)
@@ -185,12 +151,6 @@ public class Informacion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlbCerrar;
     private javax.swing.JPanel panel1;

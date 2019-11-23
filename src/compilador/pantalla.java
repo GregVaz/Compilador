@@ -90,12 +90,10 @@ public class pantalla extends javax.swing.JFrame {
         tablaS = new LinkedList<>();
         
         textPane.setText("inicioSecuencia jav1 {"
-                + "\n  inicializacion {\n \tvelocidad normal = 5· \n \tvelocidad baja = 2· \n \tcolor alertaMensaje = #FF0000· "
-                + "\n \tcolor avanza = #000000· \n \tcolor esperarCarro = #00FF00· \n \talerta errorColor = \"Color incorrecto\"· \n \ttiempo tiempoEspera = 05:00· \n} "
-                + "\n \nfuncion cambioVelocidad(velocidad data) { \n \tnormal = data + normal· \n\tretorno normal· \n} "
-                + "\n \nmientras(detectarColor()==#FFFFFF){ \n\tavanzar(normal)·\n \tsi(detectarColor()==esperarCarro){ \n\t\tdetener()·\n \t\tesperar(tiempoEspera)· \n \t\tavanzar(cambioVelocidad())· }"
-                + "\n \tsi(detectarColor()==errorColor){ \n\t\t detener()· \n\t\tregresarBase()· \n\t} \n}"
-                + "\n}");
+                + "\n \ninicializacion { }"
+                + "\n \nfuncion fun() { } "
+                + "\n \nmientras(){ }"
+                + "\n \n}");
         
         
         /* Colocar el error o linea de color
@@ -131,6 +129,8 @@ public class pantalla extends javax.swing.JFrame {
         lbInfo = new javax.swing.JLabel();
         btnCompilador = new javax.swing.JLabel();
         lbVisualizar = new javax.swing.JLabel();
+        btnCodigoMaquina = new javax.swing.JLabel();
+        btnEjemplos = new javax.swing.JLabel();
         lbIntermedio = new javax.swing.JLabel();
         panelCodigo = new javax.swing.JPanel();
         codigo_Central = new javax.swing.JScrollPane();
@@ -296,6 +296,30 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
 
+        btnCodigoMaquina.setBackground(new java.awt.Color(255, 255, 255));
+        btnCodigoMaquina.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        btnCodigoMaquina.setForeground(new java.awt.Color(244, 241, 233));
+        btnCodigoMaquina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/maquina.png"))); // NOI18N
+        btnCodigoMaquina.setToolTipText("Guardar Archivo Como");
+        btnCodigoMaquina.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnCodigoMaquina.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCodigoMaquinaMouseClicked(evt);
+            }
+        });
+
+        btnEjemplos.setBackground(new java.awt.Color(255, 255, 255));
+        btnEjemplos.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        btnEjemplos.setForeground(new java.awt.Color(244, 241, 233));
+        btnEjemplos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ejemplos.png"))); // NOI18N
+        btnEjemplos.setToolTipText("Guardar Archivo Como");
+        btnEjemplos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnEjemplos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEjemplosMouseClicked(evt);
+            }
+        });
+
         lbIntermedio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/intermedio.png"))); // NOI18N
         lbIntermedio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lbIntermedio.setFocusable(false);
@@ -318,7 +342,9 @@ public class pantalla extends javax.swing.JFrame {
                 .addComponent(lbGuardar)
                 .addGap(18, 18, 18)
                 .addComponent(lbGuardarComo)
-                .addGap(168, 168, 168)
+                .addGap(18, 18, 18)
+                .addComponent(btnEjemplos)
+                .addGap(124, 124, 124)
                 .addComponent(lbPalabrasReservadas)
                 .addGap(18, 18, 18)
                 .addComponent(btnCompilador)
@@ -328,7 +354,9 @@ public class pantalla extends javax.swing.JFrame {
                 .addComponent(lbVisualizar)
                 .addGap(18, 18, 18)
                 .addComponent(lbIntermedio)
-                .addContainerGap(449, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnCodigoMaquina)
+                .addContainerGap(409, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,6 +368,8 @@ public class pantalla extends javax.swing.JFrame {
             .addComponent(lbAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCompilador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbVisualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnCodigoMaquina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnEjemplos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbIntermedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -605,13 +635,25 @@ public class pantalla extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lbVisualizarMouseClicked
 
+    private void btnCodigoMaquinaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodigoMaquinaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCodigoMaquinaMouseClicked
+
+    private void btnEjemplosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEjemplosMouseClicked
+        JFileChooser ejemplo = new JFileChooser();
+        ejemplo.setFileFilter(filter);
+        ejemplo.setCurrentDirectory(new File("C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\src\\ejemplos"));
+        int opcion = ejemplo.showOpenDialog(this);
+        if(opcion==JFileChooser.APPROVE_OPTION){
+            direccionArchivo = ejemplo.getSelectedFile().getPath();
+            textPane.setText(new Archivo().abrirArchivo(direccionArchivo));
+        }
+        else
+            showMessageDialog(this,"No se selecciono ningun archivo","Advertencia!", JOptionPane.WARNING_MESSAGE);
+    }//GEN-LAST:event_btnEjemplosMouseClicked
+
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
-        IntermedioPantalla ventana = new IntermedioPantalla();
-        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        ventana.setLocationRelativeTo(this);
-        ventana.setPrograma(tablaS);
-        ventana.setVisible(true);
-        ventana.ponerCodigoIntermedio();
+        // TODO add your handling code here:
     }//GEN-LAST:event_lbIntermedioMouseClicked
 
     
@@ -1742,7 +1784,9 @@ public class pantalla extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaErrores;
+    private javax.swing.JLabel btnCodigoMaquina;
     private javax.swing.JLabel btnCompilador;
+    private javax.swing.JLabel btnEjemplos;
     private javax.swing.JScrollPane codigo_Central;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jlbCerrar;

@@ -1,0 +1,33 @@
+inicioSecuencia jav1 {
+  inicializacion {
+ 	velocidad normal = 5· 
+ 	velocidad baja = 2· 
+ 	color alertaMensaje = #FF0000· 
+ 	color avanza = #000000· 
+ 	color esperarCarro = #00FF00· 
+ 	alerta errorColor = "Color incorrecto"· 
+ 	tiempo tiempoEspera = 05:00· 
+} 
+ 
+funcion cambioVelocidad(velocidad data) { 
+ 	normal = data + normal· 
+	retorno normal· 
+} 
+ 
+funcion reducirVelocidad(tiempo espera) { 
+ 	tiempoEspera = tiempoEspera - espera· 
+	retorno tiempoEspera· 
+} 
+ 
+mientras(detectarColor()==#FFFFFF){ 
+	avanzar(normal)·
+ 	si(detectarColor()==esperarCarro){ 
+		detener()·
+ 		esperar(tiempoEspera)· 
+ 		avanzar(cambioVelocidad())· }
+ 	si(detectarColor()==alertaMensaje){ 
+		detener()· 
+		regresarBase()· 
+	} 
+}
+}
