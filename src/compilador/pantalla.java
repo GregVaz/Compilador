@@ -62,6 +62,7 @@ public class pantalla extends javax.swing.JFrame {
         getContentPane().setBackground(fondo);
         Image icon = new ImageIcon(getClass().getResource("/imagenes/icono.png")).getImage();
         setIconImage(icon);
+        setTitle("Yajuvi");
         
         
         numeroLinea= new TextLineNumber(textPane, 4);
@@ -1292,10 +1293,25 @@ public class pantalla extends javax.swing.JFrame {
                     case "llave_c":
                         temp = "llave_c";
                         evalCic = false;
+                        System.out.println("Saliendo de evaluacion de CICLO");
                         break;
                     case "parentesis_a":
                         break;
                     case "parentesis_c":
+                        break;
+                    case "detectarColor":
+                        if(vartype1.isEmpty()){
+                            vartype1 = obtenerTipo(prcomTabla, obj);
+                            System.out.println("Aqui: " + vartype1);
+                            if(!vartype1.equals("color"))
+                                 errores.add("Error semantico de ciclo. Linea: " + counter + ". La funcion \"" + obj + "\" no retorna un tipo color.");
+                        } else {
+                            vartype2 = obtenerTipo(prcomTabla, obj);
+                            if(!vartype2.equals("color"))
+                                 errores.add("Error semantico de ciclo. Linea: " + counter + ". La variable \"" + obj + "\" no es de tipo color.");
+                            if(!vartype1.equals(vartype2))
+                               errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean de tipo color"); 
+                        }
                         break;
                     case "identificador":
                         var = obj;
@@ -1305,15 +1321,15 @@ public class pantalla extends javax.swing.JFrame {
                             tipo = temp;
                              System.out.println("CAMBIANDO a evaluacion de ciclo para ASIGNACION");
                         }else if(!variables.contains(var) && !parametros.contains(var)){
-                            errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no ha sido declarada.");
+                            errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable \"" + obj + "\" no ha sido declarada.");
                         } else if(vartype1.isEmpty()){
                             vartype1 = obtenerTipo(variablesTabla, var);
                             if(!vartype1.equals("color"))
-                                 errores.add("Error semantico de ciclo. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no es de tipo color.");
+                                 errores.add("Error semantico de ciclo. Linea: " + counter + ". La variable \"" + obj + "\" no es de tipo color.");
                         } else {
                             vartype2 = obtenerTipo(variablesTabla, var);
                             if(!vartype2.equals("color"))
-                                 errores.add("Error semantico de ciclo. Linea: " + counter + ". La variable \"" + elem[0].toString() + "\" no es de tipo color.");
+                                 errores.add("Error semantico de ciclo. Linea: " + counter + ". La variable \"" + obj + "\" no es de tipo color.");
                             if(!vartype1.equals(vartype2))
                                errores.add("Error semantico de parametros de evaluacion. Linea: " + counter + ". La operacion de relacion no es posible con las variables otorgadas, verifique que sean de tipo color"); 
                         }
@@ -1333,8 +1349,6 @@ public class pantalla extends javax.swing.JFrame {
                         vartype2 = "";
                         evalDes = true;
                         break;
-                    default:
-                        errores.add("Error semantico de ciclo. Linea: " + counter + ". Las declaraciones de comparación tienen que ser entre datos/variables de tipo color");
                 }
             }else 
                 
@@ -1595,6 +1609,14 @@ public class pantalla extends javax.swing.JFrame {
             next = next + iterator.next() + "\n";
         }
         return next;
+    }
+
+//******************************************************************************
+//*********************** TABLAS DE RESULTADO **********************************
+//******************************************************************************  
+    
+    public void mostrarResultados(LinkedList<String> variables, LinkedList<Object[]> variablesTabla, LinkedList<String> funciones, LinkedList<String> parametros, LinkedList<Object[]> expresion, LinkedList<Object[]> funcionesTabla){
+        
     }
     
 //******************************************************************************
