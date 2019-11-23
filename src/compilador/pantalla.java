@@ -852,6 +852,7 @@ public class pantalla extends javax.swing.JFrame {
         LinkedList<String> funciones = new LinkedList<>();
         LinkedList<String> parametros = new LinkedList<>();
         LinkedList<Object[]> expresion = new LinkedList<>();
+        LinkedList<String> expresiones = new LinkedList<>();
         LinkedList<Object[]> funcionesTabla = new LinkedList<>();
         
         //Variables de banderas
@@ -862,6 +863,7 @@ public class pantalla extends javax.swing.JFrame {
         Boolean asignacion = false;
         Boolean evalPRMOV = false;
         Boolean cuerpo = false;
+        Boolean param = false;
         
         //Objeto principal
         String token = "";
@@ -1103,7 +1105,7 @@ public class pantalla extends javax.swing.JFrame {
                         break; 
                     case "punto_medio":
                         expresion.add(elem);
-                        validacionesAsig(expresion, parametros, variablesTabla, variables, counter);
+                        expresiones.add(validacionesAsig(expresion, parametros, variablesTabla, variables, counter));
                         asignacion = false;
                         expresion.clear();
                         System.out.println("Saliendo a evaluacion para expresion de ASIGNACION");
@@ -1374,7 +1376,10 @@ public class pantalla extends javax.swing.JFrame {
                         tipo = token;
                         break;
                     case "parentesis_a":
-                        tipo = token;
+                        param = true;
+                        break;
+                    case "parentesis_c":
+                        param=false;
                         break;
                     case "llave_a":
                         cuerpo = true;
@@ -1391,12 +1396,12 @@ public class pantalla extends javax.swing.JFrame {
                                 temp = var;
                                 funciones.add(var);
                             }
-                        } else if ("parentesis_a".equals(tipo)){ //Esto servira para evitar el contacto con los identificadores dentro de los parametros, proseguira con el analisis del curpo del ciclo al detectar si se encuentra con la llave de apertura {
+                        } else if (param){ //Esto servira para evitar el contacto con los identificadores dentro de los parametros, proseguira con el analisis del curpo del ciclo al detectar si se encuentra con la llave de apertura {
                             if(variables.contains(var)){
                                 errores.add("Error semantico de parametros. Linea: " + counter + ". El parametro \"" + var + "\" no puede nombrarse igual que una variable ya declarada.");
                             } else {
                                 parametros.add(var);
-                                variablesTabla.add(new Object[]{temp, var});
+                                variablesTabla.add(new Object[]{tipo, var});
                             }
                         }  else if(tipo.equals("retorno")){
                             funcionesTabla.add(new Object[]{temp, obj, obtenerTipo(variablesTabla, obj)});
@@ -1424,9 +1429,10 @@ public class pantalla extends javax.swing.JFrame {
             }
             
         }
+            mostrarResultados(variables, variablesTabla,funciones,parametros,expresiones,funcionesTabla);
     } 
     
-    public void validacionesAsig(LinkedList<Object[]> valores, LinkedList<String> parametros,LinkedList<Object[]> variablesTabla, LinkedList<String> variables, int renglon){
+    public String validacionesAsig(LinkedList<Object[]> valores, LinkedList<String> parametros,LinkedList<Object[]> variablesTabla, LinkedList<String> variables, int renglon){
         String obj = "";
         String token = "";
         String principalType = "";
@@ -1435,6 +1441,7 @@ public class pantalla extends javax.swing.JFrame {
         Boolean estado = false;
         String vartype1 = "";
         String vartype2 = "";
+        String expresion = "";
         
         System.out.println("Tamaño entrando a la evalucion de asignacion: " + valores.size());
         
@@ -1460,7 +1467,7 @@ public class pantalla extends javax.swing.JFrame {
             token = valor[1].toString();
             //Ejemplo: token = identificador, obj = val1
             //System.out.println(obj);
-            
+            expresion = expresion + obj + " ";
             switch(token){
                 case "identificador":
                     if(bandera){ //Esto guardara el primer identificador que corresponde al valor de comparacion de la expresion
@@ -1576,6 +1583,8 @@ public class pantalla extends javax.swing.JFrame {
             bandera = false;
         }
         
+        return expresion;
+        
     }
     
     public String obtenerTipo(LinkedList<Object[]> list, String var){
@@ -1615,8 +1624,48 @@ public class pantalla extends javax.swing.JFrame {
 //*********************** TABLAS DE RESULTADO **********************************
 //******************************************************************************  
     
-    public void mostrarResultados(LinkedList<String> variables, LinkedList<Object[]> variablesTabla, LinkedList<String> funciones, LinkedList<String> parametros, LinkedList<Object[]> expresion, LinkedList<Object[]> funcionesTabla){
+    public void mostrarResultados(LinkedList<String> variables,LinkedList<Object[]> variablesTabla, LinkedList<String> funciones, LinkedList<String> parametros, LinkedList<String> expresion, LinkedList<Object[]> funcionesTabla){
+        String tabla = "|-------------------------|";
+        tabla = tabla +"\n|--------Variables--------|\n|-------------------------|";
+        for (String var : variables) {
+            tabla = tabla + "\n\t  " + var;
+        }
+        System.out.println(tabla);
         
+        tabla = "|-------------------------|";
+        tabla = tabla +"\n|-----Variables Tabla-----|\n|-------------------------|";
+        for (Object[] var : variablesTabla) {
+            tabla = tabla + "\n" + var[0] + "  -  " + var[1];
+        }
+        System.out.println(tabla);
+        
+        tabla = "|-------------------------|";
+        tabla = tabla +"\n|--------Funciones--------|\n|-------------------------|";
+        for (String fun : funciones) {
+            tabla = tabla + "\n  " + fun;
+        }
+        System.out.println(tabla);
+        
+        tabla = "|-------------------------|";
+        tabla = tabla +"\n|--------Parametros-------|\n|-------------------------|";
+        for (String par : parametros) {
+            tabla = tabla + "\n\t  " + par;
+        }
+        System.out.println(tabla);
+        
+        tabla = "|-------------------------|";
+        tabla = tabla +"\n|-------Expresiones-------|\n|-------------------------|";
+        for (String var : expresion) {
+            tabla = tabla + "\n " + var;
+        }
+        System.out.println(tabla);
+        
+        tabla = "|-------------------------|";
+        tabla = tabla +"\n|-----Funciones Tabla-----|\n|-------------------------|";
+        for (Object[] fun : funcionesTabla) {
+            tabla = tabla + "\n" + fun[0] + "()  -  retorno=" + fun[1] + "  -  tipo_retorno=" + fun[2];
+        }
+        System.out.println(tabla);
     }
     
 //******************************************************************************
