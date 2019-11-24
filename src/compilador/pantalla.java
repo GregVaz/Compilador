@@ -379,7 +379,6 @@ public class pantalla extends javax.swing.JFrame {
         panelCodigo.setBackground(new java.awt.Color(36, 35, 34));
 
         codigo_Central.setBackground(new java.awt.Color(36, 35, 34));
-        codigo_Central.setBorder(null);
         codigo_Central.setForeground(new java.awt.Color(36, 35, 34));
         codigo_Central.setPreferredSize(new java.awt.Dimension(1002, 20));
 
@@ -418,7 +417,6 @@ public class pantalla extends javax.swing.JFrame {
         panelErrores.setPreferredSize(new java.awt.Dimension(983, 420));
         panelErrores.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        scrollErrores.setBorder(null);
         scrollErrores.setForeground(new java.awt.Color(255, 255, 255));
 
         areaErrores.setEditable(false);
@@ -426,7 +424,6 @@ public class pantalla extends javax.swing.JFrame {
         areaErrores.setColumns(20);
         areaErrores.setForeground(new java.awt.Color(247, 255, 235));
         areaErrores.setRows(5);
-        areaErrores.setBorder(null);
         scrollErrores.setViewportView(areaErrores);
 
         panelErrores.add(scrollErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 0, 790, 110));
