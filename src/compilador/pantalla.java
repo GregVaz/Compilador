@@ -1755,21 +1755,25 @@ public class pantalla extends javax.swing.JFrame {
 
     
     public LinkedList<String> codigoIntermedio(){
-        String var = "";
-        String tipo = "";
+        String obj = "";
+        String token = "";
         int counter = 0;
+        int counterTemp = 1;
         String temp = "";
         LinkedList<String> codigo = new LinkedList<>();
         Stack<String> pila = new Stack<>();
         String expresion = "";
         Boolean guardar = false;
+        Boolean decision = false;
+        Boolean funcion = false;
+        Boolean ciclo = false;
         
         for(Object[] item: tablaS) {
             System.out.println(item[0] + " " + item[1]);
-            var = item[0].toString();
-            tipo = item[1].toString();
+            obj = item[0].toString();
+            token = item[1].toString();
             
-            switch(tipo){
+            switch(token){
                 case "linea":
                     ++counter;
                     guardar = true;
@@ -1778,26 +1782,27 @@ public class pantalla extends javax.swing.JFrame {
                     expresion = expresion + "inicio ";
                     break;
                 case "identificador":
-                    expresion = expresion + var;
+                    expresion = expresion + obj;
                     break;
                 case "igual":
-                    expresion = expresion + var;
+                    expresion = expresion + obj;
                     break;
                 case "veloc":
-                    expresion = expresion + var;
+                    expresion = expresion + obj;
                     break;
                 case "time":
-                    expresion = expresion + var;
+                    expresion = expresion + obj;
                     break;
                 case "colores":
-                    var = var.replace("#", "");
+                    
+                    obj = obj.replace("#", "");
                     pila.clear();
                     int pcolor = 0;
                     int c = 0;
                     int red = 0, green = 0, blue = 0;
-                    pila.add(var.substring(0, 2)); //JOptionPane.showMessageDialog(this, var.substring(0, 2));
-                    pila.add(var.substring(2, 4)); //JOptionPane.showMessageDialog(this, var.substring(2, 4));
-                    pila.add(var.substring(4, 6)); //JOptionPane.showMessageDialog(this, var.substring(4, 6));
+                    pila.add(obj.substring(0, 2)); //JOptionPane.showMessageDialog(this, obj.substring(0, 2));
+                    pila.add(obj.substring(2, 4)); //JOptionPane.showMessageDialog(this, obj.substring(2, 4));
+                    pila.add(obj.substring(4, 6)); //JOptionPane.showMessageDialog(this, obj.substring(4, 6));
                     String[] col = new String[2];
                     for(String cad : pila){
                         col = cad.split("");
@@ -1837,17 +1842,32 @@ public class pantalla extends javax.swing.JFrame {
                         c++;
                     }
                     if(red > green && red > blue)
-                        var = "r";
+                        obj = "r";
                     else if (green > red && green > blue)
-                        var = "g";
+                        obj = "g";
                     else if (blue > green && blue > red)
-                        var = "b";
+                        obj = "b";
                     else if (red == green && red == blue)
-                        var = "n";
-                    expresion = expresion + var;
+                        obj = "n";
+                    expresion = expresion + obj;
                     break;
+                    
                 case "cadena":
-                    expresion = expresion + var;
+                    expresion = expresion + obj;
+                    break;
+                case "si":
+                    break;
+                case "parentesis_a":
+                    
+                    break;
+                case "parentesis_c":
+                    
+                    break;
+                case "llave_a":
+                    
+                    break;
+                case "llave_c":
+                    
                     break;
                 
             }
@@ -1861,6 +1881,12 @@ public class pantalla extends javax.swing.JFrame {
         };
         
         return codigo;
+    }
+    
+    public String evalExpresion(LinkedList<String> expresion, int counterTemp) {
+        int t = expresion.indexOf("(");
+        System.out.println(t);
+        return "";
     }
 
     /**
