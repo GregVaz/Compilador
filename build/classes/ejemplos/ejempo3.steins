@@ -1,1 +1,35 @@
+inicioSecuencia programa {
+inicializacion {
+ 		color blanco = #FFFFFF·
+		color mostaza = #EFB810·
+		color rojo = #5E2129·
+		color azul = #FF0000·
+		tiempo poco = 06:45·
+		tiempo mucho = 11:10·
+		velocidad media = 7·
+velocidad bajada = 3·
+velocidad subida = 9·
+} 
+ 	funcion normal (velocidad vel) { 
+si (vel == media) {
+		avanzar(5)·
+} 
+} 
+funcion verDetener () {
+	si (detectarParada() == rojo) {
+detener()·
+}
+si (detectarParada() == azul) {
+	detener()·
+}
+}
 
+Inicializacion {
+	si (avanzar() == 5){
+		color magenta = #54353F·
+		funcion morir (tiempo tempo){
+			detener()·
+		]
+}
+}
+}

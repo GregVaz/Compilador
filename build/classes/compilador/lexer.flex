@@ -18,7 +18,7 @@ alert=[\"][A-Za-z0-9 \\t \\r]*[\"]
 colore=[#]([0-9A-F]{6})
 veloc=[0-9]{1,2}
 
-caracter_invalido=[_;%¿?¡[]~`@$&]
+caracter_invalido=[_;%¿?¡\[~\]`@$&]
 ide_invalido={exp_dig}({alf_tot}){0,15} | {exp_dig}({alf_tot}){16,64} | {caracter_especial}*{alf_tot}*{caracter_especial}* | {alf_tot}*{caracter_especial}*{alf_tot}*
 tiempo_invalido=(([6-9][0-9]):([0-9][0-9]))|(([0-9]):([0-9]))|(([0-9]):([0-5][0-9]))|(([0-5][0-9]):([0-9]))
 alert_invalido=[\"]({alf_tot})* | ({alf_tot})*[\"] 
@@ -51,6 +51,7 @@ numero_erroneo=({exp_dig}){3,32}
 (falso)       {lexeme=yytext(); return falso;}
 (mientras)       {lexeme=yytext(); return mientras;}
 
+
 /*Palabras reservadas de declaracion */
 (decision)   {lexeme=yytext(); return decision;}   
 (velocidad)   {lexeme=yytext(); return velocidad;}
@@ -73,7 +74,7 @@ numero_erroneo=({exp_dig}){3,32}
 
 /*Palabras reservadas de seguridad */
 (obstaculo)          {lexeme=yytext(); return obstaculo;}
-(estadoCamara )       {lexeme=yytext(); return estadoCamara;}
+(estadoCamara)       {lexeme=yytext(); return estadoCamara;}
 (duracionRecorrido)   {lexeme=yytext(); return duracionRecorrido;}
 (detectarAnomalia)    {lexeme=yytext(); return detectarAnomalia;}
 (detectarColor)       {lexeme=yytext(); return detectarColor;}

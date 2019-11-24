@@ -33,6 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import jflex.Out;
+import java.util.Stack;
 
 /**
  *
@@ -653,7 +654,9 @@ public class pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEjemplosMouseClicked
 
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
-        // TODO add your handling code here:
+        IntermedioPantalla pantalla = new IntermedioPantalla();
+        pantalla.setVisible(true);
+        pantalla.setCodigo(codigoIntermedio());
     }//GEN-LAST:event_lbIntermedioMouseClicked
 
     
@@ -915,6 +918,7 @@ public class pantalla extends javax.swing.JFrame {
         String tipo = "";
         String var = "";
         String temp = "";
+        String aux = "";
         
         //Variables de uso de comparacion entre elementos
         String vartype1 = "";
@@ -1073,10 +1077,10 @@ public class pantalla extends javax.swing.JFrame {
                 System.out.println("Entrando a evaluacion de PARAMETROS DE MOVIMIENTO");
                 switch(token){
                     case "avanzar":
-                        tipo = token;
+                        aux = token;
                         break;
                     case "esperar":
-                        tipo = token;
+                        aux = token;
                         break;
                     case "identificador":
                         temp = obtenerTipo(variablesTabla, obj);
@@ -1090,11 +1094,11 @@ public class pantalla extends javax.swing.JFrame {
                                 errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable \"" + obj + "\" no corresponde al tipo tiempo.");
                         break;
                     case "veloc":
-                        if(!tipo.equals("avanzar"))
+                        if(!aux.equals("avanzar"))
                             errores.add("Error semantico de parametros en metodo de movimiento. Linea: " + counter + ". Parametro velocidad es solo aplicable al metodo avanzar");
                         break;
                     case "time": 
-                        if(!tipo.equals("esperar"))
+                        if(!aux.equals("esperar"))
                             errores.add("Error semantico de parametros en metodo de movimiento. Linea: " + counter + ". Parametro tiempo es solo aplicable al metodo esperar");
                         break;
                     case "parentesis_a":
@@ -1178,7 +1182,7 @@ public class pantalla extends javax.swing.JFrame {
                             expresion.add(elem);
                             System.out.println("CAMBIANDO a evaluacion de decision para ASIGNACION");
                         }else if(!variables.contains(var) && !parametros.contains(var)){
-                            errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable \"" + token + "\" no ha sido declarada.");
+                            errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable \"" + obj + "\" no ha sido declarada.");
                         } else if(vartype1.isEmpty()){
                             vartype1 = obtenerTipo(variablesTabla, var);
                         } else {
@@ -1333,10 +1337,12 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                     case "llave_a":
                         temp = "llave_a";
+                        cuerpo = true;
                         break;
                     case "llave_c":
                         temp = "llave_c";
                         evalCic = false;
+                        cuerpo = false;
                         System.out.println("Saliendo de evaluacion de CICLO");
                         break;
                     case "parentesis_a":
@@ -1359,7 +1365,7 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                     case "identificador":
                         var = obj;
-                        if(temp.equals("llave_a") || temp.equals("llave_c")){
+                        if(cuerpo){
                             asignacion = true;
                             expresion.add(elem);
                             tipo = temp;
@@ -1746,6 +1752,117 @@ public class pantalla extends javax.swing.JFrame {
         return false;
     }//Fin guardarArchivo
     
+
+    
+    public LinkedList<String> codigoIntermedio(){
+        String var = "";
+        String tipo = "";
+        int counter = 0;
+        String temp = "";
+        LinkedList<String> codigo = new LinkedList<>();
+        Stack<String> pila = new Stack<>();
+        String expresion = "";
+        Boolean guardar = false;
+        
+        for(Object[] item: tablaS) {
+            System.out.println(item[0] + " " + item[1]);
+            var = item[0].toString();
+            tipo = item[1].toString();
+            
+            switch(tipo){
+                case "linea":
+                    ++counter;
+                    guardar = true;
+                    break;
+                case "inicioSecuencia":
+                    expresion = expresion + "inicio ";
+                    break;
+                case "identificador":
+                    expresion = expresion + var;
+                    break;
+                case "igual":
+                    expresion = expresion + var;
+                    break;
+                case "veloc":
+                    expresion = expresion + var;
+                    break;
+                case "time":
+                    expresion = expresion + var;
+                    break;
+                case "colores":
+                    var = var.replace("#", "");
+                    pila.clear();
+                    int pcolor = 0;
+                    int c = 0;
+                    int red = 0, green = 0, blue = 0;
+                    pila.add(var.substring(0, 2)); //JOptionPane.showMessageDialog(this, var.substring(0, 2));
+                    pila.add(var.substring(2, 4)); //JOptionPane.showMessageDialog(this, var.substring(2, 4));
+                    pila.add(var.substring(4, 6)); //JOptionPane.showMessageDialog(this, var.substring(4, 6));
+                    String[] col = new String[2];
+                    for(String cad : pila){
+                        col = cad.split("");
+                        for(int e=0; e<col.length;e++) {
+                            switch(col[e]){
+                                case "A":
+                                   pcolor = pcolor + 10;
+                                   break;
+                                case "B":
+                                   pcolor = pcolor + 11;
+                                   break;
+                                case "C":
+                                   pcolor = pcolor + 12;
+                                   break;
+                                case "D":
+                                   pcolor = pcolor + 13;
+                                   break;
+                                case "E":
+                                   pcolor = pcolor + 14;
+                                   break;
+                                case "F":
+                                   pcolor = pcolor + 15;
+                                   break;
+                                default:
+                                    pcolor = pcolor + Integer.parseInt(col[e]+"");
+                                    break;
+                            }
+                        }
+                        
+                        if(red == 0 && c == 0)
+                            red = pcolor;
+                        else if (green == 0 && c == 1)
+                            green = pcolor;
+                        else 
+                            blue = pcolor;
+                        pcolor = 0;
+                        c++;
+                    }
+                    if(red > green && red > blue)
+                        var = "r";
+                    else if (green > red && green > blue)
+                        var = "g";
+                    else if (blue > green && blue > red)
+                        var = "b";
+                    else if (red == green && red == blue)
+                        var = "n";
+                    expresion = expresion + var;
+                    break;
+                case "cadena":
+                    expresion = expresion + var;
+                    break;
+                
+            }
+            
+            if(guardar) {
+                if(!expresion.equals(""))
+                    codigo.add(expresion);
+                expresion = "";
+                guardar=false;
+            }
+        };
+        
+        return codigo;
+    }
+
     /**
      * @param args the command line arguments
      */

@@ -108,7 +108,7 @@ FUNCION ::= funcion:a
                 :} |
             funcion:a llave_a llave_c
                 {: 
-                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. Por favot escribe la sintaxis de laa función correctamente\n");
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. Por favor escribe la sintaxis de laa función correctamente\n");
                 :} |
             funcion:a llave_a CUERPO_CICLO llave_c
                 {: 
@@ -159,10 +159,7 @@ FUNCION ::= funcion:a
                     this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. La función no tiene instrucciones ni llave de apertura, declaración de función ilogica.\n");
                 :} |
             funcion identificador parentesis_a PARAM parentesis_c llave_a CUERPO_CICLO llave_c | 
-            funcion identificador parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c |
-            error:a {: 
-                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. Verifica que las llaves, parentesis y estructura de la función esten escritas.\n");
-                :}
+            funcion identificador parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c
 ;    
 
 PARAM ::= DATOS identificador | 

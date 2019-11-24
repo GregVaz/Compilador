@@ -6,70 +6,31 @@
 package compilador;
 
 import java.util.LinkedList;
+import javax.swing.JFrame;
 
 /**
  *
  * @author gregorio
  */
 public class IntermedioPantalla extends javax.swing.JFrame {
-    LinkedList<Object[]> programa = new LinkedList<>();
-    String tipo;
-    String var;
-    String expresion;
-    int counter;
+    String code;
     /**
      * Creates new form intermedioPantalla
      */
     public IntermedioPantalla() {
         initComponents();
-        tipo = "";
-        var = "";
-        expresion = "";
-        counter = 0;
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        code = "";
     }
     
-    public void setPrograma(LinkedList<Object[]> data){
-        this.programa = data;
-    }
-    
-    public void prueba(){
-        this.programa.forEach((item) -> {
-            System.out.println(item[0] + " " + item[1]);
-        });
-    }
-    
-    public void ponerCodigoIntermedio(){
-        this.programa.forEach((item) -> {
-            //System.out.println(item[0] + " " + item[1]);
-            var = item[0].toString();
-            tipo = item[1].toString();
+    public void setCodigo(LinkedList<String> codigo){
+        codigo.forEach((item) -> {
             
-            switch(tipo){
-                case "llave_a":
-                    break;
-                case "llave_c":
-                    break;
-                case "punto_medio":
-                    break;
-                case "inicioSecuencia":
-                    expresion = "I" + counter +": inicio";
-                    break;
-                case "identificador":
-                    expresion = expresion + " " + var;
-                    break;
-                case "inicializacion":
-                    break;
-                case "linea":
-                    expresion = expresion + "\nI" + ++counter + ": ";
-                    break;
-                default:
-                    expresion = expresion + " " + var;
-            }
-            
-            txtArea.setText(expresion);
+            code = code + item + "\n";
         });
+        this.txtArea.setText(code);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
