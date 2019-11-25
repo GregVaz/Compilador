@@ -1,0 +1,15 @@
+inicioSecuencia jav1 {
+  inicializacion {
+ 	velocidad normal = 5· 
+ 	color avanza = #FFFFFF· 
+        color detenerRecorrido = #FF0000·
+} 
+ 
+funcion fun(velocidad avanzando){ 
+	avanzar(normal)·
+ 	si(detectarColor()==detenerRecorrido){ 
+ 		detener()· 
+        }
+}
+}
+

@@ -1081,9 +1081,10 @@ public class pantalla extends javax.swing.JFrame {
                         break;
                     case "identificador":
                         temp = obtenerTipo(variablesTabla, obj);
+                        System.out.println(temp);
                         if(temp.isEmpty())
                             temp = obtenerTipoFuncion(funcionesTabla,obj);
-                        if(!variables.contains(obj) && !funciones.contains(obj)){
+                        if(!variables.contains(obj) && !funciones.contains(obj) && !parametros.contains(obj)){
                             errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable o funcion \"" + obj + "\" no ha sido declarada.");
                         } else if(tipo.equals("avanzar") && !temp.equals("velocidad") )
                             errores.add("Error semantico de declaracion. Linea: " + counter + ". La variable o funcion \"" + obj + "\" no corresponde al tipo velocidad.");
@@ -1754,19 +1755,28 @@ public class pantalla extends javax.swing.JFrame {
     public LinkedList<String> codigoIntermedio(){
         String obj = "";
         String token = "";
+        String tipoTemp = "";
         int counter = 0;
         int counterTemp = 1;
         String temp = "";
         LinkedList<String> codigo = new LinkedList<>();
         Stack<String> pila = new Stack<>();
         String expresion = "";
+        LinkedList<String> expresionList = new LinkedList<>();
+        LinkedList<String> expresionTemp = new LinkedList<>();
+        
         Boolean guardar = false;
+        Boolean guardarExp = false;
         Boolean decision = false;
+        Boolean inicializacion = false;
         Boolean funcion = false;
         Boolean ciclo = false;
+        Boolean expresionEval = false;
+        
+        EvaluadorExpresiones evaluador = new EvaluadorExpresiones(counterTemp);
         
         for(Object[] item: tablaS) {
-            System.out.println(item[0] + " " + item[1]);
+            //System.out.println(item[0] + " " + item[1]);
             obj = item[0].toString();
             token = item[1].toString();
             
@@ -1774,21 +1784,49 @@ public class pantalla extends javax.swing.JFrame {
                 case "linea":
                     ++counter;
                     guardar = true;
+                    if (decision){
+                        //System.out.println(expresionList.toString());
+                        expresionTemp = evaluador.evalRelacion(expresionList);
+                        counterTemp = evaluador.getCounter();
+                        System.out.println("Relacion: " + expresionTemp.toString());
+                        guardarExp = true;
+                        guardar = false;
+                        decision = false;
+                    } else if(expresionEval) {
+                        System.out.println("Expresion: " + expresionList.toString());
+                        counterTemp = evaluador.getCounter();
+                        expresionTemp = evaluador.evalExpresion(expresionList);
+                        guardar = false;
+                        guardarExp = true;
+                        expresionEval = false;
+                    }                    
                     break;
                 case "inicioSecuencia":
                     expresion = expresion + "inicio ";
                     break;
+                case "inicializacion":
+                    inicializacion = true;
+                    break;
                 case "identificador":
                     expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
+                    tipoTemp = token;
                     break;
                 case "igual":
                     expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
                     break;
                 case "veloc":
                     expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
                     break;
                 case "time":
                     expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
                     break;
                 case "colores":
                     
@@ -1847,36 +1885,115 @@ public class pantalla extends javax.swing.JFrame {
                     else if (red == green && red == blue)
                         obj = "n";
                     expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
                     break;
                     
                 case "cadena":
                     expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
+                    break;
+                case "avanzar":
+                    expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
+                    break;
+                case "detener":
+                    expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
+                    break;
+                case "detectarColor":
+                    expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj + "()");
+                    break;
+                case "detectarLinea":
+                    expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
+                    break;
+                case "regresarBase":
+                    expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
                     break;
                 case "si":
+                    expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
+                    decision = true;
+                    break;
+                case "mientras":
+                    expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
+                    decision = true;
+                    break;
+                case "op_relacional":
+                    expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
+                    decision = true;
                     break;
                 case "parentesis_a":
-                    
+                    expresion = expresion + obj;
+                    if(!inicializacion && !decision)
+                        expresionList.add(obj);
                     break;
                 case "parentesis_c":
-                    
+                    expresion = expresion + obj;
+                    if(!inicializacion && !decision)
+                        expresionList.add(obj);
                     break;
                 case "llave_a":
                     
                     break;
                 case "llave_c":
+                    if(inicializacion){
+                        inicializacion = false;
+                    }
+                    break;
+                case "suma":
+                    expresionEval = true;
+                    break;
+                case "resta":
+                    expresionEval = true;
+                    break;
+                case "producto":
+                    expresionEval = true;
+                    break;
+                case "division":
+                    expresionEval = true;
+                    break;
+                case "potencia":
+                    expresionEval = true;
+                    break;
+                case "punto_medio":
                     
                     break;
                 
             }
-            
+            System.out.println("Expresion: " + expresion);
             if(guardar) {
                 if(!expresion.equals(""))
                     codigo.add(expresion);
                 expresion = "";
+                expresionList.clear();
                 guardar=false;
+            } else if(guardarExp) {
+                if(!expresionTemp.isEmpty()){
+                    expresionTemp.forEach((data) -> {
+                        codigo.add(data);
+                    });
+                }
+                expresion = "";
+                expresionList.clear();
+                guardarExp=false;
             }
         };
-        
+        codigo.add("fin");
         return codigo;
     }
     

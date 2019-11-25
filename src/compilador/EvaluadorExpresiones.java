@@ -14,14 +14,22 @@ import java.util.List;
  * @author Grego
  */
 public class EvaluadorExpresiones {
-    
+    private int counterTemp;
     /*******************************************************************
     ********************Evaluacion de expresiones***********************
     ********************************************************************/
     
-    public LinkedList evalExpresion(LinkedList<String> expresion, int counterTemp) {
+    public EvaluadorExpresiones(int counter){
+        this.counterTemp = counter;
+    }
+    
+    public int getCounter() {
+        return this.counterTemp;
+    }
+    
+    public LinkedList<String> evalExpresion(LinkedList<String> expresion) {
         int t = expresion.indexOf("(");
-        int counter= counterTemp;
+        int counter= this.counterTemp;
         int vueltas = 0;
         int opcion = 0;
         int izq = 0;
@@ -68,7 +76,7 @@ public class EvaluadorExpresiones {
                         pila.add(list.pollFirst());
                     }
             
-                System.out.println("Pila: " + pila.toString());
+                //System.out.println("Pila: " + pila.toString());
 
                 izq = pila.pop();
                 drc = pila.pop();
@@ -77,7 +85,7 @@ public class EvaluadorExpresiones {
                 tamano = 1+temp.size()/2;
                 
                 for(int i=0; i<tamano;i++){
-                System.out.println(temp.toString());
+                //System.out.println(temp.toString());
                 int p = -1;
                 if(temp.indexOf("^") != -1){
                     p = temp.indexOf("^");
@@ -120,7 +128,7 @@ public class EvaluadorExpresiones {
                     temp.remove(p);
                     temp.remove(p);
                     counter++;
-                    System.out.println(renglones.toString());
+                    //System.out.println(renglones.toString());
                 }
                 }
                 for(int e=izq; e<drc; e++){
@@ -129,7 +137,7 @@ public class EvaluadorExpresiones {
 
                 expresion.set(izq, temp.pop());
             } else {
-                System.out.println("Pila: " + pila.toString());
+                //System.out.println("Pila: " + pila.toString());
                 
                 int p = -1;
                 if(expresion.indexOf("^") != -1){
@@ -191,7 +199,7 @@ public class EvaluadorExpresiones {
                     temp.remove(izq+1);
                     temp.remove(izq+1);
                     counter++;
-                    System.out.println("Renglon: " + renglones.toString());
+                    //System.out.println("Renglon: " + renglones.toString());
                 }
                 for(int e=p; e<p+2; e++){
                     expresion.remove(p);
@@ -201,10 +209,10 @@ public class EvaluadorExpresiones {
             }
 
             vueltas--;
-            System.out.println("Expresion: " + expresion.toString());
+            //System.out.println("Expresion: " + expresion.toString());
         }
         System.out.println(renglones.toString());
-        
+        this.counterTemp = counter;
         return renglones;
     }
     
@@ -212,9 +220,9 @@ public class EvaluadorExpresiones {
     ********************Evaluacion de relaciones************************
     ********************************************************************/
     
-    public LinkedList evalRelacion(LinkedList<String> expresion, int counterTemp){
+    public LinkedList<String> evalRelacion(LinkedList<String> expresion){
         int t = expresion.indexOf("(");
-        int counter= counterTemp;
+        int counter= this.counterTemp;
         int vueltas = 0;
         int opcion = 0;
         int izq = 0;
@@ -261,7 +269,7 @@ public class EvaluadorExpresiones {
                         pila.add(list.pollFirst());
                     }
             
-                System.out.println("Pila: " + pila.toString());
+                //System.out.println("Pila: " + pila.toString());
 
                 izq = pila.pop();
                 drc = pila.pop();
@@ -270,7 +278,7 @@ public class EvaluadorExpresiones {
                 tamano = 1+temp.size()/2;
                 
                 for(int i=0; i<tamano;i++){
-                System.out.println(temp.toString());
+                //System.out.println(temp.toString());
                 int p = -1;
                 if(temp.indexOf("==") != -1){
                     p = temp.indexOf("==");
@@ -316,7 +324,7 @@ public class EvaluadorExpresiones {
                     temp.remove(p);
                     temp.remove(p);
                     counter++;
-                    System.out.println(renglones.toString());
+                    //System.out.println(renglones.toString());
                 }
                 }
                 for(int e=izq; e<drc; e++){
@@ -325,7 +333,7 @@ public class EvaluadorExpresiones {
 
                 expresion.set(izq, temp.pop());
             } else {
-                System.out.println("Pila: " + pila.toString()); 
+                //System.out.println("Pila: " + pila.toString()); 
                 
                 int p = -1;
                 if(expresion.indexOf("==") != -1){
@@ -387,7 +395,7 @@ public class EvaluadorExpresiones {
                     temp.remove(izq+1);
                     temp.remove(izq+1);
                     counter++;
-                    System.out.println("Renglon: " + renglones.toString());
+                    //System.out.println("Renglon: " + renglones.toString());
                 }
                 for(int e=p; e<p+2; e++){
                     expresion.remove(p);
@@ -397,10 +405,12 @@ public class EvaluadorExpresiones {
             }
 
             vueltas--;
-            System.out.println("Expresion: " + expresion.toString());
+            //System.out.println("Expresion: " + expresion.toString());
+            if(expresion.size()==2)
+                renglones.add(expresion.getFirst() + "(" + expresion.getLast() + ")");
         }
         System.out.println(renglones.toString());
-        
+        this.counterTemp = counter;
         return renglones;
     }
     
@@ -408,7 +418,7 @@ public class EvaluadorExpresiones {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        EvaluadorExpresiones eval = new EvaluadorExpresiones();
+        EvaluadorExpresiones eval = new EvaluadorExpresiones(1);
         LinkedList<String> l = new LinkedList<>();
 
         l.add("id");
@@ -441,7 +451,7 @@ public class EvaluadorExpresiones {
         l.add("^");
         l.add("5");
         */
-        eval.evalExpresion(l, 1);
+        eval.evalExpresion(l);
     }
     
 }
