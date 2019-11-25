@@ -11,10 +11,12 @@ import compilador.Tokens;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.Iterator;
@@ -54,6 +56,9 @@ public class pantalla extends javax.swing.JFrame {
     LinkedList<String> errores;
     LinkedList<JLabel> erroresl;
     LinkedList<Object[]> tablaS;
+    LinkedList<String> codigoMaquina;
+    
+    ProcessBuilder processBuilder;
     
     /**
      * Creates new form pantalla
@@ -89,6 +94,7 @@ public class pantalla extends javax.swing.JFrame {
         
         errores = new LinkedList<>();
         tablaS = new LinkedList<>();
+        codigoMaquina = new LinkedList<>();
         
         textPane.setText("inicioSecuencia jav1 {"
                 + "\n \ninicializacion { }"
@@ -103,6 +109,7 @@ public class pantalla extends javax.swing.JFrame {
         textPane.setSelectionColor(Color.RED);
         textPane.setSelectedTextColor(Color.WHITE);
         */
+        processBuilder = new ProcessBuilder();
         
     }
     
@@ -634,7 +641,8 @@ public class pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_lbVisualizarMouseClicked
 
     private void btnCodigoMaquinaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodigoMaquinaMouseClicked
-        // TODO add your handling code here:
+        CodigoMaquina cm = new CodigoMaquina(codigoMaquina);
+        cm.getCode();
     }//GEN-LAST:event_btnCodigoMaquinaMouseClicked
 
     private void btnEjemplosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEjemplosMouseClicked
@@ -653,7 +661,8 @@ public class pantalla extends javax.swing.JFrame {
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
         IntermedioPantalla pantalla = new IntermedioPantalla();
         pantalla.setVisible(true);
-        pantalla.setCodigo(codigoIntermedio());
+        codigoMaquina = codigoIntermedio();
+        pantalla.setCodigo(codigoMaquina);
     }//GEN-LAST:event_lbIntermedioMouseClicked
 
     
@@ -1751,6 +1760,9 @@ public class pantalla extends javax.swing.JFrame {
     }//Fin guardarArchivo
     
 
+//**********************************************************************************
+//***************************** CODIGO INTERMEDIO **********************************
+//**********************************************************************************    
     
     public LinkedList<String> codigoIntermedio(){
         String obj = "";
@@ -1773,6 +1785,8 @@ public class pantalla extends javax.swing.JFrame {
         Boolean ciclo = false;
         Boolean expresionEval = false;
         
+        String prefijo = "";
+        
         EvaluadorExpresiones evaluador = new EvaluadorExpresiones(counterTemp);
         
         for(Object[] item: tablaS) {
@@ -1788,7 +1802,7 @@ public class pantalla extends javax.swing.JFrame {
                         //System.out.println(expresionList.toString());
                         expresionTemp = evaluador.evalRelacion(expresionList);
                         counterTemp = evaluador.getCounter();
-                        System.out.println("Relacion: " + expresionTemp.toString());
+                        //System.out.println("Relacion: " + expresionTemp.toString());
                         guardarExp = true;
                         guardar = false;
                         decision = false;
@@ -1811,7 +1825,10 @@ public class pantalla extends javax.swing.JFrame {
                     expresion = expresion + obj;
                     if(!inicializacion)
                         expresionList.add(obj);
-                    tipoTemp = token;
+                    if(funcion) {
+                        tipoTemp = obj;
+                        funcion = false;
+                    }
                     break;
                 case "igual":
                     expresion = expresion + obj;
@@ -1822,11 +1839,13 @@ public class pantalla extends javax.swing.JFrame {
                     expresion = expresion + obj;
                     if(!inicializacion)
                         expresionList.add(obj);
+                    else prefijo = "vel";
                     break;
                 case "time":
                     expresion = expresion + obj;
                     if(!inicializacion)
                         expresionList.add(obj);
+                    else prefijo = "tim";
                     break;
                 case "colores":
                     
@@ -1887,12 +1906,14 @@ public class pantalla extends javax.swing.JFrame {
                     expresion = expresion + obj;
                     if(!inicializacion)
                         expresionList.add(obj);
+                    else prefijo = "col";
                     break;
                     
                 case "cadena":
                     expresion = expresion + obj;
                     if(!inicializacion)
                         expresionList.add(obj);
+                    else prefijo = "alt";
                     break;
                 case "avanzar":
                     expresion = expresion + obj;
@@ -1924,12 +1945,22 @@ public class pantalla extends javax.swing.JFrame {
                     if(!inicializacion)
                         expresionList.add(obj);
                     decision = true;
+                    if(prefijo.isEmpty())
+                        prefijo = "des";
                     break;
                 case "mientras":
                     expresion = expresion + obj;
                     if(!inicializacion)
                         expresionList.add(obj);
                     decision = true;
+                    prefijo = "cic";
+                    break;
+                case "funcion":
+                    prefijo = "fun";
+                    funcion = true;
+                    break;
+                case "retorno":
+                    expresion = expresion + tipoTemp + " = ";
                     break;
                 case "op_relacional":
                     expresion = expresion + obj;
@@ -1953,21 +1984,27 @@ public class pantalla extends javax.swing.JFrame {
                 case "llave_c":
                     if(inicializacion){
                         inicializacion = false;
+                        prefijo = "";
                     }
                     break;
                 case "suma":
+                    expresionList.add(obj);
                     expresionEval = true;
                     break;
                 case "resta":
+                    expresionList.add(obj);
                     expresionEval = true;
                     break;
                 case "producto":
+                    expresionList.add(obj);
                     expresionEval = true;
                     break;
                 case "division":
+                    expresionList.add(obj);
                     expresionEval = true;
                     break;
                 case "potencia":
+                    expresionList.add(obj);
                     expresionEval = true;
                     break;
                 case "punto_medio":
@@ -1975,32 +2012,74 @@ public class pantalla extends javax.swing.JFrame {
                     break;
                 
             }
-            System.out.println("Expresion: " + expresion);
+            //System.out.println("Expresion: " + expresion);
             if(guardar) {
                 if(!expresion.equals(""))
-                    codigo.add(expresion);
+                    codigo.add(prefijo + ":\t" + expresion);
                 expresion = "";
                 expresionList.clear();
                 guardar=false;
             } else if(guardarExp) {
                 if(!expresionTemp.isEmpty()){
-                    expresionTemp.forEach((data) -> {
-                        codigo.add(data);
-                    });
+                    for(String data: expresionTemp) {
+                        codigo.add(prefijo + ":\t" + data);
+                    }
                 }
                 expresion = "";
                 expresionList.clear();
                 guardarExp=false;
             }
         };
-        codigo.add("fin");
+        codigo.add(":\tfin");
         return codigo;
     }
     
-    public String evalExpresion(LinkedList<String> expresion, int counterTemp) {
-        int t = expresion.indexOf("(");
-        System.out.println(t);
-        return "";
+    
+    
+//**********************************************************************************
+//***************************** CODIGO MAQUINA *************************************
+//********************************************************************************** 
+    public void compilar(String nombreDirectorio){
+        //El archivo .ino debe de encontrarse en una carpeta
+        //Primero compilamos el archivo .ino, esto creara los archivos .elf y .hex 
+        compilarMensajes(processBuilder.command("cmd.exe", "/c", "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\cli\\arduino-cli.exe compile --fqbn arduino:avr:uno " + nombreDirectorio));
+    
+        //Ahora que ya sabemos el puerto el cual para mi puerto derecho es COM3, si quieren saber el puerto ejecuten arduino-cli board list
+        //Esto cargara el programa arduino a la tarjeta
+        compilarMensajes(processBuilder.command("cmd.exe", "/c", "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\cli\\arduino-cli.exe upload -p COM3 --fqbn arduino:avr:uno " + nombreDirectorio));
+        
+        //Para mas informacion: https://github.com/arduino/arduino-cli
+    }
+    
+    public void compilarMensajes(ProcessBuilder pb){
+        try {
+
+		Process process = pb.start();
+
+		StringBuilder output = new StringBuilder();
+
+                BufferedReader reader = new BufferedReader(
+				new InputStreamReader(process.getInputStream()));
+
+		String line;
+		while ((line = reader.readLine()) != null) {
+			output.append(line + "\n");
+		}
+
+		int exitVal = process.waitFor();
+		if (exitVal == 0) {
+			System.out.println("Success!");
+			System.out.println(output);
+			System.exit(0);
+		} else {
+			//abnormal...
+		}
+
+	} catch (IOException e) {
+		e.printStackTrace();
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
     }
 
     /**

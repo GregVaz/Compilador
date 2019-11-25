@@ -420,7 +420,7 @@ public class EvaluadorExpresiones {
     public static void main(String[] args) {
         EvaluadorExpresiones eval = new EvaluadorExpresiones(1);
         LinkedList<String> l = new LinkedList<>();
-
+        /*
         l.add("id");
         l.add("=");
         l.add("(");
@@ -438,19 +438,15 @@ public class EvaluadorExpresiones {
         l.add("10");
         l.add("*");
         l.add("100");
-        
-        
-        /*
-        l.add("id");
-        l.add("=");
-        l.add("vel");
-        l.add("+");
-        l.add("ava");
-        l.add("-");
-        l.add("10");
-        l.add("^");
-        l.add("5");
         */
+        
+        
+        l.add("normal");
+        l.add("=");
+        l.add("normal");
+        l.add("+");
+        l.add("5");
+        
         eval.evalExpresion(l);
     }
     
