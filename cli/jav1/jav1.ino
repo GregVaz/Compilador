@@ -16,7 +16,13 @@ int blue = 0;
 
 
 //Variables declaradas
+int normal=5;
+int avanza="green";
+int detenerRecorrido="red";
 //&&
+
+
+
 
 
 #define ENA 5
@@ -26,8 +32,10 @@ int blue = 0;
 #define IN3 9
 #define IN4 11
 
-//&&velocidad
-//&&dealy
+int velocidad = 50;
+
+int dealy = 2000;
+
 
 void setup() {
 servo.attach(3); 
@@ -80,7 +88,10 @@ void loop() {
    digitalWrite(greenLed, LOW);  
    digitalWrite(blueLed, LOW);  
 
-    //&&red
+    detener();
+delay(dealy);
+avanzar();;
+//&&red
        
     delay(20);// Turn RED LED ON 
   }  
@@ -105,7 +116,8 @@ void loop() {
    digitalWrite(greenLed, HIGH); // Turn GREEN LED ON 
    digitalWrite(blueLed, LOW); 
     
-    //&&green
+    avanzar();
+//&&green
 
     delay(20);// Turn GREEN LED ON 
   }

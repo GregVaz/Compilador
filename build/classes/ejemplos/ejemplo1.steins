@@ -1,7 +1,7 @@
 inicioSecuencia jav1 {
   inicializacion {
  	velocidad normal = 5· 
- 	color avanza = #FFFFFF· 
+ 	color avanza = #00FF00· 
         color detenerRecorrido = #FF0000·
 } 
  

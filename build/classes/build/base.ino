@@ -14,8 +14,9 @@ int red = 0;
 int green = 0;  
 int blue = 0; 
 
+
 //Variables declaradas
-&&
+//&&
 
 
 #define ENA 5
@@ -25,7 +26,8 @@ int blue = 0;
 #define IN3 9
 #define IN4 11
 
-
+//&&velocidad
+//&&dealy
 
 void setup() {
 servo.attach(3); 
@@ -78,25 +80,20 @@ void loop() {
    digitalWrite(greenLed, LOW);  
    digitalWrite(blueLed, LOW);  
 
-    &&red
-    //detener(); 
-    //delay(2000);
-    //avanzar();
-  
-
+    //&&red
        
+    delay(20);// Turn RED LED ON 
   }  
 
   else if (blue < red && blue < green)   
   {  
     servo.write(0);
-   Serial.println(" - (Blue Color)");  
-   digitalWrite(redLed, LOW);  
-   digitalWrite(greenLed, LOW);  
-   digitalWrite(blueLed, HIGH);
+    Serial.println(" - (Blue Color)");  
+    digitalWrite(redLed, LOW);  
+    digitalWrite(greenLed, LOW);  
+    digitalWrite(blueLed, HIGH);
 
-   &&blue
-   //avanzar(); 
+    //&&blue
    
     delay(20);// Turn BLUE LED ON  
   }  
@@ -108,18 +105,20 @@ void loop() {
    digitalWrite(greenLed, HIGH); // Turn GREEN LED ON 
    digitalWrite(blueLed, LOW); 
     
-    &&green
-    //detener(); 
-    //delay(800);
-    //giro(); 
-    //detener(); 
+    //&&green
+
+    delay(20);// Turn GREEN LED ON 
   }
 
       else if (red > 40 && green >53 && blue >30 )   
   {  
-    servo.write(90);
-    delay(80);
-    Serial.println(" - (black)");  
+    Serial.println(" - (Black Color)");  
+    digitalWrite(redLed, LOW);  
+    digitalWrite(greenLed, LOW); // Turn GREEN LED ON 
+    digitalWrite(blueLed, LOW);  
+
+    //&&black
+
 } 
   else{
   Serial.println();  
@@ -146,7 +145,7 @@ void color()
   green = pulseIn(out, digitalRead(out) == HIGH ? LOW : HIGH);  
 }
 
-void giro() 
+void retorno() 
 {
 
  pinMode(IN1, OUTPUT);   //set IO pin mode OUTPUT
@@ -165,8 +164,8 @@ void avanzar(){
   digitalWrite(IN2,LOW);
   digitalWrite(IN3,LOW);
   digitalWrite(IN4,HIGH);
-  analogWrite(ENB,&&velocidad);
-  analogWrite(ENA,&&velocidad); 
+  analogWrite(ENB,velocidad);
+  analogWrite(ENA,velocidad); 
 
 }
 void detener(){ 

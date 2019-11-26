@@ -59,6 +59,9 @@ public class pantalla extends javax.swing.JFrame {
     LinkedList<String> codigoMaquina;
     
     ProcessBuilder processBuilder;
+    CodigoMaquina cm;
+    
+    String path = "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\";
     
     /**
      * Creates new form pantalla
@@ -140,6 +143,7 @@ public class pantalla extends javax.swing.JFrame {
         btnCodigoMaquina = new javax.swing.JLabel();
         btnEjemplos = new javax.swing.JLabel();
         lbIntermedio = new javax.swing.JLabel();
+        btnCargarCodigo = new javax.swing.JLabel();
         panelCodigo = new javax.swing.JPanel();
         codigo_Central = new javax.swing.JScrollPane();
         textoCodigo = new javax.swing.JPanel();
@@ -337,6 +341,18 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
 
+        btnCargarCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        btnCargarCodigo.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        btnCargarCodigo.setForeground(new java.awt.Color(244, 241, 233));
+        btnCargarCodigo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/upload.png"))); // NOI18N
+        btnCargarCodigo.setToolTipText("Guardar Archivo Como");
+        btnCargarCodigo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnCargarCodigo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCargarCodigoMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelAccionesLayout = new javax.swing.GroupLayout(panelAcciones);
         panelAcciones.setLayout(panelAccionesLayout);
         panelAccionesLayout.setHorizontalGroup(
@@ -364,7 +380,9 @@ public class pantalla extends javax.swing.JFrame {
                 .addComponent(lbIntermedio)
                 .addGap(18, 18, 18)
                 .addComponent(btnCodigoMaquina)
-                .addContainerGap(409, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnCargarCodigo)
+                .addContainerGap(367, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,6 +397,7 @@ public class pantalla extends javax.swing.JFrame {
             .addComponent(btnCodigoMaquina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnEjemplos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbIntermedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnCargarCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(panelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, -1));
@@ -641,14 +660,16 @@ public class pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_lbVisualizarMouseClicked
 
     private void btnCodigoMaquinaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodigoMaquinaMouseClicked
-        CodigoMaquina cm = new CodigoMaquina(codigoMaquina);
-        cm.getCode();
+        cm = new CodigoMaquina(codigoMaquina);
+        //cm.getCode();
+        cm.ensamblador();
+        
     }//GEN-LAST:event_btnCodigoMaquinaMouseClicked
 
     private void btnEjemplosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEjemplosMouseClicked
         JFileChooser ejemplo = new JFileChooser();
         ejemplo.setFileFilter(filter);
-        ejemplo.setCurrentDirectory(new File("C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\src\\ejemplos"));
+        ejemplo.setCurrentDirectory(new File(path + "src\\ejemplos"));
         int opcion = ejemplo.showOpenDialog(this);
         if(opcion==JFileChooser.APPROVE_OPTION){
             direccionArchivo = ejemplo.getSelectedFile().getPath();
@@ -664,6 +685,15 @@ public class pantalla extends javax.swing.JFrame {
         codigoMaquina = codigoIntermedio();
         pantalla.setCodigo(codigoMaquina);
     }//GEN-LAST:event_lbIntermedioMouseClicked
+
+    private void btnCargarCodigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarCodigoMouseClicked
+        String nombre = cm.getNombredePrograma();
+        if(cm.creador(nombre)){
+            showMessageDialog(this, "Error en el cargador-ligador, no se guardo el archivo.");
+        }
+        compilar(nombre);
+        showMessageDialog(this, "Compilacion-Ensamblador terminada");
+    }//GEN-LAST:event_btnCargarCodigoMouseClicked
 
     
     
@@ -1807,7 +1837,7 @@ public class pantalla extends javax.swing.JFrame {
                         guardar = false;
                         decision = false;
                     } else if(expresionEval) {
-                        System.out.println("Expresion: " + expresionList.toString());
+                        //System.out.println("Expresion: " + expresionList.toString());
                         counterTemp = evaluador.getCounter();
                         expresionTemp = evaluador.evalExpresion(expresionList);
                         guardar = false;
@@ -1817,6 +1847,7 @@ public class pantalla extends javax.swing.JFrame {
                     break;
                 case "inicioSecuencia":
                     expresion = expresion + "inicio ";
+                    prefijo = "ini";
                     break;
                 case "inicializacion":
                     inicializacion = true;
@@ -1925,6 +1956,11 @@ public class pantalla extends javax.swing.JFrame {
                     if(!inicializacion)
                         expresionList.add(obj);
                     break;
+                case "esperar":
+                    expresion = expresion + obj;
+                    if(!inicializacion)
+                        expresionList.add(obj);
+                    break;
                 case "detectarColor":
                     expresion = expresion + obj;
                     if(!inicializacion)
@@ -1945,8 +1981,7 @@ public class pantalla extends javax.swing.JFrame {
                     if(!inicializacion)
                         expresionList.add(obj);
                     decision = true;
-                    if(prefijo.isEmpty())
-                        prefijo = "des";
+                    prefijo = "des";
                     break;
                 case "mientras":
                     expresion = expresion + obj;
@@ -1954,9 +1989,11 @@ public class pantalla extends javax.swing.JFrame {
                         expresionList.add(obj);
                     decision = true;
                     prefijo = "cic";
+                    temp = prefijo;
                     break;
                 case "funcion":
                     prefijo = "fun";
+                    temp = prefijo;
                     funcion = true;
                     break;
                 case "retorno":
@@ -1986,6 +2023,8 @@ public class pantalla extends javax.swing.JFrame {
                         inicializacion = false;
                         prefijo = "";
                     }
+                    if(prefijo.equals("des"))
+                        prefijo=temp;
                     break;
                 case "suma":
                     expresionList.add(obj);
@@ -2015,14 +2054,14 @@ public class pantalla extends javax.swing.JFrame {
             //System.out.println("Expresion: " + expresion);
             if(guardar) {
                 if(!expresion.equals(""))
-                    codigo.add(prefijo + ":\t" + expresion);
+                    codigo.add(prefijo + "~\t" + expresion);
                 expresion = "";
                 expresionList.clear();
                 guardar=false;
             } else if(guardarExp) {
                 if(!expresionTemp.isEmpty()){
                     for(String data: expresionTemp) {
-                        codigo.add(prefijo + ":\t" + data);
+                        codigo.add(prefijo + "~\t" + data);
                     }
                 }
                 expresion = "";
@@ -2030,7 +2069,7 @@ public class pantalla extends javax.swing.JFrame {
                 guardarExp=false;
             }
         };
-        codigo.add(":\tfin");
+        codigo.add("ini~\tfin");
         return codigo;
     }
     
@@ -2042,11 +2081,12 @@ public class pantalla extends javax.swing.JFrame {
     public void compilar(String nombreDirectorio){
         //El archivo .ino debe de encontrarse en una carpeta
         //Primero compilamos el archivo .ino, esto creara los archivos .elf y .hex 
-        compilarMensajes(processBuilder.command("cmd.exe", "/c", "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\cli\\arduino-cli.exe compile --fqbn arduino:avr:uno " + nombreDirectorio));
-    
+        
+        compilarMensajes(processBuilder.command("cmd.exe", "/c", path + "cli\\" + "arduino-cli.exe compile --fqbn arduino:avr:uno " + path + "cli\\" + nombreDirectorio));
+        System.out.println("Compilacion del archivo exitosa");
         //Ahora que ya sabemos el puerto el cual para mi puerto derecho es COM3, si quieren saber el puerto ejecuten arduino-cli board list
         //Esto cargara el programa arduino a la tarjeta
-        compilarMensajes(processBuilder.command("cmd.exe", "/c", "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\cli\\arduino-cli.exe upload -p COM3 --fqbn arduino:avr:uno " + nombreDirectorio));
+        compilarMensajes(processBuilder.command("cmd.exe", "/c", path + "cli\\" + "arduino-cli.exe upload -p COM3 --fqbn arduino:avr:uno " + path + "cli\\" + nombreDirectorio));
         
         //Para mas informacion: https://github.com/arduino/arduino-cli
     }
@@ -2070,9 +2110,8 @@ public class pantalla extends javax.swing.JFrame {
 		if (exitVal == 0) {
 			System.out.println("Success!");
 			System.out.println(output);
-			System.exit(0);
 		} else {
-			//abnormal...
+			System.out.println("Error!");
 		}
 
 	} catch (IOException e) {
@@ -2120,6 +2159,7 @@ public class pantalla extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaErrores;
+    private javax.swing.JLabel btnCargarCodigo;
     private javax.swing.JLabel btnCodigoMaquina;
     private javax.swing.JLabel btnCompilador;
     private javax.swing.JLabel btnEjemplos;

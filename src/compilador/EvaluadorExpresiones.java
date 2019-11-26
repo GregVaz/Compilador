@@ -211,7 +211,7 @@ public class EvaluadorExpresiones {
             vueltas--;
             //System.out.println("Expresion: " + expresion.toString());
         }
-        System.out.println(renglones.toString());
+        //System.out.println(renglones.toString());
         this.counterTemp = counter;
         return renglones;
     }
@@ -409,7 +409,7 @@ public class EvaluadorExpresiones {
             if(expresion.size()==2)
                 renglones.add(expresion.getFirst() + "(" + expresion.getLast() + ")");
         }
-        System.out.println(renglones.toString());
+        //System.out.println(renglones.toString());
         this.counterTemp = counter;
         return renglones;
     }
