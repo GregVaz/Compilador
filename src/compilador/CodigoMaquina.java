@@ -31,8 +31,8 @@ public class CodigoMaquina {
     String base = "";
     private String nombredePrograma = "";
     ProcessBuilder processBuilder = new ProcessBuilder();
-    String path = "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\cli\\";
-    String pathBase = "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\src\\build\\base.ino";
+    String path = "C:\\Users\\juven\\OneDrive\\Documentos\\GitHub\\Compilador\\cli\\";
+    String pathBase = "C:\\Users\\juven\\OneDrive\\Documentos\\GitHub\\Compilador\\src\\build\\base.ino";
     HashMap<String, String> dict = new HashMap<>();
     
     CodigoMaquinaPantalla cmp;
@@ -80,9 +80,9 @@ public class CodigoMaquina {
     
     public void ensamblador(){
         String delay = "";
-        String avanzar = "avanzar();";
-        String detener = "detener();\ndelay(dealy);\navanzar();";
-        String esperar = "detener();";
+        String avanzar = "camaraAbajo();\ndelay(1000);\navanzar();";
+        String esperar = "detener();\ndelay(dealy);\navanzar();";
+        String detener = "detener();";
         String retorno = "detener();\ndelay(800);\nretorno();\ndetener();";
         String siRojo = "if (red < blue && red < green && red < 20)";
         String siAzul = "if (blue < red && blue < green)";
@@ -160,7 +160,7 @@ public class CodigoMaquina {
                     }
                     String[] colo = obj.split("=");
                     dict.put(colo[0], colo[1].replace("\"", ""));
-                    base = base.replaceFirst("//&&", "int " + obj  + ";\n//&&\n");
+                    base = base.replaceFirst("//&&", "String " + obj  + ";\n//&&\n");
                     break;
                 case "tim":
                     System.out.println("Tiempo: " + obj);
