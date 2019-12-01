@@ -10,7 +10,10 @@ package compilador;
 import compilador.Tokens;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,6 +39,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import jflex.Out;
 import java.util.Stack;
+import javax.swing.JButton;
 
 /**
  *
@@ -57,6 +61,9 @@ public class pantalla extends javax.swing.JFrame {
     LinkedList<JLabel> erroresl;
     LinkedList<Object[]> tablaS;
     LinkedList<String> codigoMaquina;
+    
+    LinkedList<String> expresiones = new LinkedList<>();
+    LinkedList<String> renglones = new LinkedList<>();
     
     ProcessBuilder processBuilder;
     CodigoMaquina cm;
@@ -105,15 +112,11 @@ public class pantalla extends javax.swing.JFrame {
                 + "\n \nmientras(){ }"
                 + "\n \n}");
         
+
         
-        /* Colocar el error o linea de color
-        textPane.setSelectionStart(10);
-        textPane.setSelectionEnd(40);
-        textPane.setSelectionColor(Color.RED);
-        textPane.setSelectedTextColor(Color.WHITE);
-        */
         processBuilder = new ProcessBuilder();
         
+
     }
     
     
@@ -144,6 +147,8 @@ public class pantalla extends javax.swing.JFrame {
         btnEjemplos = new javax.swing.JLabel();
         lbIntermedio = new javax.swing.JLabel();
         btnCargarCodigo = new javax.swing.JLabel();
+        lbPalabrasReservadas1 = new javax.swing.JLabel();
+        lbPalabrasReservadas2 = new javax.swing.JLabel();
         panelCodigo = new javax.swing.JPanel();
         codigo_Central = new javax.swing.JScrollPane();
         textoCodigo = new javax.swing.JPanel();
@@ -152,6 +157,7 @@ public class pantalla extends javax.swing.JFrame {
         scrollErrores = new javax.swing.JScrollPane();
         areaErrores = new javax.swing.JTextArea();
         minErrores = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         paneTabla = new javax.swing.JPanel();
         scrollTabla = new javax.swing.JScrollPane();
         tablaSimbolos = new javax.swing.JTable();
@@ -353,6 +359,30 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
 
+        lbPalabrasReservadas1.setBackground(new java.awt.Color(247, 255, 235));
+        lbPalabrasReservadas1.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        lbPalabrasReservadas1.setForeground(new java.awt.Color(244, 241, 233));
+        lbPalabrasReservadas1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/automata.png"))); // NOI18N
+        lbPalabrasReservadas1.setToolTipText("Tabla de  Simbolos");
+        lbPalabrasReservadas1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbPalabrasReservadas1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbPalabrasReservadas1MouseClicked(evt);
+            }
+        });
+
+        lbPalabrasReservadas2.setBackground(new java.awt.Color(247, 255, 235));
+        lbPalabrasReservadas2.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        lbPalabrasReservadas2.setForeground(new java.awt.Color(244, 241, 233));
+        lbPalabrasReservadas2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/binario.png"))); // NOI18N
+        lbPalabrasReservadas2.setToolTipText("Tabla de  Simbolos");
+        lbPalabrasReservadas2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbPalabrasReservadas2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbPalabrasReservadas2MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelAccionesLayout = new javax.swing.GroupLayout(panelAcciones);
         panelAcciones.setLayout(panelAccionesLayout);
         panelAccionesLayout.setHorizontalGroup(
@@ -382,7 +412,11 @@ public class pantalla extends javax.swing.JFrame {
                 .addComponent(btnCodigoMaquina)
                 .addGap(18, 18, 18)
                 .addComponent(btnCargarCodigo)
-                .addContainerGap(367, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 273, Short.MAX_VALUE)
+                .addComponent(lbPalabrasReservadas2)
+                .addGap(18, 18, 18)
+                .addComponent(lbPalabrasReservadas1)
+                .addGap(28, 28, 28))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -398,6 +432,8 @@ public class pantalla extends javax.swing.JFrame {
             .addComponent(btnEjemplos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbIntermedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCargarCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbPalabrasReservadas2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbPalabrasReservadas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(panelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, -1));
@@ -463,6 +499,9 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
         panelErrores.add(minErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 16, 810, 80));
+
+        jPanel1.setAutoscrolls(true);
+        panelErrores.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(841, 0, 130, 110));
 
         getContentPane().add(panelErrores, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 990, 110));
 
@@ -589,16 +628,18 @@ public class pantalla extends javax.swing.JFrame {
             try {
                 errores.clear();
                 analizarLexico();
-                //if(errores.isEmpty())
-                //    errores.add("Analizador lexico correctamente");
-                analizadorSintactico(); 
-                //if(errores.isEmpty() || errores.size() == 1)
-                //    errores.add("Analisis sintactico correctamente");
+                if(!errores.isEmpty()){
+                    errores.add("\nPor favor corrija los errores lexicos para continuar con el analisis sintactico");
+                } else 
+                    analizadorSintactico(); 
+                
                 if(this.errores.isEmpty()){
                 analizadorSemantico();
                 if(errores.isEmpty())
                     errores.add("Analizador semantico correctamente");
                 } else {
+                    lineas();
+                    redireccionarErrores(errores.size());
                     errores.add("\nPor favor corrija los errores lexicos o semanticos para continuar con el analisis semantico");
                     //JOptionPane.showMessageDialog(this, "Analisis semantico abortado", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -695,8 +736,63 @@ public class pantalla extends javax.swing.JFrame {
         showMessageDialog(this, "Compilacion-Ensamblador terminada");
     }//GEN-LAST:event_btnCargarCodigoMouseClicked
 
+    private void lbPalabrasReservadas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPalabrasReservadas1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbPalabrasReservadas1MouseClicked
+
+    private void lbPalabrasReservadas2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPalabrasReservadas2MouseClicked
+        if(expresiones.size()==0){
+            JOptionPane.showMessageDialog(this, "No existen expresiones en tu lenguaje");
+        } else {
+            
+        }
+    }//GEN-LAST:event_lbPalabrasReservadas2MouseClicked
+
     
+    public void lineas(){
+        String code = textPane.getText();
+        int inicio = 0;
+        int counter = 0;
+        int renglon = 0;
+        for(int i=0; i<code.length(); i++){
+            if(code.codePointAt(i)==10){
+                renglones.add(renglon+"-"+inicio+"-"+counter);
+                inicio = counter+1;
+                renglon++;
+            }
+            counter++;
+        }
+        /*for(String a : renglones) {
+            System.out.println(a);
+        }*/
+    }
     
+    public void redireccionarErrores(int errores){
+        jPanel1.removeAll();
+        JButton[] btn = new JButton[errores];
+        for(int i=0; i<errores; i++){
+            btn[i] = new JButton("Error " + (i+1));
+            btn[i].setSize(80,30);
+            jPanel1.add(btn[i]);
+            
+            String dato = this.errores.get(i).replace(" ", "").replace("\t","").split(":")[1];
+            System.out.println(dato.charAt(0));
+            btn[i].addActionListener((ActionEvent ae) -> {
+                String[] option = renglones.get(Integer.parseInt(dato.charAt(0)+"")-1).split("-");
+                System.out.println(option[0] + "-" + option[1] + "-" + option[2]);
+                // Colocar el error o linea de color
+                this.pintar(Integer.parseInt(option[1]), Integer.parseInt(option[2]));
+            });
+        }
+        
+    }
+    
+    public void pintar(int x, int y){
+        textPane.setSelectionStart(x);
+        textPane.setSelectionEnd(y);
+        textPane.setSelectionColor(Color.RED);
+        textPane.setSelectedTextColor(Color.WHITE);
+    }
 //******************************************************************************
 //******************** ANALIZADOR LEXICO ***************************************
 //******************************************************************************    
@@ -918,7 +1014,7 @@ public class pantalla extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             Symbol sym = s.getS();  
-            errores.add("Error de sintaxis. Linea: " + (sym.right + 1) + "; Texto: \""+sym.value+"\"");
+            errores.add("Error de sintaxis. Linea: " + (sym.left + 1) + "; Texto: \""+sym.value+"\"");
         }
     }
     
@@ -933,7 +1029,6 @@ public class pantalla extends javax.swing.JFrame {
         LinkedList<String> funciones = new LinkedList<>();
         LinkedList<String> parametros = new LinkedList<>();
         LinkedList<Object[]> expresion = new LinkedList<>();
-        LinkedList<String> expresiones = new LinkedList<>();
         LinkedList<Object[]> funcionesTabla = new LinkedList<>();
         
         //Variables de banderas
@@ -1309,7 +1404,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = "decision";
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                                errores.add("Error semantico de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
                             }
                             vartype1 = vartype2;
                         }
@@ -1321,7 +1416,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = "decision";
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                                errores.add("Error semantico de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
                             }
                             vartype1 = vartype2;
                         }
@@ -1333,7 +1428,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = "tiempo";
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                                errores.add("Error semantico de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
                             }
                             vartype1 = vartype2;
                         }
@@ -1345,7 +1440,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = "alerta";
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                                errores.add("Error semantico de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
                             }
                             vartype1 = vartype2;
                         }
@@ -1357,7 +1452,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = "color";
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                                errores.add("Error semantico de asignacion de expresion. Linea: " + counter + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
                             }
                             vartype1 = vartype2;
                         }
@@ -1564,13 +1659,13 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = obtenerTipo(variablesTabla, obj);
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de expresion. Linea: " + renglon + ". Las variables u objetos no pertenecen al mismo tipo operacion incorrecta");
+                                errores.add("Error semantico de expresion. Linea: " + renglon + ". Las variables u objetos no pertenecen al mismo tipo operacion incorrecta");
                                 estado = true;
                             }
                         }
                     } 
                     if(!variables.contains(obj) && !parametros.contains(obj)){
-                        errores.add("Error de variable. Linea: " + renglon + ". La variable " + obj + " no ha sido declarada en el area de inicializacion o parametros.");
+                        errores.add("Error semantico de variable. Linea: " + renglon + ". La variable " + obj + " no ha sido declarada en el area de inicializacion o parametros.");
                     } 
                     break;
                     
@@ -1592,7 +1687,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = "velocidad";
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de asignacion de expresion. Linea: " + renglon + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                                errores.add("Error semantico de asignacion de expresion. Linea: " + renglon + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
                                 estado = true;
                             }
                             vartype1 = vartype2;
@@ -1603,7 +1698,7 @@ public class pantalla extends javax.swing.JFrame {
                     if(vartype1.isEmpty()) {
                             vartype1 = "decision";
                         } else {
-                            errores.add("Error de asignacion de expresion. Linea: " + renglon + ". Las operaciones entre valores de decision no son posibles"  );
+                            errores.add("Error semantico de asignacion de expresion. Linea: " + renglon + ". Las operaciones entre valores de decision no son posibles"  );
                             estado = true;
                         }
                     break;
@@ -1612,7 +1707,7 @@ public class pantalla extends javax.swing.JFrame {
                     if(vartype1.isEmpty()) {
                             vartype1 = "decision";
                         } else {
-                            errores.add("Error de asignacion de expresion. Linea: " + renglon + ". Las operaciones entre valores de decision no son posibles"  );
+                            errores.add("Error semantico de asignacion de expresion. Linea: " + renglon + ". Las operaciones entre valores de decision no son posibles"  );
                             estado = true;
                         }
                     break;
@@ -1623,7 +1718,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = "tiempo";
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de asignacion de expresion. Linea: " + renglon + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                                errores.add("Error semantico de asignacion de expresion. Linea: " + renglon + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
                                 estado = true;
                             }
                             vartype1 = vartype2;
@@ -1636,7 +1731,7 @@ public class pantalla extends javax.swing.JFrame {
                         } else {
                             vartype2 = "alerta";
                             if(!vartype1.equals(vartype2)){
-                                errores.add("Error de asignacion de expresion. Linea: " + renglon + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                                errores.add("Error semantico de asignacion de expresion. Linea: " + renglon + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
                                 estado = true;
                             }
                             vartype1 = vartype2;
@@ -1649,7 +1744,7 @@ public class pantalla extends javax.swing.JFrame {
                     } else {
                         vartype2 = "color";
                         if(!vartype1.equals(vartype2)){
-                            errores.add("Error de asignacion de expresion. Linea: " + renglon + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
+                            errores.add("Error semantico de asignacion de expresion. Linea: " + renglon + ". La variable \" \" de tipo " + vartype1 + " no corresponde a la variable \" \" de tipo " + vartype2  );
                             estado = true;
                         }
                         vartype1 = vartype2;
@@ -1658,9 +1753,9 @@ public class pantalla extends javax.swing.JFrame {
                 
                 case "punto_medio":
                     if(valores.size()==4 && !principalType.equals(vartype1)){
-                        errores.add("Error1. Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + vartype1 + " no puede ser asignado a la variable principal " + temp[0].toString() + " de tipo " + principalType );                        
+                        errores.add("Error semantico . Linea: " + renglon + ". Asignacion incorrecta de tipos el valor " + vartype1 + " no puede ser asignado a la variable principal " + temp[0].toString() + " de tipo " + principalType );                        
                     } else if (estado)
-                        errores.add("Error2. Linea: " + renglon + ". Asignacion incorrecta de tipos la expresion resultante no puede ser asignada a la variable principal " + temp[0].toString() + " de tipo " + principalType );                        
+                        errores.add("Error semantico . Linea: " + renglon + ". Asignacion incorrecta de tipos la expresion resultante no puede ser asignada a la variable principal " + temp[0].toString() + " de tipo " + principalType );                        
                     
                     break;
             }
@@ -2165,6 +2260,7 @@ public class pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel btnEjemplos;
     private javax.swing.JScrollPane codigo_Central;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel jlbCerrar;
     private javax.swing.JLabel jlbMinimizar;
     private javax.swing.JLabel lbAbrir;
@@ -2174,6 +2270,8 @@ public class pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel lbIntermedio;
     private javax.swing.JLabel lbNuevo;
     private javax.swing.JLabel lbPalabrasReservadas;
+    private javax.swing.JLabel lbPalabrasReservadas1;
+    private javax.swing.JLabel lbPalabrasReservadas2;
     private javax.swing.JLabel lbVisualizar;
     private javax.swing.JLabel minErrores;
     private javax.swing.JPanel paneTabla;

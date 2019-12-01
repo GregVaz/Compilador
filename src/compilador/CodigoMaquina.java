@@ -80,8 +80,8 @@ public class CodigoMaquina {
     
     public void ensamblador(){
         String delay = "";
-        String avanzar = "avanzar();";
-        String detener = "detener();\ndelay(dealy);\navanzar();";
+        String avanzar = "camaraAbajo();\ndelay(1000);\navanzar();";
+        String detener = "detener();\ndelay(dealy);\ncamaraArriba();\ndelay(dealy);";
         String esperar = "detener();";
         String retorno = "detener();\ndelay(800);\nretorno();\ndetener();";
         String siRojo = "if (red < blue && red < green && red < 20)";
@@ -208,32 +208,32 @@ public class CodigoMaquina {
                         base = base.replaceFirst("//&&dealy", "int dealy = " + dict.get(cuerpo) + ";\n");
                         switch(dict.get(decisionColor)){
                             case "black":
-                                base = base.replaceFirst("//&&black", esperar + ";\n//&&black");
+                                base = base.replaceFirst("//&&black", esperar + "\n//&&black");
                                 break;
                             case "red":
-                                base = base.replaceFirst("//&&red", esperar + ";\n//&&red");
+                                base = base.replaceFirst("//&&red", esperar + "\n//&&red");
                                 break;
                             case "blue":
-                                base = base.replaceFirst("//&&blue", esperar + ";\n//&&blue");
+                                base = base.replaceFirst("//&&blue", esperar + "\n//&&blue");
                                 break;
                             case "green":
-                                base = base.replaceFirst("//&&green", esperar + ";\n//&&green");
+                                base = base.replaceFirst("//&&green", esperar + "\n//&&green");
                                 break;
                         }
                     } else
                     if(obj.contains("detener")){
                         switch(dict.get(decisionColor)){
                             case "black":
-                                base = base.replaceFirst("//&&black", detener + ";\n//&&black");
+                                base = base.replaceFirst("//&&black", detener + "\n//&&black");
                                 break;
                             case "red":
-                                base = base.replaceFirst("//&&red", detener + ";\n//&&red");
+                                base = base.replaceFirst("//&&red", detener + "\n//&&red");
                                 break;
                             case "blue":
-                                base = base.replaceFirst("//&&blue", detener + ";\n//&&blue");
+                                base = base.replaceFirst("//&&blue", detener + "\n//&&blue");
                                 break;
                             case "green":
-                                base = base.replaceFirst("//&&green", detener + ";\n//&&green");
+                                base = base.replaceFirst("//&&green", detener + "\n//&&green");
                                 break;
                         }
                     }
@@ -291,16 +291,16 @@ public class CodigoMaquina {
                     if(obj.contains("detener")){
                         switch(dict.get(decisionColor)){
                             case "black":
-                                base = base.replaceFirst("//&&black", detener + ";\n//&&black");
+                                base = base.replaceFirst("//&&black", detener + "\n//&&black");
                                 break;
                             case "red":
-                                base = base.replaceFirst("//&&red", detener + ";\n//&&red");
+                                base = base.replaceFirst("//&&red", detener + "\n//&&red");
                                 break;
                             case "blue":
-                                base = base.replaceFirst("//&&blue", detener + ";\n//&&blue");
+                                base = base.replaceFirst("//&&blue", detener + "\n//&&blue");
                                 break;
                             case "green":
-                                base = base.replaceFirst("//&&green", detener + ";\n//&&green");
+                                base = base.replaceFirst("//&&green", detener + "\n//&&green");
                                 break;
                         }
                     }

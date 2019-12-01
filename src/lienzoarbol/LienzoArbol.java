@@ -496,10 +496,13 @@ public class LienzoArbol {
     }
     
     public static void main(String[] args) {
+        /*
         LienzoArbol l = new LienzoArbol("normal = data + normal ·");
         l.postfija();
         l.evaluar();
-        /*
+        */
+        
+        
         // TODO code application logic here
         //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
         //PATRON MVC
@@ -508,7 +511,7 @@ public class LienzoArbol {
         Controlador objControlador = new Controlador(objLienzo, objArbol); //CONTROLADOR
         //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
         //INSERTAR Y PINTAR ARBOL
-        objArbol.insertar(7);
+        objArbol.insertar(10);
         objArbol.insertar(2);
         objArbol.insertar(9);
         objArbol.insertar(5);
@@ -523,7 +526,7 @@ public class LienzoArbol {
         ventana.setSize(600, 600);
         ventana.setVisible(true);
         //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-        */
+        
     }
     
 }

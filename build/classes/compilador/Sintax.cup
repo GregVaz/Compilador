@@ -80,7 +80,15 @@ this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1
 :}
 ;
 
-INICIO ::= inicioSecuencia identificador llave_a CUERPO_PROG llave_c
+INICIO ::= inicioSecuencia llave_a CUERPO_PROG llave_c
+    {:
+    this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de selector, por favor coloca el identificador para el programa.\n");
+    :} | 
+        inicioSecuencia identificador llave_a llave_c
+    {:
+    this.parser.error.add("Error sintactico. Linea: " + (this.parser.getS().left + 1) + ". Error de programa, el programa no puede quedar vacio.\n");
+    :} | 
+    inicioSecuencia identificador llave_a CUERPO_PROG llave_c
 ;
 
 CUERPO_PROG ::= INICIALIZACION | INICIALIZACION CUERPO
@@ -89,10 +97,11 @@ CUERPO_PROG ::= INICIALIZACION | INICIALIZACION CUERPO
 CUERPO ::= ESPACIO | ESPACIO CUERPO
 ;
 
-ESPACIO ::= FUNCION | CONDICIONAL | CICLO
+ESPACIO ::= FUNCION | CICLO
 ;
 
-INICIALIZACION ::= inicializacion llave_a llave_c | inicializacion llave_a DECLARACIONES llave_c 
+INICIALIZACION ::= inicializacion llave_a llave_c | 
+                   inicializacion llave_a DECLARACIONES llave_c 
 ;
 
 DECLARACIONES ::= DECLARACION | 
@@ -108,7 +117,7 @@ FUNCION ::= funcion:a
                 :} |
             funcion:a llave_a llave_c
                 {: 
-                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. Por favor escribe la sintaxis de laa función correctamente\n");
+                    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. Por favor escribe la sintaxis de la función correctamente\n");
                 :} |
             funcion:a llave_a CUERPO_CICLO llave_c
                 {: 
@@ -215,7 +224,6 @@ PRCOM ::= detectarColor parentesis_a parentesis_c |
 ;
 
 
-
 EXPRESION ::= EXPR | EXPRESION EXPR
 ;
 
@@ -231,7 +239,19 @@ EXPR ::= TER   |
 TER ::= identificador | veloc | parentesis_a EXPR parentesis_c
 ;
 
-CICLO ::= mientras parentesis_a PAR_CICLO parentesis_c llave_a CUERPO_CICLO llave_c
+CICLO ::= mientras parentesis_a parentesis_c llave_a CUERPO_CICLO llave_c : a
+    {:
+    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. El ciclo no tiene un condicion, declaración de ciclo ilogica.\n");
+    :} |
+    mientras parentesis_a PAR_CICLO parentesis_c llave_a llave_c : a
+    {:
+    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. El ciclo no tiene instrucciones de cuerpo, declaración de ciclo ilogica.\n");
+    :} |
+    mientras parentesis_a parentesis_c llave_a llave_c : a
+    {:
+    this.parser.error.add("Error sintactico. Linea: " + (aright + 1) + ". Error de sintaxis. El ciclo no tiene condiciones ni instrucciones de cuerpo, declaración de ciclo ilogica.\n");
+    :} |
+    mientras parentesis_a PAR_CICLO parentesis_c llave_a CUERPO_CICLO llave_c
 ;
 
 PAR_CICLO ::= identificador op_relacional colores |  

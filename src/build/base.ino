@@ -1,5 +1,6 @@
 #include <Servo.h>
 Servo servo; 
+Servo servo2;
 const int s0 = A0;  
 const int s1 = A1;  
 const int s2 = A2;  
@@ -13,6 +14,11 @@ int blueLed = 4;
 int red = 0;  
 int green = 0;  
 int blue = 0; 
+
+int trigPin = A5;
+int echoPin = A4;
+long distance;
+long duration;
 
 
 //Variables declaradas
@@ -31,8 +37,15 @@ int blue = 0;
 
 void setup() {
 servo.attach(3); 
-servo.write(0); 
-delay(2000);
+servo.write(180); 
+delay(1000); 
+servo.write(0);
+delay(1000);
+servo.write(90);
+delay(1000);
+
+servo2.attach(10); 
+delay(1000);
 
 Serial.begin(9600); 
   pinMode(s0, OUTPUT);  
@@ -41,7 +54,7 @@ Serial.begin(9600);
   pinMode(s3, OUTPUT);  
   pinMode(out, INPUT);  
   pinMode(redLed, OUTPUT);  
-  pinMode(greenLed, OUTPUT);  
+  //pinMode(greenLed, OUTPUT);  
   pinMode(blueLed, OUTPUT);  
   digitalWrite(s0, HIGH);  
   digitalWrite(s1, HIGH);
@@ -72,7 +85,7 @@ void loop() {
     
   if (red < blue && red < green && red < 20)
   {  
-    servo.write(160); 
+    servo2.write(160); 
   delay(80); 
    
    Serial.println(" - (Red Color)");  
@@ -81,20 +94,19 @@ void loop() {
    digitalWrite(blueLed, LOW);  
 
     //&&red
-       
-    delay(20);// Turn RED LED ON 
+          color();
   }  
 
   else if (blue < red && blue < green)   
   {  
-    servo.write(0);
+    servo2.write(0);
     Serial.println(" - (Blue Color)");  
     digitalWrite(redLed, LOW);  
     digitalWrite(greenLed, LOW);  
     digitalWrite(blueLed, HIGH);
 
     //&&blue
-   
+      color();
     delay(20);// Turn BLUE LED ON  
   }  
 
@@ -112,12 +124,10 @@ void loop() {
 
       else if (red > 40 && green >53 && blue >30 )   
   {  
-    Serial.println(" - (Black Color)");  
-    digitalWrite(redLed, LOW);  
-    digitalWrite(greenLed, LOW); // Turn GREEN LED ON 
-    digitalWrite(blueLed, LOW);  
+    Serial.println(" - (Black Color)");   
 
     //&&black
+   color();
 
 } 
   else{
@@ -128,6 +138,7 @@ void loop() {
   digitalWrite(redLed, LOW);  
   digitalWrite(greenLed, LOW);  
   digitalWrite(blueLed, LOW);  
+   color();
 }
 //&&loop
 
@@ -159,7 +170,6 @@ digitalWrite(IN1, HIGH);
 }
 
 void avanzar(){
-     
      digitalWrite(IN1,HIGH);
   digitalWrite(IN2,LOW);
   digitalWrite(IN3,LOW);
@@ -179,3 +189,98 @@ void detener(){
    
  
 }
+
+
+  void giroDe() 
+{
+
+  pinMode(IN3, OUTPUT); //set IO pin mode OUTPUT
+  pinMode(IN4, OUTPUT);
+  pinMode(ENB, OUTPUT);
+  digitalWrite(ENB, HIGH);
+
+ digitalWrite(IN3, LOW);      
+  digitalWrite(IN4, HIGH);//Right wheel turning forwards
+  delay(600);          
+}
+
+  void giroIz() 
+{
+
+ pinMode(IN1, OUTPUT);   //set IO pin mode OUTPUT
+  pinMode(IN2, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  digitalWrite(ENA, HIGH);//Enable left motor  
+
+digitalWrite(IN1, HIGH);      
+  digitalWrite(IN2, LOW); //Right wheel turning forwards
+   delay(600); //TIEMPO QUE VA DURAR LA VUELTA  
+}
+
+void obstaculo(){
+   digitalWrite(redLed, HIGH); // Turn RED LED ON 
+   detener();
+   delay(1000); 
+   giroIz();
+   detener();
+   delay(1000);
+   giroDe();
+      detener();
+   delay(1000);
+   
+   analogWrite(ENB,100);
+    analogWrite(ENA,100);
+      detener();
+   delay(1000);
+     
+   
+    giroDe();
+       detener();
+   delay(1000);
+   
+    giroIz(); 
+       detener();
+}   
+
+void checar (){ 
+ ultra();
+
+  if(distance < 15){
+
+   obstaculo(); 
+
+  }
+ else {
+   digitalWrite(redLed, LOW); // Turn RED LED ON 
+  }
+
+}
+
+void ultra(){
+  digitalWrite(trigPin, LOW);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration/59;  //escalamos el tiempo a una distancia en cm
+  
+  Serial.print("Distancia: ");
+  Serial.print(duration);      //Enviamos serialmente el valor de la distancia
+  Serial.print("cm");
+  Serial.println();
+  }
+
+  void camaraArriba() {
+
+servo2.write(10); 
+delay(1000);
+  
+  }
+
+  
+  void camaraAbajo() {
+ 
+servo2.write(150); 
+delay(1000);
+  
+  }
