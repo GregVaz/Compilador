@@ -68,9 +68,9 @@ public class pantalla extends javax.swing.JFrame {
     ProcessBuilder processBuilder;
     CodigoMaquina cm;
     
-    String path = "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\";
+     String path = "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\";
     
-    /**
+    /** 
      * Creates new form pantalla
      */
     public pantalla() {
@@ -2177,11 +2177,11 @@ public class pantalla extends javax.swing.JFrame {
         //El archivo .ino debe de encontrarse en una carpeta
         //Primero compilamos el archivo .ino, esto creara los archivos .elf y .hex 
         
-        compilarMensajes(processBuilder.command("cmd.exe", "/c", path + "cli\\" + "arduino-cli.exe compile --fqbn arduino:avr:uno " + path + "cli\\" + nombreDirectorio));
+        compilarMensajes(processBuilder.command("cmd.exe", "/c", path + "cli\\" + " arduino-cli.exe compile --fqbn arduino:avr:uno " + path + "cli\\" + nombreDirectorio));
         System.out.println("Compilacion del archivo exitosa");
         //Ahora que ya sabemos el puerto el cual para mi puerto derecho es COM3, si quieren saber el puerto ejecuten arduino-cli board list
         //Esto cargara el programa arduino a la tarjeta
-        compilarMensajes(processBuilder.command("cmd.exe", "/c", path + "cli\\" + "arduino-cli.exe upload -p COM3 --fqbn arduino:avr:uno " + path + "cli\\" + nombreDirectorio));
+        compilarMensajes(processBuilder.command("cmd.exe", "/c", path + "cli\\" + " arduino-cli.exe upload -p COM3 --fqbn arduino:avr:uno " + path + "cli\\" + nombreDirectorio));
         
         //Para mas informacion: https://github.com/arduino/arduino-cli
     }

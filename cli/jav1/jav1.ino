@@ -22,9 +22,15 @@ long duration;
 
 
 //Variables declaradas
+<<<<<<< HEAD
 int normal=10;
 int avanza="blue";
 int detenerRecorrido="red";
+=======
+int normal=5;
+String avanza="green";
+String detenerRecorrido="red";
+>>>>>>> dbe5d1c98012a0823efb47beb7867dd73d685128
 //&&
 
 
@@ -101,12 +107,19 @@ void loop() {
    digitalWrite(greenLed, LOW);  
    digitalWrite(blueLed, LOW);  
 
+<<<<<<< HEAD
     detener();
 delay(dealy);
 camaraArriba();
 delay(dealy);
 //&&red
           color();
+=======
+    detener();;
+//&&red
+          color();
+    delay(20);// Turn RED LED ON 
+>>>>>>> dbe5d1c98012a0823efb47beb7867dd73d685128
   }  
 
   else if (blue < red && blue < green)   
@@ -117,10 +130,14 @@ delay(dealy);
     digitalWrite(greenLed, LOW);  
     digitalWrite(blueLed, HIGH);
 
+<<<<<<< HEAD
     camaraAbajo();
 delay(1000);
 avanzar();
 //&&blue
+=======
+    //&&blue
+>>>>>>> dbe5d1c98012a0823efb47beb7867dd73d685128
       color();
     delay(20);// Turn BLUE LED ON  
   }  
@@ -132,7 +149,14 @@ avanzar();
    digitalWrite(greenLed, HIGH); // Turn GREEN LED ON 
    digitalWrite(blueLed, LOW); 
     
+<<<<<<< HEAD
     //&&green
+=======
+    camaraAbajo();
+delay(1000);
+avanzar();
+//&&green
+>>>>>>> dbe5d1c98012a0823efb47beb7867dd73d685128
 
     delay(20);// Turn GREEN LED ON 
   }
@@ -185,12 +209,17 @@ digitalWrite(IN1, HIGH);
 }
 
 void avanzar(){
+<<<<<<< HEAD
+=======
+     ultra();
+    checar();
+>>>>>>> dbe5d1c98012a0823efb47beb7867dd73d685128
      digitalWrite(IN1,HIGH);
   digitalWrite(IN2,LOW);
   digitalWrite(IN3,LOW);
   digitalWrite(IN4,HIGH);
-  analogWrite(ENB,velocidad);
-  analogWrite(ENA,velocidad); 
+  analogWrite(ENB,150);
+  analogWrite(ENA,150); 
 
 }
 void detener(){ 

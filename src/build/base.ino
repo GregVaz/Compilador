@@ -95,6 +95,10 @@ void loop() {
 
     //&&red
           color();
+<<<<<<< HEAD
+=======
+    delay(20);// Turn RED LED ON 
+>>>>>>> dbe5d1c98012a0823efb47beb7867dd73d685128
   }  
 
   else if (blue < red && blue < green)   
@@ -170,12 +174,17 @@ digitalWrite(IN1, HIGH);
 }
 
 void avanzar(){
+<<<<<<< HEAD
+=======
+     ultra();
+    checar();
+>>>>>>> dbe5d1c98012a0823efb47beb7867dd73d685128
      digitalWrite(IN1,HIGH);
   digitalWrite(IN2,LOW);
   digitalWrite(IN3,LOW);
   digitalWrite(IN4,HIGH);
-  analogWrite(ENB,velocidad);
-  analogWrite(ENA,velocidad); 
+  analogWrite(ENB,150);
+  analogWrite(ENA,150); 
 
 }
 void detener(){ 

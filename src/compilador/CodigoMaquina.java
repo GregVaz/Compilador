@@ -82,7 +82,7 @@ public class CodigoMaquina {
         String delay = "";
         String avanzar = "camaraAbajo();\ndelay(1000);\navanzar();";
         String detener = "detener();\ndelay(dealy);\ncamaraArriba();\ndelay(dealy);";
-        String esperar = "detener();";
+        String esperar = "detener();\ndelay(dealy);\navanzar();";
         String retorno = "detener();\ndelay(800);\nretorno();\ndetener();";
         String siRojo = "if (red < blue && red < green && red < 20)";
         String siAzul = "if (blue < red && blue < green)";
@@ -160,7 +160,7 @@ public class CodigoMaquina {
                     }
                     String[] colo = obj.split("=");
                     dict.put(colo[0], colo[1].replace("\"", ""));
-                    base = base.replaceFirst("//&&", "int " + obj  + ";\n//&&\n");
+                    base = base.replaceFirst("//&&", "String " + obj  + ";\n//&&\n");
                     break;
                 case "tim":
                     System.out.println("Tiempo: " + obj);
