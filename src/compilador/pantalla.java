@@ -40,7 +40,10 @@ import javax.swing.table.DefaultTableModel;
 import jflex.Out;
 import java.util.Stack;
 import javax.swing.JButton;
-
+import lienzoarbol.Controlador;
+import lienzoarbol.Lienzo;
+import lienzoarbol.LienzoArbol;
+import logica.Arbol;
 /**
  *
  * @author chivaarduino
@@ -147,7 +150,6 @@ public class pantalla extends javax.swing.JFrame {
         btnEjemplos = new javax.swing.JLabel();
         lbIntermedio = new javax.swing.JLabel();
         btnCargarCodigo = new javax.swing.JLabel();
-        lbPalabrasReservadas1 = new javax.swing.JLabel();
         lbPalabrasReservadas2 = new javax.swing.JLabel();
         panelCodigo = new javax.swing.JPanel();
         codigo_Central = new javax.swing.JScrollPane();
@@ -359,18 +361,6 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
 
-        lbPalabrasReservadas1.setBackground(new java.awt.Color(247, 255, 235));
-        lbPalabrasReservadas1.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
-        lbPalabrasReservadas1.setForeground(new java.awt.Color(244, 241, 233));
-        lbPalabrasReservadas1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/automata.png"))); // NOI18N
-        lbPalabrasReservadas1.setToolTipText("Tabla de  Simbolos");
-        lbPalabrasReservadas1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        lbPalabrasReservadas1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbPalabrasReservadas1MouseClicked(evt);
-            }
-        });
-
         lbPalabrasReservadas2.setBackground(new java.awt.Color(247, 255, 235));
         lbPalabrasReservadas2.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
         lbPalabrasReservadas2.setForeground(new java.awt.Color(244, 241, 233));
@@ -414,9 +404,7 @@ public class pantalla extends javax.swing.JFrame {
                 .addComponent(btnCargarCodigo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 273, Short.MAX_VALUE)
                 .addComponent(lbPalabrasReservadas2)
-                .addGap(18, 18, 18)
-                .addComponent(lbPalabrasReservadas1)
-                .addGap(28, 28, 28))
+                .addGap(70, 70, 70))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -433,7 +421,6 @@ public class pantalla extends javax.swing.JFrame {
             .addComponent(lbIntermedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCargarCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbPalabrasReservadas2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lbPalabrasReservadas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(panelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, -1));
@@ -620,6 +607,7 @@ public class pantalla extends javax.swing.JFrame {
         areaErrores.setText("");
         
         modelo.setRowCount(0);
+        jPanel1.removeAll();
         
         if(textPane.getText().equals("")){
             errores.add("IDE vacio, sin codigo para analisis.");
@@ -629,7 +617,7 @@ public class pantalla extends javax.swing.JFrame {
                 errores.clear();
                 analizarLexico();
                 if(!errores.isEmpty()){
-                    errores.add("\nPor favor corrija los errores lexicos para continuar con el analisis sintactico");
+                    //errores.add("\nPor favor corrija los errores lexicos para continuar con el analisis sintactico");
                 } else 
                     analizadorSintactico(); 
                 
@@ -647,34 +635,6 @@ public class pantalla extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
             }
-       
-        /*
-         try{
-            analizadorSintactico();   
-            //if(errores.isEmpty() || errores.size() == 1)
-            //    errores.add("Analisis sintactico correctamente");
-        } catch (IOException ex){
-            Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        areaErrores.setText(mostrarErrores());
-        */
-        
-        /*
-        //errores.clear();
-        try{
-            if(this.errores.isEmpty()){
-                analizadorSemantico();
-                errores.add("Analizador semantico correctamente");
-            } else {
-                errores.add("\nPor favor corrija los errores lexicos o semanticos para continuar con el analisis semantico");
-                JOptionPane.showMessageDialog(this, "Analisis semantico abortado", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-                
-        }catch (IOException ex){
-            Logger.getLogger(pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        areaErrores.setText(mostrarErrores());
-        */
     }//GEN-LAST:event_btnCompiladorMouseClicked
 
     private void minErroresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minErroresMouseClicked
@@ -736,15 +696,27 @@ public class pantalla extends javax.swing.JFrame {
         showMessageDialog(this, "Compilacion-Ensamblador terminada");
     }//GEN-LAST:event_btnCargarCodigoMouseClicked
 
-    private void lbPalabrasReservadas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPalabrasReservadas1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lbPalabrasReservadas1MouseClicked
-
     private void lbPalabrasReservadas2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPalabrasReservadas2MouseClicked
         if(expresiones.size()==0){
             JOptionPane.showMessageDialog(this, "No existen expresiones en tu lenguaje");
         } else {
             
+            for(String x: expresiones){
+                Arbol objArbol = new Arbol(); //MODELO
+            Lienzo objLienzo = new Lienzo(); //VISTA
+            Controlador objControlador = new Controlador(objLienzo, objArbol);
+                String[] n = x.replace("·", "").split(" ");
+                for(String a: n){
+                    objArbol.insertar(a);
+                }
+                objControlador.iniciar();
+                //MOSTRAR LIENZO EN UNA VENTANA TODO
+                JFrame ventana = new JFrame();
+                ventana.getContentPane().add(objLienzo);
+                ventana.setDefaultCloseOperation(2);
+                ventana.setSize(600, 600);
+                ventana.setVisible(true);
+            }
         }
     }//GEN-LAST:event_lbPalabrasReservadas2MouseClicked
 
@@ -768,7 +740,7 @@ public class pantalla extends javax.swing.JFrame {
     }
     
     public void redireccionarErrores(int errores){
-        jPanel1.removeAll();
+        System.out.println("Cantidad de errores: " + errores);
         JButton[] btn = new JButton[errores];
         for(int i=0; i<errores; i++){
             btn[i] = new JButton("Error " + (i+1));
@@ -776,9 +748,9 @@ public class pantalla extends javax.swing.JFrame {
             jPanel1.add(btn[i]);
             
             String dato = this.errores.get(i).replace(" ", "").replace("\t","").split(":")[1];
-            System.out.println(dato.charAt(0));
+            System.out.println(dato.replace(".", " ").split(" ")[0]);
             btn[i].addActionListener((ActionEvent ae) -> {
-                String[] option = renglones.get(Integer.parseInt(dato.charAt(0)+"")-1).split("-");
+                String[] option = renglones.get(Integer.parseInt(dato.replace(".", " ").split(" ")[0]+"")-1).split("-");
                 System.out.println(option[0] + "-" + option[1] + "-" + option[2]);
                 // Colocar el error o linea de color
                 this.pintar(Integer.parseInt(option[1]), Integer.parseInt(option[2]));
@@ -1279,6 +1251,21 @@ public class pantalla extends javax.swing.JFrame {
                         expresion.add(elem);
                         break; 
                     case "resta":
+                        expresion.add(elem);
+                        break; 
+                    case "producto":
+                        expresion.add(elem);
+                        break; 
+                    case "division":
+                        expresion.add(elem);
+                        break; 
+                    case "potencia":
+                        expresion.add(elem);
+                        break; 
+                    case "parentesis_a":
+                        expresion.add(elem);
+                        break; 
+                    case "parentesis_c":
                         expresion.add(elem);
                         break; 
                     case "punto_medio":
@@ -2270,7 +2257,6 @@ public class pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel lbIntermedio;
     private javax.swing.JLabel lbNuevo;
     private javax.swing.JLabel lbPalabrasReservadas;
-    private javax.swing.JLabel lbPalabrasReservadas1;
     private javax.swing.JLabel lbPalabrasReservadas2;
     private javax.swing.JLabel lbVisualizar;
     private javax.swing.JLabel minErrores;

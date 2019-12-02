@@ -6,6 +6,7 @@ inicioSecuencia jav1 {
 } 
  
 mientras(detectarColor()==avanza){ 
+        normal = (10*6)+3·
 	avanzar(normal)·
  	si(detectarColor()==detenerRecorrido){ 
  		detener()· 

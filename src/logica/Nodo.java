@@ -21,6 +21,8 @@ public class Nodo<T> {
     public Nodo insertar(Nodo n, T elemento) {
         if (n == null)
             return new Nodo(elemento);
+        else if (n.elemento.hashCode() == '=')
+            n.izquierda = insertar(n.izquierda, elemento);
         else if (elemento.hashCode() < n.elemento.hashCode())
             n.izquierda = insertar(n.izquierda, elemento);
         else if (elemento.hashCode() > n.elemento.hashCode())

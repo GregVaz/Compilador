@@ -477,6 +477,9 @@ public class LienzoArbol {
         if(caracter==pila.peek().charValue()){
             return false;
         }
+        if(caracter=='='){
+            return true;
+        }
         if(caracter=='^'){
             return true;
         }
@@ -511,12 +514,15 @@ public class LienzoArbol {
         Controlador objControlador = new Controlador(objLienzo, objArbol); //CONTROLADOR
         //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
         //INSERTAR Y PINTAR ARBOL
-        objArbol.insertar(10);
+        objArbol.insertar(1);
         objArbol.insertar(2);
-        objArbol.insertar(9);
-        objArbol.insertar(5);
+        objArbol.insertar(6);
         objArbol.insertar(0);
         objArbol.insertar(10);
+        objArbol.insertar(3);
+        objArbol.insertar(4);
+        objArbol.insertar(2);
+        objArbol.insertar(19);
         objControlador.iniciar();
         //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
         //MOSTRAR LIENZO EN UNA VENTANA TODO
