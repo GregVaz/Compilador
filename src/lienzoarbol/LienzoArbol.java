@@ -19,7 +19,7 @@ import logica.Arbol;
 public class LienzoArbol {
     private String expresion;
     LinkedList<String> pos = new LinkedList<>();
-    private Stack<Character> pila = new Stack<Character>();
+    private Stack<String> pila = new Stack<String>();
     /**
      * @param args the command line arguments
      */
@@ -32,7 +32,6 @@ public class LienzoArbol {
         String[] fija = this.expresion.split(" ");
         for(String f : fija){
             System.out.println(f);
-
         }
     }
     
@@ -333,14 +332,15 @@ public class LienzoArbol {
      */
     public String toPosfijo(String infijo){             
         String salida="";
-        char[] cadena = infijo.toCharArray();
+        String[] cadena = infijo.split(" ");
         
         for(int c=0;c<cadena.length;c++){
-            char caracter = cadena[c];
-            if(caracter=='('){
+            String caracter = cadena[c];
+            //System.out.println(caracter);
+            if(caracter.equals("(")){
                 pila.push(caracter);
             } 
-            else if(caracter==')'){                
+            else if(caracter.equals(")")){                
                 while(true){
                     if(pila.empty()){
                         String retorno = generarError(infijo,c);
@@ -348,8 +348,8 @@ public class LienzoArbol {
                         System.out.println(retorno);
                         return null;
                     }
-                    char temp = pila.pop().charValue();
-                    if(temp=='('){
+                    String temp = pila.pop();
+                    if(temp.equals("(")){
                         break;
                     }
                     else{
@@ -357,11 +357,11 @@ public class LienzoArbol {
                     }
                 }//fin del wile
             }
-            else if(Character.isDigit(caracter)){
+            else if(caracter.matches("[A-Za-z0-9]+")){
                 salida+=" "+caracter;                
                 c++;
-     busqueda : for( ; c<cadena.length;c++){
-                    if(Character.isDigit(cadena[c])){
+            busqueda : for( ; c<cadena.length;c++){
+                    if(Character.isDigit(cadena[c].charAt(0))){
                         salida+=cadena[c];
                     }
                     else{
@@ -370,7 +370,7 @@ public class LienzoArbol {
                     }                    
                 }                
             }
-            else if(caracter=='+'||caracter=='-'||caracter=='/'||caracter=='*'||caracter=='^'){   
+            else if(caracter.equals("=")||caracter.equals("+")||caracter.equals("-") ||caracter.equals("/")||caracter.equals("*")||caracter.equals("^")){   
                 if(pila.empty()){
                     pila.push(caracter);
                 }
@@ -394,7 +394,7 @@ public class LienzoArbol {
         }//fin del for
         if(!pila.empty()){
             do{
-                char temp = pila.pop().charValue();
+                String temp = pila.pop();
                 salida+=" "+temp;                
             }while(!pila.empty());
         }
@@ -470,40 +470,88 @@ public class LienzoArbol {
      * @param caracter caracter que se evaluara para meterse a la pila
      * @return devuelve true si el caracter es de mayor presedencia, false de lo contrario
      */
-    private boolean esDeMayorPresedencia(char caracter){
+    private boolean esDeMayorPresedencia(String caracter){
         if(pila.empty()){
             return true;
         }
-        if(caracter==pila.peek().charValue()){
+        if(caracter==pila.peek()){
             return false;
         }
-        if(caracter=='='){
+        if(caracter=="="){
             return true;
         }
-        if(caracter=='^'){
+        if(caracter=="^"){
             return true;
         }
-        if( (caracter=='*'&&pila.peek().charValue()=='/')||(caracter=='/'&&pila.peek().charValue()=='*')){
+        if( (caracter=="*"&&pila.peek()=="/")||(caracter=="/"&&pila.peek()=="*")){
             return false;
         }
-        if( (caracter=='+'&&pila.peek().charValue()=='-')||(caracter=='-'&&pila.peek().charValue()=='+')){
+        if( (caracter=="+"&&pila.peek()=="-")||(caracter=="-"&&pila.peek()=="+")){
             return false;
         }        
-        else if(caracter=='-'||caracter=='+'){
-            char temp = pila.peek().charValue();
-            if(temp=='*'||temp=='/'){
+        else if(caracter=="-"||caracter=="+"){
+            String temp = pila.peek();
+            if(temp=="*"||temp=="/"){
                 return false;
             }
         }
         return true;        
     }
     
+    public Stack<String> expPostFija(String postfija) {
+        Stack<String> pila = new Stack<>();
+        Stack<String> arbol = new Stack<>();
+        
+        LienzoArbol l = new LienzoArbol(postfija);
+        //l.postfija();
+        //System.out.println(l.toPosfijo("normal = ( data + normal * 3 ) * 4"));
+        String eval = l.toPosfijo(postfija);
+        for(String cad: eval.split(" ")){
+            if(cad.matches("[A-Za-z0-9]+")){
+                pila.add(cad);
+            } else if(cad.matches("[*/+-^]")){
+                if(arbol.empty()){
+                    arbol.add(pila.pop());
+                    arbol.add(pila.pop());
+                    arbol.add(cad);
+                } else {
+                    arbol.add(pila.pop());
+                    arbol.add(cad);
+                }
+            }
+        }
+        
+        /*while(!arbol.empty()){
+            System.out.print(arbol.pop() + "  ");
+        }*/
+        
+        return arbol;
+    } 
+    
     public static void main(String[] args) {
-        /*
-        LienzoArbol l = new LienzoArbol("normal = data + normal ·");
-        l.postfija();
-        l.evaluar();
-        */
+        Stack<String> pila = new Stack<>();
+        Stack<String> arbol = new Stack<>();
+        
+        LienzoArbol l = new LienzoArbol("normal = data + normal");
+        //l.postfija();
+        //System.out.println(l.toPosfijo("normal = ( data + normal * 3 ) * 4"));
+        String eval = l.toPosfijo("normal = ( 10 * 6 ) + 4 * 2");
+        for(String cad: eval.split(" ")){
+            if(cad.matches("[A-Za-z0-9]+")){
+                pila.add(cad);
+            } else if(cad.matches("[*/+-^]")){
+                if(arbol.empty()){
+                    arbol.add(pila.pop());
+                    arbol.add(pila.pop());
+                    arbol.add(cad);
+                } else {
+                    arbol.add(pila.pop());
+                    arbol.add(cad);
+                }
+            }
+        }
+        
+        
         
         
         // TODO code application logic here
@@ -514,15 +562,11 @@ public class LienzoArbol {
         Controlador objControlador = new Controlador(objLienzo, objArbol); //CONTROLADOR
         //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
         //INSERTAR Y PINTAR ARBOL
-        objArbol.insertar(1);
-        objArbol.insertar(2);
-        objArbol.insertar(6);
-        objArbol.insertar(0);
-        objArbol.insertar(10);
-        objArbol.insertar(3);
-        objArbol.insertar(4);
-        objArbol.insertar(2);
-        objArbol.insertar(19);
+        
+        while(!arbol.empty()){
+            System.out.print(arbol.peek() + "  ");
+            objArbol.insertar(arbol.pop());
+        }
         objControlador.iniciar();
         //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
         //MOSTRAR LIENZO EN UNA VENTANA TODO

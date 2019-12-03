@@ -151,6 +151,7 @@ public class pantalla extends javax.swing.JFrame {
         lbIntermedio = new javax.swing.JLabel();
         btnCargarCodigo = new javax.swing.JLabel();
         lbPalabrasReservadas2 = new javax.swing.JLabel();
+        lbPalabrasReservadas3 = new javax.swing.JLabel();
         panelCodigo = new javax.swing.JPanel();
         codigo_Central = new javax.swing.JScrollPane();
         textoCodigo = new javax.swing.JPanel();
@@ -373,6 +374,18 @@ public class pantalla extends javax.swing.JFrame {
             }
         });
 
+        lbPalabrasReservadas3.setBackground(new java.awt.Color(247, 255, 235));
+        lbPalabrasReservadas3.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
+        lbPalabrasReservadas3.setForeground(new java.awt.Color(244, 241, 233));
+        lbPalabrasReservadas3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/automata.png"))); // NOI18N
+        lbPalabrasReservadas3.setToolTipText("Tabla de  Simbolos");
+        lbPalabrasReservadas3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbPalabrasReservadas3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbPalabrasReservadas3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelAccionesLayout = new javax.swing.GroupLayout(panelAcciones);
         panelAcciones.setLayout(panelAccionesLayout);
         panelAccionesLayout.setHorizontalGroup(
@@ -404,7 +417,9 @@ public class pantalla extends javax.swing.JFrame {
                 .addComponent(btnCargarCodigo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 273, Short.MAX_VALUE)
                 .addComponent(lbPalabrasReservadas2)
-                .addGap(70, 70, 70))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbPalabrasReservadas3)
+                .addGap(36, 36, 36))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -421,6 +436,7 @@ public class pantalla extends javax.swing.JFrame {
             .addComponent(lbIntermedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCargarCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbPalabrasReservadas2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbPalabrasReservadas3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(panelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, -1));
@@ -702,23 +718,32 @@ public class pantalla extends javax.swing.JFrame {
         } else {
             
             for(String x: expresiones){
-                Arbol objArbol = new Arbol(); //MODELO
+            Arbol objArbol = new Arbol(); //MODELO
             Lienzo objLienzo = new Lienzo(); //VISTA
             Controlador objControlador = new Controlador(objLienzo, objArbol);
-                String[] n = x.replace("·", "").split(" ");
-                for(String a: n){
-                    objArbol.insertar(a);
-                }
-                objControlador.iniciar();
-                //MOSTRAR LIENZO EN UNA VENTANA TODO
-                JFrame ventana = new JFrame();
-                ventana.getContentPane().add(objLienzo);
-                ventana.setDefaultCloseOperation(2);
-                ventana.setSize(600, 600);
-                ventana.setVisible(true);
+            Stack<String> st = new Stack<>();
+            LienzoArbol l = new LienzoArbol(x);
+            st = l.expPostFija(x.replace("·", ""));
+                
+            while(!st.empty()){
+                //System.out.print(st.pop() + "  ");
+                objArbol.insertar(st.pop());
+            }
+            objControlador.iniciar();
+            //MOSTRAR LIENZO EN UNA VENTANA TODO
+            JFrame ventana = new JFrame();
+            ventana.getContentPane().add(objLienzo);
+            ventana.setDefaultCloseOperation(2);
+            ventana.setSize(600, 600);
+            ventana.setVisible(true);
             }
         }
     }//GEN-LAST:event_lbPalabrasReservadas2MouseClicked
+
+    private void lbPalabrasReservadas3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPalabrasReservadas3MouseClicked
+        Automata at = new Automata();
+        at.crearAutomata("inicioSecuencia");
+    }//GEN-LAST:event_lbPalabrasReservadas3MouseClicked
 
     
     public void lineas(){
@@ -2258,6 +2283,7 @@ public class pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel lbNuevo;
     private javax.swing.JLabel lbPalabrasReservadas;
     private javax.swing.JLabel lbPalabrasReservadas2;
+    private javax.swing.JLabel lbPalabrasReservadas3;
     private javax.swing.JLabel lbVisualizar;
     private javax.swing.JLabel minErrores;
     private javax.swing.JPanel paneTabla;

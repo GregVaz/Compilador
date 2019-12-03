@@ -169,7 +169,9 @@
                   <Component id="btnCargarCodigo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="273" max="32767" attributes="0"/>
                   <Component id="lbPalabrasReservadas2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="lbPalabrasReservadas3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -188,6 +190,7 @@
               <Component id="lbIntermedio" alignment="0" max="32767" attributes="0"/>
               <Component id="btnCargarCodigo" alignment="0" max="32767" attributes="0"/>
               <Component id="lbPalabrasReservadas2" alignment="0" max="32767" attributes="0"/>
+              <Component id="lbPalabrasReservadas3" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -471,6 +474,29 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbPalabrasReservadas2MouseClicked"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbPalabrasReservadas3">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="eb" green="ff" red="f7" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Yu Gothic UI Light" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="e9" green="f1" red="f4" type="rgb"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagenes/automata.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Tabla de  Simbolos"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Default Cursor"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbPalabrasReservadas3MouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
