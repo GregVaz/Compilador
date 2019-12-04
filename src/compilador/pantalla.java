@@ -72,6 +72,8 @@ public class pantalla extends javax.swing.JFrame {
     CodigoMaquina cm;
     
      String path = "C:\\Users\\Grego\\Documents\\9noSemestre\\LENG_Y_AUTOM_II\\Compilador\\";
+     
+     String automata = "";
     
     /** 
      * Creates new form pantalla
@@ -742,7 +744,8 @@ public class pantalla extends javax.swing.JFrame {
 
     private void lbPalabrasReservadas3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPalabrasReservadas3MouseClicked
         Automata at = new Automata();
-        at.crearAutomata("inicioSecuencia");
+        at.crearAutomata(automata);
+        at.setVisible(true);
     }//GEN-LAST:event_lbPalabrasReservadas3MouseClicked
 
     
@@ -794,6 +797,7 @@ public class pantalla extends javax.swing.JFrame {
 //******************** ANALIZADOR LEXICO ***************************************
 //******************************************************************************    
     private void analizarLexico() throws IOException{
+        automata = "";
         int cont = 1;
         this.tablaS.clear(); //Limpia la tabla de valores para el analizador Semantico
         
@@ -808,6 +812,9 @@ public class pantalla extends javax.swing.JFrame {
                 return;
             }
             this.tablaS.add(new Object[]{lexer.lexeme.toString(),token.toString()});
+            if(automata.isEmpty()){
+                automata = lexer.lexeme.toString();
+            }
             switch (token) {
                 case linea:
                     cont++;
@@ -1069,6 +1076,8 @@ public class pantalla extends javax.swing.JFrame {
         for(Object[] elem: this.tablaS){
             obj = elem[0].toString();
             token = elem[1].toString();
+            
+           
             
             //Detectar que estamos en la parte de inicializacion de variables
             if(token.equals("linea")){
